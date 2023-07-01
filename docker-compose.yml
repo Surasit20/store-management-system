@@ -35,6 +35,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: "./server"
+    ports:
+      - "3001:3001"
     depends_on:
       - mysql_db
     volumes:
