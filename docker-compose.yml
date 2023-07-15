@@ -56,7 +56,6 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-
   adminer:
       image: adminer:latest
       restart: unless-stopped
@@ -66,3 +65,15 @@ services:
         - mysql_db
       environment:
         ADMINER_DEFAULT_SERVER: mysql_db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - mysql_db
+    environment:
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80

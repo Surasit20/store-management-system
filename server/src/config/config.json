@@ -1,0 +1,28 @@
+{
+    "development": {
+    "username": "MYSQL_USER",
+    "password": "MYSQL_PASSWORD",
+    "database": "books",
+    "host": "127.0.0.1",
+    "port": 9906,
+    "dialect": "mysql"
+    },
+    "test": {
+    "url" : "postgres://postgres:password@localhost:5432/iLrn",
+    "username": "postgres",
+    "password": "password",
+    "database": "iLrn",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+    },
+    "production": {
+    "url" : "postgres://postgres:password@localhost:5432/iLrn",
+    "username": "postgres",
+    "password": "password",
+    "database": "iLrn",
+    "host": "127.0.0.1",
+    "port": 5432,
+     "dialect": "postgres"
+    }
+  }
