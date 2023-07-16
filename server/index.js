@@ -11,8 +11,6 @@ const app = express();
 //   password: 'MYSQL_PASSWORD', // database user password MYSQL_PASSWORD: MYSQL_PASSWORD
 //   database: 'books' // database name MYSQL_HOST_IP: mysql_db
 // })
-
-app.set('db', require('./src/database/db.js'));
 // Enable cors security headers
 app.use(cors())
 
@@ -22,16 +20,16 @@ app.use(express.urlencoded({ extended: true }));
 
 // // home page
 // app.get('/', (req, res) => {
-//   res.send('Hi There')
+//    res.send('Hi There')
 // });
 
 // // get all of the books in the database
-// app.get('/get', (req, res) => {
-//   const SelectQuery = " SELECT * FROM  books_reviews";
-//   db.query(SelectQuery, (err, result) => {
-//     res.send(result)
-//   })
-// })
+//  app.get('/get', (req, res) => {
+//    const SelectQuery = " SELECT * FROM  books_reviews";
+//    db.query(SelectQuery, (err, result) => {
+//      res.send(result)
+//    })
+//  })
 
 // // add a book to the database
 // app.post("/insert", (req, res) => {
