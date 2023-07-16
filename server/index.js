@@ -2,6 +2,10 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
+//const compression = require('compression');
+//const Logger = require('./src/utils/logger.js');
+
+//const logger = new Logger();
 //const config = require('../config/appconfig.js');
 
 // // Add mysql database connection
@@ -12,13 +16,31 @@ const app = express();
 //   database: 'books' // database name MYSQL_HOST_IP: mysql_db
 // })
 
-app.set('db', require('./src/database/db.js'));
+
+//app.use(compression());
 // Enable cors security headers
 app.use(cors())
 
 // add an express method to parse the POST method
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+app.set('db', require('./src/models/index.js'));
+app.use((req, res, next) => {
+	//req.identifier = uuid();
+	//const logString = `a request has been made with the following uuid [${req.identifier}] ${req.url} ${req.headers['user-agent']} ${JSON.stringify(req.body)}`;
+	//logger.log(logString, 'info');
+	next();
+});
+
+app.use(require('./src/router'));
+
+app.use((req, res, next) => {
+	//logger.log('the url you are trying to reach is not hosted on our server', 'error');
+	//const err = new Error('Not Found');
+	err.status = 404;
+	res.status(err.status).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
+	next(err);
+});
 
 // // home page
 // app.get('/', (req, res) => {
