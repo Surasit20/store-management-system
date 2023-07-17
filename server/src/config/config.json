@@ -1,7 +1,7 @@
 {
     "development": {
-    "username": "MYSQL_USER",
-    "password": "MYSQL_PASSWORD",
+    "username": "root",
+    "password": "MYSQL_ROOT_PASSWORD",
     "database": "books",
     "host": "mysql_db", 
     "port": 3306,
