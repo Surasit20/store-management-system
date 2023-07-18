@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     USER_BIRTHDAY: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
     USER_CODE_NUMBER: {

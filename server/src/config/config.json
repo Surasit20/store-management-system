@@ -2,8 +2,8 @@
     "development": {
     "username": "root",
     "password": "MYSQL_ROOT_PASSWORD",
-    "database": "books",
-    "host": "127.0.0.1",
+    "database": "StoreManagementSystem",
+    "host": "127.0.0.1", 
     "port": 3306,
     "dialect": "mysql"
     },
@@ -12,7 +12,7 @@
     "username": "postgres",
     "password": "password",
     "database": "iLrn",
-    "host": "127.0.0.1",
+    "host": "mysql_db",
     "port": 5432,
     "dialect": "postgres"
     },
@@ -26,6 +26,6 @@
      "dialect": "postgres"
     },
     "commande":{
-      "test" : "npx sequelize-auto -o ./models -d books -h 127.0.0.1 -u MYSQL_USER -p 3306 -x MYSQL_PASSWORD -e mysql"
+      "migration" : "npx sequelize-auto -o ./models -d StoreManagementSystem -h 127.0.0.1 -u root -p 3306 -x MYSQL_ROOT_PASSWORD -e mysql"
     }
   }

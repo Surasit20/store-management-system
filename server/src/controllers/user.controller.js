@@ -13,35 +13,20 @@ class UsersController extends BaseController {
 	
 	static async getUserById(req, res) {
 		try {
-			const reqParam = req.params.id;
-			// const schema = {
-			// 	id: Joi.number().integer().min(1),
-			// };
-			//const { error } = Joi.validate({ id: reqParam }, schema);
-			//requestHandler.validateJoi(error, 400, 'bad Request', 'invalid User Id');
-
-			const result = await super.getById(req, 'Users');
-
+			const result = await super.getById(req, 'USER');
 			return res.send(result)
 		} catch (error) {
-			//return requestHandler.sendError(req, res, error);
-            console.log(error);
+			return requestHandler.sendError(req, res, error);
 		}
 	}
 
     static async postUser(req, res) {
 		try {
 			const reqParam = req.params.id;
-			// const schema = {
-			// 	id: Joi.number().integer().min(1),
-			// };
-			//const { error } = Joi.validate({ id: reqParam }, schema);
-			//requestHandler.validateJoi(error, 400, 'bad Request', 'invalid User Id');
-
 			const result = await super.create(req, 'Users',req.body);
 			return requestHandler.sendSuccess(res, 'User Data Extracted')({ result });
 		} catch (error) {
-			//return requestHandler.sendError(req, res, error);
+			return requestHandler.sendError(req, res, error);
 		}
 	}
 
@@ -51,7 +36,7 @@ class UsersController extends BaseController {
 			const result = await super.deleteById(req, 'Users');
 			return requestHandler.sendSuccess(res, 'User Deleted Successfully')({ result });
 		} catch (err) {
-			//sreturn requestHandler.sendError(req, res, err);
+			return requestHandler.sendError(req, res, err);
 		}
 	}
 
