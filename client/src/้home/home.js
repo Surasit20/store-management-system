@@ -11,29 +11,29 @@ function Home(){
     }
     return (
         <div>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
                 <div class="container-fluid">
-                <div class="collapse navbar-collapse justify-content-center">
+                <div class="navbar-collapse justify-content-center">
                 <a class="navbar-brand">
-                        <h1 class = "header-navber">
-                            รกจักรายนต์มือ 2
-                        </h1>
+                        <p class = "header-navber">
+                            <a>ร้านรถจักรยานยนต์มือ 2</a>
+                        </p>
                     </a>
                  </div> 
                 </div>
             </nav>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-lg bg-custom-grey ">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
-                        <h1 class = "header-navber">
-                            รกจักรายนต์มือ 2
-                        </h1>
-                    </a>
                     <ul class="navbar-nav d-flex flex-row me-1">
                         <li class="nav-item me-3 me-lg-0">
-                        <a class="nav-link text-white" href="#"><i class="fas fa-envelope mx-1"></i> เข้าสู่ระบบ</a>
+                        <a class="nav-link text-back" ><i class="fas fa-envelope mx-1"></i>รถจักรยานยนต์</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav d-flex flex-row me-1">
+                        <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link text-back"><i class="fas fa-envelope mx-1"></i>เข้าสู่ระบบ</a>
+                    </li>
+                     </ul>
                 </div>
             </nav>
             <h1>

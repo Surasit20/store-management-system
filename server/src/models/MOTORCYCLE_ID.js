@@ -41,7 +41,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     MOTORCYCLE_IMAGE: {
       type: DataTypes.BLOB,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

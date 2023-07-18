@@ -2,4 +2,11 @@
     color: white;
     text-align: center;
     font-style: normal;
+    font-size: 60px;
+}
+.navbar-height{
+    height: 150px;
+}
+.bg-custom-grey{
+    background-color: rgba(196, 196, 196, 1)
 }
