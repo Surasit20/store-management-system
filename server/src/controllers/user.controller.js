@@ -13,7 +13,7 @@ class UsersController extends BaseController {
 	
 	static async getUserById(req, res) {
 		try {
-			const result = await super.getById(req, 'Users');
+			const result = await super.getById(req, 'USER');
 			return res.send(result)
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);

@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     INSTALLMENTS_NO: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10,0),
       allowNull: false
     },
     INSTALLMENTS_TIME: {
@@ -24,11 +24,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     INSTALLMENTS_MONEY: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10,0),
       allowNull: false
     },
     INSTALLMENTS_STATUS: {
-      type: DataTypes.DECIMAL(10,0),
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     INSTALLMENTS_IMAGE: {
