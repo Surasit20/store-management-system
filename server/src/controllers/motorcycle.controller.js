@@ -30,7 +30,6 @@ class MotorcycleController extends BaseController {
 		}
 	}
 
-
 	static async deleteMotorcycleById(req, res) {
 		try {
 			const result = await super.deleteById(req, 'Motorcycles');
