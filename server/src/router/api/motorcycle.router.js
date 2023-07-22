@@ -2,13 +2,15 @@ const router = require('express').Router();
 const MotorcycleController = require('../../controllers/motorcycle.controller');
 //const auth = require('../../utils/auth');
 
-router.post('/',MotorcycleController.getMotorcycleById);
+router.post('/',MotorcycleController.postMotorcycle);
 
-router.get('/:id([0-9])',MotorcycleController.getMotorcycleById);
+router.get ('/',MotorcycleController.getMotorcycle);
 
-router.delete('/:id([0-9])', MotorcycleController.deleteMotorcycleById);
+router.get('/:id',MotorcycleController.getMotorcycleById);
 
-//router.get('/profile',UsersController.getProfile);
+router.put('/:MOTORCYCLE_ID',MotorcycleController.updateMotorcycleById)
+
+router.delete('/:MOTORCYCLE_ID', MotorcycleController.deleteMotorcycleById);
 
 
 module.exports = router;

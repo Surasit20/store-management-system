@@ -18,84 +18,81 @@ class BaseController {
     * @return a Promise
 	* @return an err if an error occur
     */
+
+	
 	static async getById(req, modelName) {
 		const reqParam = req.params.id;
 		let result;
 		try {
-			result = await req.app.get('db')[modelName].findByPk(reqParam).then(
-				//errHandler.throwIf(r => !r, 404, 'not found', 'Resource not found'),
-				//errHandler.throwError(500, 'sequelize error ,some thing wrong with either the data base connection or schema'),
-			);
+			result = await req.app.get('db')[modelName].findByPk(reqParam)
 		} catch (err) {
 			return Promise.reject(err);
 		}
 		return result;
 	}
 
-	static async getByCustomOptions(req, modelName, options) {
+	static async getAll(req, modelName) {
 		let result;
 		try {
-			result = await req.app.get('db')[modelName].findOne(options);
+			result = await req.app.get('db')[modelName].findAll({});
 		} catch (err) {
 			return Promise.reject(err);
 		}
 		return result;
 	}
 
-	static async deleteById(req, modelName) {
+	static async add(req,modelName,data){
 		const reqParam = req.params.id;
+		let obj = data
+		let result;
+		if (_.isUndefined(obj)) {
+			obj = req.body;
+			}
+		try {
+			result = await req.app.get('db')[modelName].build(obj).save().then(
+					 savedResource => Promise.resolve(savedResource));
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+
+	}
+
+	static async getById(req, modelName) {
+		const reqParam = req.params.id;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].findByPk(reqParam)
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+	static async deleteByIdUser(req, modelName) { 
+		const reqParam = req.params.USER_ID ;
 		let result;
 		try {
 			result = await req.app.get('db')[modelName].destroy({
 				where: {
-					id: reqParam,
+					USER_ID: reqParam
 				},
-			}).then(
-				//errHandler.throwIf(r => r < 1, 404, 'not found', 'No record matches the Id provided'),
-				//errHandler.throwError(500, 'sequelize error'),
-			);
+			})
 		} catch (err) {
 			return Promise.reject(err);
 		}
 		return result;
 	}
 
-	static async create(req, modelName, data) {
-		let obj = data;
-		if (_.isUndefined(obj)) {
-			obj = req.body;
-		}
+	static async updateByIdUser(req, modelName,data) {
+		const reqParamUser = req.params.USER_ID ;
 		let result;
 		try {
-			result = await req.app.get('db')[modelName].build(obj).save().then(
-				//errHandler.throwIf(r => !r, 500, 'Internal server error', 'something went wrong couldnt save data'),
-				//errHandler.throwError(500, 'sequelize error'),
-
-			).then(
-				savedResource => Promise.resolve(savedResource),
-			);
-		} catch (err) {
-			return Promise.reject(err);
-		}
-		return result;
-	}
-
-
-	static async updateById(req, modelName, data) {
-		const recordID = req.params.id;
-		let result;
-
-		try {
-			result = await req.app.get('db')[modelName]
-				.update(data, {
+			result = await req.app.get('db')[modelName].update(data,{
 					where: {
-						id: recordID,
+						USER_ID: reqParamUser,
 					},
 				}).then(
-					//errHandler.throwIf(r => !r, 500, 'Internal server error', 'something went wrong couldnt update data'),
-					//errHandler.throwError(500, 'sequelize error'),
-
-				).then(
 					updatedRecored => Promise.resolve(updatedRecored),
 				);
 		} catch (err) {
@@ -103,19 +100,31 @@ class BaseController {
 		}
 		return result;
 	}
-
-	static async updateByCustomWhere(req, modelName, data, options) {
+	
+	static async deleteByIdMotorcycle(req, modelName) { 
+		const reqParam = req.params.MOTORCYCLE_ID ;
 		let result;
-
 		try {
-			result = await req.app.get('db')[modelName]
-				.update(data, {
-					where: options,
-				}).then(
-					// errHandler.throwIf(r => !r, 500, 'Internal server error', 'something went wrong couldnt update data'),
-					// errHandler.throwError(500, 'sequelize error'),
+			result = await req.app.get('db')[modelName].destroy({
+				where: {
+					MOTORCYCLE_ID: reqParam
+				},
+			})
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
 
-				).then(
+	static async updateByIdMotorcycle(req, modelName,data) {
+		const reqParam = req.params.MOTORCYCLE_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].update(data,{
+					where: {
+						MOTORCYCLE_ID: reqParam,
+					},
+				}).then(
 					updatedRecored => Promise.resolve(updatedRecored),
 				);
 		} catch (err) {
@@ -124,38 +133,101 @@ class BaseController {
 		return result;
 	}
 
-	static async getList(req, modelName, options) {
-		const page = req.query.page;
-
-		let results;
+	static async deleteByIdSummary(req, modelName) { 
+		const reqParam = req.params.SUMMARY_DAILT_INSTALLMENTS_ID;
+		let result;
 		try {
-			if (_.isUndefined(options)) {
-				options = {};
-			}
-
-			if (parseInt(page, 10)) {
-				if (page === 0) {
-					options = _.extend({}, options, {});
-				} else {
-					options = _.extend({}, options, {
-						offset: this.limit * (page - 1),
-						limit: this.limit,
-					});
-				}
-			} else {
-				options = _.extend({}, options, {}); // extend it so we can't mutate
-			}
-
-			results = await req.app.get('db')[modelName]
-				.findAll(options)
-				.then(
-					// errHandler.throwIf(r => !r, 500, 'Internal server error', 'something went wrong while fetching data'),
-					// errHandler.throwError(500, 'sequelize error'),
-				).then(result => Promise.resolve(result));
+			result = await req.app.get('db')[modelName].destroy({
+				where: {
+					SUMMARY_DAILT_INSTALLMENTS_ID: reqParam
+				},
+			})
 		} catch (err) {
 			return Promise.reject(err);
 		}
-		return results;
+		return result;
 	}
+
+	static async updateByIdSummary(req, modelName,data) {
+		const reqParam = req.params.SUMMARY_DAILT_INSTALLMENTS_ID;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].update(data,{
+					where: {
+						SUMMARY_DAILT_INSTALLMENTS_ID: reqParam,
+					},
+				}).then(
+					updatedRecored => Promise.resolve(updatedRecored),
+				);
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+	static async deleteByIdRepailData(req, modelName) { 
+		const reqParam = req.params.REPAILDATA_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].destroy({
+				where: {
+					REPAILDATA_ID : reqParam
+				},
+			})
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+	static async updateByIdRepailData(req, modelName,data) {
+		const reqParam = req.params.REPAILDATA_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].update(data,{
+					where: {
+						REPAILDATA_ID : reqParam,
+					},
+				}).then(
+					updatedRecored => Promise.resolve(updatedRecored),
+				);
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+	static async deleteByIdInstallment(req, modelName) { 
+		const reqParam = req.params.INSTALLMENTS_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].destroy({
+				where: {
+					INSTALLMENTS_ID : reqParam
+				},
+			})
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+	static async updateByIdInstallment(req, modelName,data) {
+		const reqParam = req.params.INSTALLMENTS_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].update(data,{
+					where: {
+						INSTALLMENTS_ID : reqParam,
+					},
+				}).then(
+					updatedRecored => Promise.resolve(updatedRecored),
+				);
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
 }
 module.exports = BaseController;
