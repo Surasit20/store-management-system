@@ -2,17 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './home/home';
 import App from './App';
-import Login from './main/login/login';
-
-//user
-import  IndexUser from './main/user/index_user';
-import  HomeUser from './main/user/home_user';
-import  PayUser from './main/user/pay_user';
-import  ReceiptUser from './main/user/receipt_user';
-import  RepairUser from './main/user/repair_user';
+import Login from './login/login';
 import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 
+//user
+import  IndexUser from './user/index_user';
+import  HomeUser from './user/home_user';
+import  PayUser from './user/pay_user';
+import  ReceiptUser from './user/receipt_user';
+import  RepairUser from './user/repair_user';
+
 //admin
+import IndexAdmin from './admin/index_admin';
+import ChassisAdmin from './admin/chassis_admin';
+import DailySummaryAdmin from './admin/daily_summary';
+import HomeAdmin from './admin/home_admin';
+import MotorcycleInfoAdmin from './admin/motorcycle_info_admin';
+import OverdueAdmin from './admin/overdue_admin';
+import PaymentCheckAdmin from './admin/payment_check_admin';
+import RepairInfoAdmin from './admin/repair_info_admin';
+
 const router = createBrowserRouter([
   {
   //home
@@ -32,6 +41,7 @@ const router = createBrowserRouter([
 //user
   {
     path: "/user",
+    
     element: <IndexUser/>,
     children: [
       {
@@ -53,7 +63,41 @@ const router = createBrowserRouter([
     ],
   },
 
-
+//admin
+{
+  path: "/admin",
+  element: <IndexAdmin/>,
+  children: [
+    {
+      path: "/admin/daily-summary",
+      element: <DailySummaryAdmin/>,
+    },
+    {
+      path: "/admin/home",
+      element: <HomeAdmin/>,
+    },
+    {
+      path: "/admin/motorcycle",
+      element: <MotorcycleInfoAdmin/>,
+    },
+    {
+      path: "/admin/overdue",
+      element: <OverdueAdmin />,
+    },
+    {
+      path: "/admin/payment-check",
+      element: <PaymentCheckAdmin />,
+    },
+    {
+      path: "/admin/repair-info",
+      element: <RepairInfoAdmin />,
+    },
+    {
+      path: "/admin/chassis",
+      element: <ChassisAdmin/>,
+    }
+  ],
+},
 ]);
 
 ReactDOM.render(

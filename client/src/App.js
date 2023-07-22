@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Home from './home/home';
-import Login from './main/login/login';
+import Login from './login/login';
 import { Outlet } from "react-router-dom";
 function App(){
   return(
