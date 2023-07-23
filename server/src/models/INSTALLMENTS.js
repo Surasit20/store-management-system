@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     INSTALLMENTS_IMAGE: {
       type: DataTypes.BLOB,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

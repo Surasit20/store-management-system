@@ -1,7 +1,7 @@
 //const Joi = require('joi');
 //const jwt = require('jsonwebtoken');
 const _ = require('lodash');
-const BaseController = require('./base.controller');
+const BaseController = require('../controllers/base.controller');
 const RequestHandler = require('../utils/RequestHandler');
  const Logger = require('../utils/logger');
 // const auth = require('../utils/auth');
@@ -9,29 +9,29 @@ const RequestHandler = require('../utils/RequestHandler');
  const logger = new Logger();
  const requestHandler = new RequestHandler(logger);
 
-class MotorcycleController extends BaseController {
-	
-	static async getMotorcycleById(req, res) {
+class RepailDataController extends BaseController {
+	//แสดงอันเดียว
+	static async getRepailDataById(req, res) {
 		try {
-			const result = await super.getById(req,'MOTORCYCLE');
+			const result = await super.getById(req, 'REPAILDATA');
 			return res.send(result)
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}
 	}
 	//เสดงทั้งหมด
-	static async getMotorcycle(req, res) {
+	static async getRepailData(req, res) {
 		try {
-			const result = await super.getAll(req, 'MOTORCYCLE');
+			const result = await super.getAll(req, 'REPAILDATA');
 			return res.send(result)
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}
 	}
 	//เพิ่มข้อมูล
-    static async postMotorcycle(req, res) {
+    static async postRepailData(req, res) {
 		try {
-			const result = await super.add(req,'MOTORCYCLE',req.body)
+			const result = await super.add(req,'REPAILDATA',req.body)
 			return res.send(result);
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
@@ -39,18 +39,18 @@ class MotorcycleController extends BaseController {
 	}
 
 	//ลบข้อมูล
-	static async deleteMotorcycleById(req, res) {
+	static async deleteRepailDataById(req, res) {
 		try {
-			const result = await super.deleteByIdMotorcycle(req,'MOTORCYCLE',req.body);
+			const result = await super.deleteByIdRepailData(req,'REPAILDATA',req.body);
 			return res.send(result);
 		} catch (err) {
 			return requestHandler.sendError(req, res, err);
 		}
 	}
 	//แก้ไข
-	static async updateMotorcycleById(req, res) {
+	static async updateRepailDataById(req, res) {
 		try {
-			const result = await super.updateByIdMotorcycle(req,'MOTORCYCLE',req.body);
+			const result = await super.updateByIdRepailData(req,'REPAILDATA',req.body);
 			return res.send(result);
 		} catch (err) {
 			return requestHandler.sendError(req, res, err);
@@ -58,4 +58,4 @@ class MotorcycleController extends BaseController {
 	}
 }
 
-module.exports = MotorcycleController;
+module.exports = RepailDataController;
