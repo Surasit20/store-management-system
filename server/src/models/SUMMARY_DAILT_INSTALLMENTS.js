@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     SUMMARY_DAILT_INSTALLMENTS_DAILY_BALANCE: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DECIMAL(10,0),
       allowNull: false
     }
   }, {
