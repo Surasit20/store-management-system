@@ -1,11 +1,17 @@
 {
     "development": {
-    "username": "root",
-    "password": "MYSQL_ROOT_PASSWORD",
-    "database": "StoreManagementSystem",
-    "host": "127.0.0.1", 
+    "username": "859vg53iw7qnh29mhz02",
+    "password": "pscale_pw_bJq680ERAao8yZHJUPre47xIY9r1suqqsDxCIlJoiFc",
+    "database": "storemanagementsystem",
+    "host": "aws.connect.psdb.cloud", 
     "port": 3306,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
     },
     "test": {
     "url" : "postgres://postgres:password@localhost:5432/iLrn",
@@ -26,6 +32,6 @@
      "dialect": "postgres"
     },
     "commande":{
-      "migration" : "npx sequelize-auto -o ./models -d StoreManagementSystem -h 127.0.0.1 -u root -p 3306 -x MYSQL_ROOT_PASSWORD -e mysql"
+      "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h 127.0.0.1 -u root -p 3306 -x MYSQL_ROOT_PASSWORD -e mysql"
     }
   }
