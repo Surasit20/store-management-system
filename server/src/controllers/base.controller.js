@@ -19,6 +19,15 @@ class BaseController {
 	* @return an err if an error occur
     */
 
+	static async getByCustomOptions(req, modelName, options) {
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].findOne(options);
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
 	
 	static async getById(req, modelName) {
 		const reqParam = req.params.id;
@@ -139,7 +148,7 @@ class BaseController {
 		try {
 			result = await req.app.get('db')[modelName].destroy({
 				where: {
-					SUMMARY_DAILT_INSTALLMENTS_ID: reqParam
+					"SUMMARY_DAILT_INSTALLMENTS_ID": reqParam
 				},
 			})
 		} catch (err) {

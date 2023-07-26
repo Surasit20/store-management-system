@@ -6,19 +6,19 @@ x-common-variables: &common-variables
   MYSQL_PASSWORD: MYSQL_PASSWORD
 
 services:
-  mysql_db:
-    image: mysql
-    restart: always
-    cap_add:
-      - SYS_NICE
-    volumes:
-      - "./mysql-data:/var/lib/mysql"
-    ports:
-      - "3306:3306"
-    environment:
-      <<: *common-variables
-      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
-      MYSQL_HOST: 127.0.0.1
+  # mysql_db:
+  #   image: mysql
+  #   restart: always
+  #   cap_add:
+  #     - SYS_NICE
+  #   volumes:
+  #     - "./mysql-data:/var/lib/mysql"
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     <<: *common-variables
+  #     MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+  #     MYSQL_HOST: 127.0.0.1
 
   nginx:
     depends_on:
@@ -37,14 +37,14 @@ services:
       context: "./server"
     ports:
       - "3001:3001"
-    depends_on:
-      - mysql_db
+    # depends_on:
+    #   - mysql_db
     volumes:
       - /app/node_modules
       - ./server:/app
     environment:
       <<: *common-variables
-      MYSQL_HOST_IP: mysql_db
+      # MYSQL_HOST_IP: mysql_db
 
   client:
     stdin_open: true
@@ -59,14 +59,12 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
-    links:
-      - mysql_db
     environment:
-      PMA_HOST: mysql_db
+      PMA_HOST: aws.connect.psdb.cloud
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: always
     ports:
       - 8081:80
-volumes:
-  mysql-data:
+# volumes:
+#   mysql-data:
