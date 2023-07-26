@@ -2,9 +2,14 @@ import React, { Component, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 function Login() {
   const [IsAdmin, setIsAdmin] = useState(false);
+  const [gotoIndexUser,setGotoIndexUser] = React.useState(false);
+  if(gotoIndexUser){
+      return <Navigate to = "/admin/home" />;
+  }
 
   //   useEffect(() => {
   //     console.log(IsAdmin)
@@ -78,20 +83,25 @@ function Login() {
             aria-describedby="basic-addon1"
           />
         </div>
-
-        <div className="">
-          <button type="submit" class="btn btn-primary mb-3">
-            เข้าสู่ระบบ
-          </button>
+        <div>
+        
         </div>
       </form>
 
       {IsAdmin ? (
-        <div></div>
+        <div>
+          <button onClick={()=>{setGotoIndexUser(true);}}>
+        ไปจ้า
+    </button></div>
       ) : (
+        <div className="">
+          <button type="submit" class="btn btn-primary mb-3">
+            เข้าสู่ระบบ
+          </button>
         <button type="button" className="btn btn-dark">
           สมัครสมาชิก
-        </button>
+        </button> 
+        </div>
       )}
     </div>
   );

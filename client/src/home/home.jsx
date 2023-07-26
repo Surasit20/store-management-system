@@ -22,10 +22,6 @@ const router = createBrowserRouter([
 ]);
 
 function Home() {
-  const [gotoLogin, setGotoLogin] = React.useState(false);
-  if (gotoLogin) {
-    //return <Navigate to = "/login" />;
-  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-custom-grey ">
