@@ -33,15 +33,15 @@ function IndexAdmin() {
                 className={`navbar-nav d-flex flex-row me-1 justify-content-center`}
               >
                 <li className="nav-item me-3 me-lg-0">
-                  <a className={`nav-link text-back`} href="/admin/home">
-                    {location.pathname === "/admin/home" ? (
+                  <a className={`nav-link text-back`} href="/admin/motorcycle">
+                    {location.pathname === "/admin/motorcycle" ? (
                       <u>
                         <p>
-                          <strong>รถจักรยานยนต์</strong>
+                          <strong>ข้อมูลของรถจักรยานยนต์</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>รถจักรยานยนต์</p>
+                      <p>ข้อมูลของรถจักรยานยนต์</p>
                     )}
                   </a>
                 </li>
@@ -59,23 +59,6 @@ function IndexAdmin() {
                       </u>
                     ) : (
                       <p>รับข้อมูลส่งซ่อมจากลูกค้า</p>
-                    )}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="col">
-              <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
-                <li className="nav-item me-3 me-lg-0">
-                  <a className="nav-link text-back" href="/admin/motorcycle">
-                    {location.pathname === "/admin/motorcycle" ? (
-                      <u>
-                        <p>
-                          <strong>ข้อมูลของรถจักรยานยนต์</strong>
-                        </p>
-                      </u>
-                    ) : (
-                      <p>ข้อมูลของรถจักรยานยนต์</p>
                     )}
                   </a>
                 </li>
@@ -147,6 +130,23 @@ function IndexAdmin() {
                       </u>
                     ) : (
                       <p>กรอกข้อมูลเลขตัวถัง</p>
+                    )}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="col">
+              <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
+                <li className="nav-item me-3 me-lg-0">
+                  <a className="nav-link text-back" href="/admin/payment-check">
+                    {location.pathname === "/admin/payment-check" ? (
+                      <u>
+                        <p>
+                          <strong>ออกจากระบบ</strong>
+                        </p>
+                      </u>
+                    ) : (
+                      <p>ออกจากระบบ</p>
                     )}
                   </a>
                 </li>
