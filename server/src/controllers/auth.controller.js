@@ -1,9 +1,10 @@
 
 //const _ = require('lodash');
 const bcrypt = require('bcrypt');
-const BaseController = require('../controllers/base.controller');
+const BaseController = require('./base.controller');
 const RequestHandler = require('../utils/RequestHandler');
  const Logger = require('../utils/logger');
+ const jwt = require('jsonwebtoken');
 // const auth = require('../utils/auth');
 
  const logger = new Logger();
@@ -58,13 +59,23 @@ class AuthController extends BaseController {
 	static async login(req, res) {
 		try {
 			const options = {
-				where: { email: req.body.email },
+				where: { USER_EMAIL: req.body.USER_EMAIL },
 			};
-			const user = await super.getByCustomOptions(req, 'Users', options);
+			const user = await super.getByCustomOptions(req, 'USER', options);
 			if (!user) {
 				requestHandler.throwError(400, 'bad request', 'invalid email address')();
 			}
 
+			await bcrypt
+				.compare(req.body.USER_PASSWORD, user.USER_PASSWORD)
+				.then(
+					requestHandler.throwIf(r => !r, 400, 'incorrect', 'failed to login bad credentials'),
+					requestHandler.throwError(500, 'bcrypt error'),
+				);
+			
+				
+				// var token = jwt.sign({user}, "", { algorithm: 'RS256' });
+				requestHandler.sendSuccess(res, 'User logged in Successfully')({ user: user });
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}
