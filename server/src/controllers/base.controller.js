@@ -54,9 +54,10 @@ class BaseController {
 		const reqParam = req.params.id;
 		let obj = data
 		let result;
-		if (_.isUndefined(obj)) {
+		if (obj == null || obj == undefined) 
+		{
 			obj = req.body;
-			}
+		}
 		try {
 			result = await req.app.get('db')[modelName].build(obj).save().then(
 					 savedResource => Promise.resolve(savedResource));

@@ -20,7 +20,7 @@ class RequestHandler {
 
 	sendSuccess(res, message, status) {
 		return (data, globalData) => {
-			if (_.isUndefined(status)) {
+			if (status == undefined) {
 				status = 200;
 			}
 			res.status(status).json({

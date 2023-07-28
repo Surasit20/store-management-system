@@ -1,5 +1,5 @@
 
-const _ = require('lodash');
+//const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const BaseController = require('../controllers/base.controller');
 const RequestHandler = require('../utils/RequestHandler');
@@ -14,7 +14,7 @@ class AuthController extends BaseController {
 	static async register(req, res) {
 		try {
 			const data = req.body;
-			const options = { where: { USER_EMAIL: data.email } };
+			const options = { where: { USER_EMAIL: data.USER_EMAIL } };
 			const user = await super.getByCustomOptions(req, 'USER', options);
 
 			if (user) {
@@ -41,10 +41,10 @@ class AuthController extends BaseController {
 			// });
 			const saltRounds = 10;
 			const salt = bcrypt.genSaltSync(saltRounds);
-			const hashedPass = bcrypt.hashSync(data.password, salt);
-			data.password = hashedPass;
+			const hashedPass = bcrypt.hashSync(data.USER_PASSWORD, salt);
+			data.USER_PASSWORD= hashedPass;
 			const createdUser = await super.add(req, 'USER');
-			if (!(_.isNull(createdUser))) {
+			if (createdUser !== null) {
 				requestHandler.sendSuccess(res, 'email with your password sent successfully', 201)();
 			} else {
 				requestHandler.throwError(422, 'Unprocessable Entity', 'unable to process the contained instructions')();
@@ -57,8 +57,14 @@ class AuthController extends BaseController {
 	//เข้าสู่ระบบ
 	static async login(req, res) {
 		try {
-			const result = await super.getAll(req, 'USER');
-			return res.send(result)
+			const options = {
+				where: { email: req.body.email },
+			};
+			const user = await super.getByCustomOptions(req, 'Users', options);
+			if (!user) {
+				requestHandler.throwError(400, 'bad request', 'invalid email address')();
+			}
+
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}
