@@ -12,7 +12,6 @@ router.put('/:SUMMARY_DAILT_INSTALLMENTS_ID',SummaryController.updateSummaryById
 
 router.delete('/:SUMMARY_DAILT_INSTALLMENTS_ID', SummaryController.deleteSummaryById);
 
-//router.get('/profile',UsersController.getProfile);
 
 
 module.exports = router;
