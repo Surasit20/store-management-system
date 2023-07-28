@@ -1,9 +1,9 @@
 {
     "development": {
       "database": "storemanagementsystem",
-      "username": "fd43u16bfgzkcujnoe2m",
+      "username": "fjs56jykptzl8uloc122",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_lDZhSQPCyUA6tgNicg7SMjiH00hLUBSQKBdiMSgXkjO",
+      "password": "pscale_pw_9p1cZapuPs8nBakp1GGKiqJlGzcbdLQ3YlgdP20ekRI",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {

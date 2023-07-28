@@ -1,19 +1,56 @@
 import React, { Component, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { Navigate } from 'react-router-dom';
-
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 function Login() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [IsAdmin, setIsAdmin] = useState(false);
-  const [gotoIndexUser,setGotoIndexUser] = React.useState(false);
-  if(gotoIndexUser){
-      return <Navigate to = "/admin/home" />;
+  const [gotoIndexUser, setGotoIndexUser] = React.useState(false);
+  if (gotoIndexUser) {
+    return <Navigate to="/admin/home" />;
   }
 
   //   useEffect(() => {
   //     console.log(IsAdmin)
   //   });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let data = { USER_EMAIL: email, USER_PASSWORD: password };
+    console.log(data);
+    event.preventDefault();
+    axios
+      .post("http://localhost:3001/api/v1/auth/login", data)
+      .then((response) => {
+        console.log(response);
+        if (response.status == 200) {
+          console.log(response.status);
+          navigate("/user/home");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+          icon: "error",
+          confirmButtonText: "หน้าปิ",
+        });
+      });
+  };
 
   return (
     <div>
@@ -57,52 +94,58 @@ function Login() {
           </div>
         </div>
       </nav>
-
-      <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">
-          ชื่อผู้ใช้
-        </span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-        />
-      </div>
-      <form class="row g-3">
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">
-            รหัสผ่าน
+      <form onSubmit={handleSubmit}>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon1">
+            ชื่อผู้ใช้
           </span>
           <input
-            type="password"
+            type="text"
             class="form-control"
-            placeholder="Password"
-            aria-label="Password"
+            placeholder="Username"
+            aria-label="Username"
             aria-describedby="basic-addon1"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div>
-        
-        </div>
-      </form>
+        <form className="row g-3">
+          <div className="input-group mb-3">
+            <span className="input-group-text" id="basic-addon1">
+              รหัสผ่าน
+            </span>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Password"
+              aria-label="Password"
+              aria-describedby="basic-addon1"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div></div>
+        </form>
 
-      {IsAdmin ? (
-        <div>
-          <button onClick={()=>{setGotoIndexUser(true);}}>
-        ไปจ้า
-    </button></div>
-      ) : (
-        <div className="">
-          <button type="submit" class="btn btn-primary mb-3">
-            เข้าสู่ระบบ
-          </button>
-        <button type="button" className="btn btn-dark">
-          สมัครสมาชิก
-        </button> 
-        </div>
-      )}
+        {IsAdmin ? (
+          <div>
+            <button
+              onClick={() => {
+                setGotoIndexUser(true);
+              }}
+            >
+              ไปจ้า
+            </button>
+          </div>
+        ) : (
+          <div className="">
+            <button type="submit" className="btn btn-primary mb-3">
+              เข้าสู่ระบบ
+            </button>
+            <button type="button" className="btn btn-dark">
+              สมัครสมาชิก
+            </button>
+          </div>
+        )}
+      </form>
     </div>
   );
 }
