@@ -7,10 +7,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { Navigate } from 'react-router-dom';
+
 function MotorcycleInfoAdmin() {
   const [items,setItems] = useState([]);
   useEffect(()=>{
-    fetch("http://localhost:3001/api/v1/users/")
+    fetch("http://localhost:3001/api/v1/motorcycles")
     .then(res=> res.json())
     .then(
       (result)=>{
@@ -18,9 +20,17 @@ function MotorcycleInfoAdmin() {
       }
     )
   })
+  const [gotoAddMotorcycle,setGotoAddMotorcycle] = React.useState(false);
+  if(gotoAddMotorcycle){
+      return <Navigate to = "/admin/add-motorcycle" />;
+  }
   return( 
   <div>
     <p>MotorcycleInfoAdmin</p>
+    <div>
+          <button onClick={()=>{setGotoAddMotorcycle(true);}}>
+        ไปจ้า
+    </button></div>
     { <React.Fragment>
         <Container maxWidth = "lg" sx={{p:2}}>
           <Box display = "flex">
@@ -42,7 +52,7 @@ function MotorcycleInfoAdmin() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.USER_ID}
+                {row.MOTORCYCLE_ID}
               </TableCell>
              
             </TableRow>

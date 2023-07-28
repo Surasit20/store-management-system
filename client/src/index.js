@@ -21,6 +21,7 @@ import MotorcycleInfoAdmin from './admin/motorcycle_info_admin';
 import OverdueAdmin from './admin/overdue_admin';
 import PaymentCheckAdmin from './admin/payment_check_admin';
 import RepairInfoAdmin from './admin/repair_info_admin';
+import AddMotorcycle from './admin/motorcycle_add';
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
     {
       path: "/admin/chassis",
       element: <ChassisAdmin/>,
+    },
+    {
+      path : "/admin/add-motorcycle",
+      element : <AddMotorcycle/>
     }
   ],
 },
