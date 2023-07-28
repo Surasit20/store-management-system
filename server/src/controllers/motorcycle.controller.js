@@ -41,7 +41,7 @@ class MotorcycleController extends BaseController {
 	//ลบข้อมูล
 	static async deleteMotorcycleById(req, res) {
 		try {
-			const result = await super.deleteByIdMotorcycle(req,'MOTORCYCLE',req.body);
+			const result = await super.deleteByIdMotorcycle(req,'MOTORCYCLE');
 			return res.send(result);
 		} catch (err) {
 			return requestHandler.sendError(req, res, err);
