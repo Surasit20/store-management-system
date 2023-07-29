@@ -14,7 +14,7 @@ class MotorcycleController extends BaseController {
 	static async getMotorcycleById(req, res) {
 		try {
 			const result = await super.getById(req,'MOTORCYCLE');
-			return res.send(result)
+			return res.json({"status": "ok",result});
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}

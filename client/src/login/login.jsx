@@ -18,9 +18,9 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const [IsAdmin, setIsAdmin] = useState(false);
-  const [gotoIndexUser, setGotoIndexUser] = React.useState(false);
-  if (gotoIndexUser) {
-    return <Navigate to="/admin/home" />;
+  const [gotoIndexAdmin, setGotoIndexAdmin] = React.useState(false);
+  if (gotoIndexAdmin) {
+    return <Navigate to="/admin/motorcycle" />;
   }
 
   //   useEffect(() => {
@@ -129,7 +129,7 @@ function Login() {
           <div>
             <button
               onClick={() => {
-                setGotoIndexUser(true);
+                setGotoIndexAdmin(true);
               }}
             >
               ไปจ้า

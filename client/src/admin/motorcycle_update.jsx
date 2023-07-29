@@ -16,8 +16,18 @@ function UpdateMotorcycle() {
   };
 
   fetch("http://localhost:3001/api/v1/motorcycles/"+ MOTORCYCLE_ID, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+  .then(response => response.json())
+  .then(result => {
+    if(result['status']=='ok'){
+      setRegistrationNumber(result['result']['MOTORCYCLE_REGISTRATION_NUMBER'])
+      setBucketNumber(result['result']['MOTORCYCLE_BUCKET_NUMBER'])
+      setBrand(result['result']['MOTORCYCLE_BRAND'])
+      setModel(result['result']['MOTORCYCLE_MODEL'])
+      setColor(result['result']['MOTORCYCLE_COLOR'])
+      setPrice(result['result']['MOTORCYCLE_PRICE'])
+      setBalance(result['result']['MOTORCYCLE_BALANCE'])
+    }
+  })
   .catch(error => console.log('error', error));
   },[MOTORCYCLE_ID])
 
@@ -37,13 +47,13 @@ var raw = JSON.stringify({
 });
 
 var requestOptions = {
-  method: 'POST',
+  method: 'PUT',
   headers: myHeaders,
   body: raw,
   redirect: 'follow'
 };
 
-fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
+fetch(`http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`, requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
@@ -65,7 +75,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="เลขทะเบียน" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setRegistrationNumber(e.target.value)}>
+                    onChange={(e)=>setRegistrationNumber(e.target.value)}
+                    value={RegistrationNumber}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -74,7 +85,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="เลขตัวถัง" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setBucketNumber(e.target.value)}>
+                    onChange={(e)=>setBucketNumber(e.target.value)}
+                    value={BucketNumber}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -83,7 +95,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="ยี่ห้อ" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setBrand(e.target.value)}>
+                    onChange={(e)=>setBrand(e.target.value)}
+                    value={Brand}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -92,7 +105,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="รุ่น" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setModel(e.target.value)}>
+                    onChange={(e)=>setModel(e.target.value)}
+                    value={Model}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -101,7 +115,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="สี" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setColor(e.target.value)} >
+                    onChange={(e)=>setColor(e.target.value)} 
+                    value={Color}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -110,7 +125,8 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="ราคา" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setPrice(e.target.value)}>
+                    onChange={(e)=>setPrice(e.target.value)}
+                    value={Price}>
                      </TextField>
                 </Grid>
                 <Grid item xs ={12} sm = {6}>
@@ -119,11 +135,12 @@ fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
                     label="ยอดคงเหลือ" 
                     variant="outlined" 
                     fullWidth required
-                    onChange={(e)=>setBalance(e.target.value)}>
+                    onChange={(e)=>setBalance(e.target.value)}
+                    value={Balance}>
                      </TextField>
                 </Grid> 
                 <button type="submit" variant="contained" class="btn btn-primary mb-3">
-            บันทึก
+            แก้ไข
           </button>
             </form>
        
