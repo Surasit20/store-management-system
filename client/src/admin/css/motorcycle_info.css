@@ -5,19 +5,23 @@
   background-color: #ffffff;
   padding: 10px;
 }
-.listPage{
+.container {
+    display: grid;
+    grid-template-columns: 50px auto 70px auto;
+    grid-gap: 50px;
     padding: 10px;
-    text-align: center;
-    list-style: none;
+  }
+  .items {
+  padding: 20px;
+  text-align: center;
+  font-size: 35px;
 }
-.listPage li{
-    background-color: rgb(192, 16, 16);
-    padding: 20px;
-    display: inline-block;
-    margin: 0 10px;
-    cursor: pointer;
+.search{
+    padding-left: 15px;
+    width: 500px;
 }
-.listPage .active{
-    background-color: aquamarine;
-    color: cadetblue;
+.additem{
+    width: 50px;
+    padding-top: 20px;
+    padding-left: 15px;
 }
