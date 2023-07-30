@@ -32,8 +32,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     INSTALLMENTS_IMAGE: {
-      type: DataTypes.BLOB,
-      allowNull: true
+      type: DataTypes.STRING(4000),
+      allowNull: false
     }
   }, {
     sequelize,

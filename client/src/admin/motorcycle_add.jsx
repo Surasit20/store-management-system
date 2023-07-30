@@ -15,36 +15,41 @@ function AddMotorcycle() {
   const [Balance, setBalance] = useState("");
   const [image, setImage] = useState();
 
-  const handleSubmit = (event) => {
+  let imageOb;
+  const handleSubmit = async (event) => {
     event.preventDefault();
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    var raw = JSON.stringify({
-      MOTORCYCLE_BALANCE: Balance,
-      MOTORCYCLE_PRICE: Price,
-      MOTORCYCLE_BRAND: Brand,
-      MOTORCYCLE_MODEL: Model,
-      MOTORCYCLE_COLOR: Color,
-      MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
-      MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
-    });
+    var resUploadImage = await uploadImage();
+    if (!resUploadImage.error) {
+      var raw = JSON.stringify({
+        MOTORCYCLE_BALANCE: Balance,
+        MOTORCYCLE_PRICE: Price,
+        MOTORCYCLE_BRAND: Brand,
+        MOTORCYCLE_MODEL: Model,
+        MOTORCYCLE_COLOR: Color,
+        MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
+        MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
+      });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
 
-    fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.log("error", error));
+    }
   };
 
   const handleChangeImage = (event) => {
     const newImage = event.target.files[0];
+    imageOb = newImage;
     if (newImage) {
       setImage(URL.createObjectURL(newImage));
     }
@@ -53,6 +58,36 @@ function AddMotorcycle() {
   const handleRemoceImage = (event) => {
     setImage("");
   };
+
+  const uploadImage = async () => {
+    //setLoading(true);
+
+    //formData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
+    //formData.append("folder", "Cloudinary-React");
+    try {
+      const responseBlob = await fetch(image);
+      const blob = await responseBlob.blob();
+      const file = new File([blob], "filename.jpg", { type: "image/jpeg" });
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "szopv83k");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dx59hbzcc/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const res = await response.json();
+      return res;
+    } catch (error) {
+      console.log(error);
+      //setLoading(false);
+    }
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
