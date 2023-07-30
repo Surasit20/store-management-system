@@ -1,6 +1,8 @@
 import React, { Component, useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import {
   BrowserRouter,
   Routes,
@@ -94,6 +96,32 @@ function Login() {
           </div>
         </div>
       </nav>
+      <Box
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "100%" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div>
+          <TextField
+            id="filled-error"
+            label="Email"
+            defaultValue="Hello World"
+            error={true}
+          />
+        </div>
+        <div>
+          <TextField
+            id="filled-error"
+            label="Password"
+            defaultValue="Hello World"
+            variant="filled"
+          />
+        </div>
+      </Box>
+
       <form onSubmit={handleSubmit}>
         <div className="input-group mb-3">
           <span className="input-group-text" id="basic-addon1">
