@@ -1,0 +1,7 @@
+.bg {
+    background-color:  rgb(0, 0, 0);
+}
+.bg-custom {
+    background-color:rgba(196, 196, 196, 1);
+    height: inherit;
+}

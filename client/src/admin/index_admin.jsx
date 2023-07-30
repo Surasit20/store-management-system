@@ -2,6 +2,7 @@ import React, { Component, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import "../admin/css/index_admin.css";
 function IndexAdmin() {
   // const [currentPage, setCurrentPage] = useState(new Map([
   //   { key: 'home', value: true },
@@ -15,7 +16,7 @@ function IndexAdmin() {
   return (
     <div className="App">
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
+        <nav className="navbar  navbar-height bg ">
           <div className="container-fluid">
             <div className="navbar-collapse justify-content-center">
               <a className="navbar-brand" href="/admin/home">
@@ -26,22 +27,41 @@ function IndexAdmin() {
             </div>
           </div>
         </nav>
-        <nav className="navbar navbar-expand-lg bg-custom-grey ">
+        <nav className="navbar navbar-expand-lg bg-custom ">
           <div className="container-fluid row">
-            <div className="col-2">
+            <div className="col">
               <ul
                 className={`navbar-nav d-flex flex-row me-1 justify-content-center`}
               >
-                <li className="nav-item me-3 me-lg-0">
+                <li className="nav-item me-1 me-lg-0">
                   <a className={`nav-link text-back`} href="/admin/motorcycle">
                     {location.pathname === "/admin/motorcycle" ? (
                       <u>
                         <p>
-                          <strong>ข้อมูลของรถจักรยานยนต์</strong>
+                          <strong>รถจักรยานยนต์</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>ข้อมูลของรถจักรยานยนต์</p>
+                      <p>รถจักรยานยนต์</p>
+                    )}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="col">
+              <ul
+                className={`navbar-nav d-flex flex-row me-1 justify-content-center`}
+              >
+                <li className="nav-item me-3 me-lg-0">
+                  <a className={`nav-link text-back`} href="/admin/user-info">
+                    {location.pathname === "/admin/user-info" ? (
+                      <u>
+                        <p>
+                          <strong>ผู้ใช้งาน</strong>
+                        </p>
+                      </u>
+                    ) : (
+                      <p>ผู้ใช้งาน</p>
                     )}
                   </a>
                 </li>
@@ -54,11 +74,11 @@ function IndexAdmin() {
                     {location.pathname === "/admin/repair-info" ? (
                       <u>
                         <p>
-                          <strong>รับข้อมูลส่งซ่อมจากลูกค้า</strong>
+                          <strong>รับข้อมูลส่งซ่อม</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>รับข้อมูลส่งซ่อมจากลูกค้า</p>
+                      <p>รับข้อมูลส่งซ่อม</p>
                     )}
                   </a>
                 </li>
@@ -71,11 +91,11 @@ function IndexAdmin() {
                     {location.pathname === "/admin/overdue" ? (
                       <u>
                         <p>
-                          <strong>เช็ดยอดค้างชำระค่างวด</strong>
+                          <strong>ยอดค้างชำระ</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>เช็ดยอดค้างชำระค่างวด</p>
+                      <p>ยอดค้างชำระ</p>
                     )}
                   </a>
                 </li>
@@ -89,11 +109,11 @@ function IndexAdmin() {
                     {location.pathname === "/admin/daily-summary" ? (
                       <u>
                         <p>
-                          <strong>สรุปยอดค่างวดประจำวัน</strong>
+                          <strong>ยอดประจำวัน</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>สรุปยอดค่างวดประจำวัน</p>
+                      <p>ยอดประจำวัน</p>
                     )}
                   </a>
                 </li>
@@ -107,11 +127,11 @@ function IndexAdmin() {
                     {location.pathname === "/admin/payment-check" ? (
                       <u>
                         <p>
-                          <strong>ตรวจสอบการชำระและออกใบเสร็จ</strong>
+                          <strong>ตรวจสอบการชำระ</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>ตรวจสอบการชำระและออกใบเสร็จ</p>
+                      <p>ตรวจสอบการชำระ</p>
                     )}
                   </a>
                 </li>
@@ -125,11 +145,11 @@ function IndexAdmin() {
                     {location.pathname === "/admin/chassis" ? (
                       <u>
                         <p>
-                          <strong>กรอกข้อมูลเลขตัวถัง</strong>
+                          <strong>ยืนยันเจ้าของรถ</strong>
                         </p>
                       </u>
                     ) : (
-                      <p>กรอกข้อมูลเลขตัวถัง</p>
+                      <p>ยืนยันเจ้าของรถ</p>
                     )}
                   </a>
                 </li>

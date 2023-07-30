@@ -23,6 +23,7 @@ import PaymentCheckAdmin from './admin/payment_check_admin';
 import RepairInfoAdmin from './admin/repair_info_admin';
 import AddMotorcycle from './admin/motorcycle_add';
 import UpdateMotorcycle from './admin/motorcycle_update';
+import UserInfoAdmin from './admin/user/user_info';
 
 const router = createBrowserRouter([
   {
@@ -105,7 +106,10 @@ const router = createBrowserRouter([
     {
       path : "/admin/update-motorcycle/:MOTORCYCLE_ID",
       element : <UpdateMotorcycle/>
-
+    },
+    {
+      path : "/admin/user/user-info",
+      element : <UserInfoAdmin/>
     }
   ],
 },
