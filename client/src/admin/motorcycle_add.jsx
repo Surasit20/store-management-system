@@ -16,7 +16,6 @@ function AddMotorcycle() {
   const [Balance, setBalance] = useState("");
   const [image, setImage] = useState();
 
-  let imageOb;
   const handleSubmit = async (event) => {
     event.preventDefault();
     var myHeaders = new Headers();
@@ -32,6 +31,7 @@ function AddMotorcycle() {
         MOTORCYCLE_COLOR: Color,
         MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
         MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
+        MOTORCYCLE_IMAGE: resUploadImage["secure_url"],
       });
 
       var requestOptions = {
@@ -50,7 +50,6 @@ function AddMotorcycle() {
 
   const handleChangeImage = (event) => {
     const newImage = event.target.files[0];
-    imageOb = newImage;
     if (newImage) {
       setImage(URL.createObjectURL(newImage));
     }
