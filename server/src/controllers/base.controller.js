@@ -33,7 +33,7 @@ class BaseController {
 		const reqParam = req.params.id;
 		let result;
 		try {
-			result = await req.app.get('db')[modelName].findByPk(reqParam)
+			result = await req.app.get('db')[modelName].findByPk({reqParam})
 		} catch (err) {
 			return Promise.reject(err);
 		}
@@ -43,7 +43,10 @@ class BaseController {
 	static async getAll(req, modelName) {
 		let result;
 		try {
-			result = await req.app.get('db')[modelName].findAll({});
+			result = await req.app.get('db')[modelName].findAll({   
+				//  include: [
+				// { model: req.app.get('db')., as: 'Teacher' }]
+		})
 		} catch (err) {
 			return Promise.reject(err);
 		}

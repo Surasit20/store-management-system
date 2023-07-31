@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     MOTORCYCLE_BALANCE: {
       type: DataTypes.DECIMAL(10,0),
-      allowNull: false
+      allowNull: true
     },
     MOTORCYCLE_PRICE: {
       type: DataTypes.DECIMAL(10,0),
@@ -40,7 +40,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     MOTORCYCLE_IMAGE: {
-      type: DataTypes.BLOB,
+      type: DataTypes.STRING(4000),
       allowNull: true
     }
   }, {
