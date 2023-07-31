@@ -27,30 +27,6 @@ export default function MotorcycleInfoAdmin() {
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = (MOTORCYCLE_ID) => {
-    var requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    };
-
-    fetch(
-      "http://localhost:3001/api/v1/motorcycles/" + MOTORCYCLE_ID,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        if (result["status"] == "ok") {
-          setOpen(true);
-        }
-      })
-      .catch((error) => console.log("error", error));
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     Promise.all([MotorcycleGet(), UserGet()])
@@ -112,7 +88,6 @@ export default function MotorcycleInfoAdmin() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    handleClose();
     window.location.reload();
   };
 
@@ -216,37 +191,11 @@ export default function MotorcycleInfoAdmin() {
                           แก้ไข
                         </Button>
                       </TableCell>
-                      <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">
-                          {"คุณต้องการลบข้อมูลนี้ใช่หรือไม่?"}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            คุณต้องการลบข้อมูลนี้ใช่หรือไม่?
-                            {/* คุณสามารถแสดงข้อความตามต้องการในส่วนนี้ */}
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button
-                            onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
-                          >
-                            ยืนยัน
-                          </Button>
-                          <Button onClick={handleClose} autoFocus>
-                            ยกเลิก
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
                       <TableCell>
                         <Button
                           type="button"
                           class="btn btn-danger"
-                          onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
+                          onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
                         >
                           ลบ
                         </Button>

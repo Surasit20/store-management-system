@@ -14,6 +14,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+
 function UpdateMotorcycle() {
   const { MOTORCYCLE_ID } = useParams();
   const navigate = useNavigate();
