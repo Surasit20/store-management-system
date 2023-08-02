@@ -14,7 +14,7 @@ class UsersController extends BaseController {
 	static async getUserById(req, res) {
 		try {
 			const result = await super.getById(req, 'USER');
-			return res.send(result)
+			return res.json({"status": "ok",result});
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}

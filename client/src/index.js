@@ -20,10 +20,11 @@ import HomeAdmin from './admin/home_admin';
 import MotorcycleInfoAdmin from './admin/motorcycle_info_admin';
 import OverdueAdmin from './admin/overdue_admin';
 import PaymentCheckAdmin from './admin/payment_check_admin';
-import RepairInfoAdmin from './admin/repair_info_admin';
+import RepairInfoAdmin from './admin/repair/repair_info_admin';
 import AddMotorcycle from './admin/motorcycle_add';
 import UpdateMotorcycle from './admin/motorcycle_update';
 import UserInfoAdmin from './admin/user/user_info';
+import UserUpdateAdmin from './admin/user/user_update'
 
 const router = createBrowserRouter([
   {
@@ -92,7 +93,7 @@ const router = createBrowserRouter([
       element: <PaymentCheckAdmin />,
     },
     {
-      path: "/admin/repair-info",
+      path: "/admin/repair/repair-info",
       element: <RepairInfoAdmin />,
     },
     {
@@ -110,7 +111,12 @@ const router = createBrowserRouter([
     {
       path : "/admin/user/user-info",
       element : <UserInfoAdmin/>
+    },
+    {
+      path : "/admin/user/user-update/:USER_ID",
+      element : <UserUpdateAdmin/>
     }
+
   ],
 },
 ]);

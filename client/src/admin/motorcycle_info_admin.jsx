@@ -14,62 +14,65 @@ import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export default function MotorcycleInfoAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
-  const [items, setItems] = useState([]);
-  const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    UserGet();
-    MotorcycleGet();
+    Promise.all([MotorcycleGet(), UserGet()])
+      .then(([motorcycles, users]) => {
+        const filteredItems = motorcycles.filter(
+          (item) => item.USER_ID !== null
+        );
+        setItems(
+          filteredItems.map((item) => {
+            const user = users.find((u) => u.USER_ID === item.USER_ID);
+            return {
+              ...item,
+              USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
+            };
+          })
+        );
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
   }, []);
 
   const MotorcycleGet = () => {
-    fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
-      .then((result) => {
-        if (result !== null && Array.isArray(result)) {
-          const filteredItems = result.filter((item) => item.USER_ID !== null);
-          setItems(
-            filteredItems.map((item) => {
-              const user = users.find((u) => u.USER_ID === item.USER_ID);
-              return {
-                ...item,
-                USER_FULLNAME: user, // ถ้าไม่พบ user ในข้อมูลให้กำหนด USER_FULLNAME เป็น 'N/A'
-              };
-            })
-          );
-          setLoading(false);
-        } else {
-          setItems([]);
-          setLoading(false);
-        }
-      })
-      .catch(
-        (error) => console.error("Error fetching motorcycles:", error),
-        setLoading(false)
-      );
+      .catch((error) => {
+        console.error("Error fetching motorcycles:", error);
+        return [];
+      });
   };
 
   const UserGet = () => {
-    fetch("http://localhost:3001/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
-        const selectedFields = result.map((user) => ({
+        return result.map((user) => ({
           USER_ID: user.USER_ID,
           USER_FULLNAME: user.USER_FULLNAME,
         }));
-        setUsers(selectedFields);
-        setLoading(false);
       })
-      .catch(
-        (error) => console.error("Error fetching users:", error),
-        setLoading(false)
-      );
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        return [];
+      });
   };
 
   const MotorcycleDelete = (MOTORCYCLE_ID) => {
@@ -85,6 +88,7 @@ export default function MotorcycleInfoAdmin() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
+    window.location.reload();
   };
 
   const MotorcycleUpdate = (MOTORCYCLE_ID) => {
@@ -111,26 +115,30 @@ export default function MotorcycleInfoAdmin() {
   return (
     <diV>
       <Row>
-        <Col class="search">
-          <Form>
-            <InputGroup className="my-3">
-              <Form.Control onChange={handleInputChange} placeholder="ค้นหา" />
-            </InputGroup>
-          </Form>
-        </Col>
-        <Col class="additem">
-          <div>
+        <div class="search">
+          <Col>
+            <Form>
+              <InputGroup>
+                <Form.Control
+                  onChange={handleInputChange}
+                  placeholder="ค้นหา"
+                />
+              </InputGroup>
+            </Form>
+          </Col>
+        </div>
+        <div class="additem">
+          <Col>
             <button
-              type="button"
-              class="btn btn-danger"
+              class="btn btn-success btn-add-motor"
               onClick={() => {
                 setGotoAddMotorcycle(true);
               }}
             >
               เพิ่มข้อมูล{" "}
             </button>
-          </div>
-        </Col>
+          </Col>
+        </div>
       </Row>
       {loading ? (
         <p>Loading...</p>

@@ -17,11 +17,15 @@
   font-size: 35px;
 }
 .search{
-    padding-left: 15px;
-    width: 500px;
+    padding-top: 15px;
+    padding-bottom: 20px;
+    width: 1350px;
 }
 .additem{
-    width: 50px;
-    padding-top: 20px;
+    width: 100px;
+    padding-top: 15px;
     padding-left: 15px;
+}
+.btn-add-motor{
+  width: 100px;
 }

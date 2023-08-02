@@ -54,8 +54,8 @@ function IndexAdmin() {
                 className={`navbar-nav d-flex flex-row me-1 justify-content-center`}
               >
                 <li className="nav-item me-3 me-lg-0">
-                  <a className={`nav-link text-back`} href="/admin/user-info">
-                    {location.pathname === "/admin/user-info" ? (
+                  <a className={`nav-link text-back`} href="/admin/user/user-info">
+                    {location.pathname === "/admin/user/user-info" ? (
                       <u>
                         <p>
                           <strong>ผู้ใช้งาน</strong>
@@ -71,8 +71,8 @@ function IndexAdmin() {
             <div className="col">
               <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
                 <li className="nav-item me-3 me-lg-0">
-                  <a className="nav-link text-back" href="/admin/repair-info">
-                    {location.pathname === "/admin/repair-info" ? (
+                  <a className="nav-link text-back" href="/admin/repair/repair-info">
+                    {location.pathname === "/admin/repair/repair-info" ? (
                       <u>
                         <p>
                           <strong>รับข้อมูลส่งซ่อม</strong>

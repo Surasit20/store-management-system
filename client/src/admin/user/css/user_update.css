@@ -1,0 +1,20 @@
+.container-textfile{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 50px;
+    background-color: white;
+    width: 780px;
+}
+.row{
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+}
+.container-image{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+    background-color: white;
+    width: 700px;
+}

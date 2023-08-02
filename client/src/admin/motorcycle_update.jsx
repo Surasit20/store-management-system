@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import "../admin/css/motorcycle_update.css";
 import { useParams } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
