@@ -35,7 +35,8 @@ function IndexAdmin() {
               >
                 <li className="nav-item me-1 me-lg-0">
                   <a className={`nav-link text-back`} href="/admin/motorcycle">
-                    {location.pathname === "/admin/motorcycle" ? (
+                    {location.pathname === "/admin/motorcycle" ||
+                    location.pathname === "/admin/add-motorcycle" ? (
                       <u>
                         <p>
                           <strong>รถจักรยานยนต์</strong>
