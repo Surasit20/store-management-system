@@ -70,6 +70,10 @@ module.exports = function(sequelize, DataTypes) {
     USER_PASSWORD: {
       type: DataTypes.STRING(255),
       allowNull: false
+    },
+    USER_CHECK: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     sequelize,

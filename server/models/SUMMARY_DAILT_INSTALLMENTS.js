@@ -9,15 +9,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     INSTALLMENTS_ID: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: "INSTALLMENTS_ID"
     },
     USER_ID: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
+      unique: "USER_ID"
     },
     SUMMARY_DAILT_INSTALLMENTS_DAILY_BALANCE: {
-      type: DataTypes.DECIMAL(10,0),
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,
@@ -34,6 +36,7 @@ module.exports = function(sequelize, DataTypes) {
       },
       {
         name: "INSTALLMENTS_ID",
+        unique: true,
         using: "BTREE",
         fields: [
           { name: "INSTALLMENTS_ID" },
@@ -41,6 +44,7 @@ module.exports = function(sequelize, DataTypes) {
       },
       {
         name: "USER_ID",
+        unique: true,
         using: "BTREE",
         fields: [
           { name: "USER_ID" },

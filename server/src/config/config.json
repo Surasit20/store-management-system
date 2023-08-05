@@ -1,9 +1,9 @@
 {
     "development": {
       "database": "storemanagementsystem",
-      "username": "w5f5lkeg7j9ba3x0fdma",
+      "username": "ulo5285i27cibaft4y3z",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_eg5SPNPyghydiK7iRkfcFtgs08tWUV3Jq71KEsZ651n",
+      "password": "pscale_pw_RcPoq8kkyCicAdPj5JvwID3XHa6YZNK9eacclKZg9NT",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -32,6 +32,6 @@
      "dialect": "postgres"
     },
     "commande":{
-      "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h aws.connect.psdb.cloud -u ujqhbgae5qwa4qtnxra8 -p 3306 -x pscale_pw_WnHT5abAKdJDMnPuXLUXDfocvEPOYAJCDewBl50zfMZ -e mysql -c ./config/config.migration.json"
+      "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h aws.connect.psdb.cloud -u ulo5285i27cibaft4y3z -p 3306 -x pscale_pw_RcPoq8kkyCicAdPj5JvwID3XHa6YZNK9eacclKZg9NT -e mysql -c ./config/config.migration.json"
     }
   }

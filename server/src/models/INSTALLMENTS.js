@@ -13,27 +13,27 @@ module.exports = function(sequelize, DataTypes) {
     },
     INSTALLMENTS_NO: {
       type: DataTypes.DECIMAL(10,0),
-      allowNull: false
+      allowNull: true
     },
     INSTALLMENTS_TIME: {
       type: DataTypes.TIME,
-      allowNull: false
+      allowNull: true
     },
     INSTALLMENTS_DATE: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     },
     INSTALLMENTS_MONEY: {
       type: DataTypes.DECIMAL(10,0),
-      allowNull: false
+      allowNull: true
     },
     INSTALLMENTS_STATUS: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     INSTALLMENTS_IMAGE: {
       type: DataTypes.STRING(4000),
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

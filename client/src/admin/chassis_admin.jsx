@@ -1,5 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { useParams } from "react-router-dom";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
 import Paper from "@mui/material/Paper";
@@ -19,16 +21,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [open, setOpen] = React.useState(false);
-  const [RegistrationNumber, setRegistrationNumber] = useState("");
+  //const [RegistrationNumber, setRegistrationNumber] = useState("");
   const [UserId, setUserId] = useState("");
-  const [motorcycleId, setMotorcycleId] = useState("")
+  const [motorcycleId, setMotorcycleId] = useState("");
+  const [installmentNo,setinstallmentNo] = useState("");
+  const[installmentMoney,setinstallmentMoney] = useState("");
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -91,37 +95,61 @@ export default function ChassisAdmin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-  
+
     var raw = JSON.stringify({
       USER_ID: UserId,
-      MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber
+      //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
-  
+
     var requestOptions = {
-      method: 'PUT',
+      method: "PUT",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
-  
-    fetch(`http://localhost:3001/api/v1/motorcycles/${motorcycleId}`, requestOptions)
-      .then(response => response.text())
-      .then(result => {
+
+    fetch(
+      `http://localhost:3001/api/v1/motorcycles/${motorcycleId}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => {
         console.log(result);
         // Close the dialog and perform any necessary actions
         handleClose();
       })
-      .catch(error => console.log('error', error));
-  }
+      .catch((error) => console.log("error", error));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      MOTORCYCLE_ID: motorcycleId,
+      INSTALLMENTS_NO: installmentNo,
+      INSTALLMENTS_MONEY: installmentMoney,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:3001/api/v1/installments", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+      window.location.reload();
+  };
 
   const handleClickOpen = (MOTORCYCLE_ID) => {
     setMotorcycleId(MOTORCYCLE_ID);
     setOpen(true);
     // ... remaining code ...
-  }
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -130,7 +158,7 @@ export default function ChassisAdmin() {
   if (gotoAddMotorcycle) {
     return <Navigate to="/admin/add-motorcycle" />;
   }
-
+  
   return (
     <diV>
       <Row>
@@ -202,42 +230,47 @@ export default function ChassisAdmin() {
                         <Button
                           type="button"
                           class="btn btn-warning"
-                          variant="outlined" 
+                          variant="outlined"
                           onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
                         >
                           ยืนยัน
                         </Button>
                         <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
-          <DialogContent>
-          <DialogContentText>
-            กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
-          </DialogContentText>
-          
-          <TextField
-            id="RegistrationNumber"
-            label="เลขทะเบียน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setRegistrationNumber(e.target.value)}
-            value={RegistrationNumber}
-          ></TextField>
-          <TextField
-            id="UserId"
-            label="เลขทะเบียน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setUserId(e.target.value)}
-            value={UserId}
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-        <Button onClick={handleSubmit}>แก้ไข</Button>
-    <Button onClick={handleClose}>ยกเลิก</Button>
-        </DialogActions>
-      </Dialog>
+                          <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
+                          <DialogContent>
+                            <DialogContentText>
+                              กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
+                            </DialogContentText>
+                            <TextField
+                              id="UserId"
+                              label="ไอดี"
+                              variant="outlined"
+                              fullWidth
+                              required
+                              onChange={(e) => setUserId(e.target.value)}
+                            ></TextField>
+                              <TextField
+                              id="installmentNo"
+                              label="จำนวนงวด"
+                              variant="outlined"
+                              fullWidth
+                              required
+                              onChange={(e) => setinstallmentNo(e.target.value)}
+                            ></TextField>
+                              <TextField
+                              id="installmentMoney"
+                              label="ราคางวดล้ะ"
+                              variant="outlined"
+                              fullWidth
+                              required
+                              onChange={(e) => setinstallmentMoney(e.target.value)}
+                            ></TextField>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleSubmit}>แก้ไข</Button>
+                            <Button onClick={handleClose}>ยกเลิก</Button>
+                          </DialogActions>
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))}
