@@ -13,15 +13,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     REPAILDATA_WISE: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: true
     },
     REPAILDATA_SATUS: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     },
     REPAILDATA_DATE: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

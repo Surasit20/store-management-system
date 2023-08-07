@@ -14,12 +14,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     USER_ID: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       unique: "USER_ID"
     },
     SUMMARY_DAILT_INSTALLMENTS_DAILY_BALANCE: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,
