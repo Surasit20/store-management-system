@@ -3,11 +3,11 @@ import './App.css';
 import Home from './home/home';
 import Login from './login/login';
 import { Outlet } from "react-router-dom";
-export const UserContext = createContext(null);
+
 function App(){
-  const [userId, setUserId] = useState("");
+
   return(
-    <UserContext.Provider value={{ userId, setUserId }}>
+
     <div className='App'>
        <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
@@ -27,6 +27,6 @@ function App(){
         <Outlet />
       </div>
     </div>
-    </UserContext.Provider>
+
   )
 }export default App;
