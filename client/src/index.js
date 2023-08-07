@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, createContext }  from 'react';
 import ReactDOM from 'react-dom';
 import Home from './home/home';
 import App from './App';
 import Login from './login/login';
+import Register from './login/register';
 import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 
 //user
@@ -25,7 +26,6 @@ import AddMotorcycle from './admin/motorcycle_add';
 import UpdateMotorcycle from './admin/motorcycle_update';
 import UserInfoAdmin from './admin/user/user_info';
 import UserUpdateAdmin from './admin/user/user_update'
-
 const router = createBrowserRouter([
   {
   //home
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
       }
     ],
   },

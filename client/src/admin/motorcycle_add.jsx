@@ -4,7 +4,6 @@ import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Grid, TextField, Box, Button, Badge } from "@mui/material";
-import UploadImage from "../component/upload_image";
 
 function AddMotorcycle() {
   const [RegistrationNumber, setRegistrationNumber] = useState("");

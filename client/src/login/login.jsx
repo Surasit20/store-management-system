@@ -39,6 +39,7 @@ function Login() {
       .then((response) => {
         console.log(response);
         if (response.status == 200) {
+          localStorage.setItem("user", JSON.stringify(response.data));
           console.log(response.status);
           navigate("/user/home");
         }
@@ -96,31 +97,6 @@ function Login() {
           </div>
         </div>
       </nav>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "100%" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <div>
-          <TextField
-            id="filled-error"
-            label="Email"
-            defaultValue="Hello World"
-            error={true}
-          />
-        </div>
-        <div>
-          <TextField
-            id="filled-error"
-            label="Password"
-            defaultValue="Hello World"
-            variant="filled"
-          />
-        </div>
-      </Box>
 
       <form onSubmit={handleSubmit}>
         <div className="input-group mb-3">
@@ -168,9 +144,12 @@ function Login() {
             <button type="submit" className="btn btn-primary mb-3">
               เข้าสู่ระบบ
             </button>
-            <button type="button" className="btn btn-dark">
-              สมัครสมาชิก
-            </button>
+
+            <a href="/register">
+              <button type="button" className="btn btn-dark" hr>
+                สมัครสมาชิก
+              </button>
+            </a>
           </div>
         )}
       </form>
