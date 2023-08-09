@@ -34,6 +34,7 @@ function Login() {
     let data = { USER_EMAIL: email, USER_PASSWORD: password };
     console.log(data);
     event.preventDefault();
+    localStorage.setItem("user", null);
     axios
       .post("http://localhost:3001/api/v1/auth/login", data)
       .then((response) => {
