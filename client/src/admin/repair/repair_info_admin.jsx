@@ -125,7 +125,6 @@ export default function RepairInfoAdmin() {
       });
   };
 
-
   const RepairDelete = (REPAILDATA_ID) => {
     var requestOptions = {
       method: "DELETE",
@@ -162,145 +161,138 @@ export default function RepairInfoAdmin() {
   };
   return (
     <div>
-        <Row>
-
-          <Col>
-            <div>
-              <div class="search">
-                <Col>
-                  <Form>
-                    <InputGroup>
-                      <Form.Control
-                        onChange={handleInputChange}
-                        placeholder="ค้นหา"
-                      />
-                    </InputGroup>
-                  </Form>
-                  <div>
-      <Button onClick={handleClick}>คลิกเพื่อแสดง Dialog</Button>
-      <Alert open={open} handleClose={handleClose} />
-    </div>
-                </Col>
-              </div>
-              {loading ? (
-                <p>Loading...</p>
-              ) : (
-                <Paper sx={{ width: "100%", overflow: "hidden" }}>
-                  <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>ชื่อลูกค้า</TableCell>
-                          <TableCell>เลขตัวถัง</TableCell>
-                          <TableCell>เลขทะเบียน</TableCell>
-                          <TableCell>แก้ไขข้อมูล</TableCell>
-                          <TableCell>ลบข้อมูล</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {items
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .filter((row) => {
-                            return (
-                              search.trim() === "" ||
-                              row.USER_FULLNAME.toLowerCase().includes(
-                                search.toLowerCase()
-                              ) ||
-                              row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                                search.toLowerCase()
-                              )
-                            );
-                          })
-                          .map((row) => (
-                            <TableRow
-                              key={row.name}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>{row.USER_FULLNAME}</TableCell>
-                              <TableCell>
-                                {row.MOTORCYCLE_BUCKET_NUMBER}
-                              </TableCell>
-                              <TableCell>
-                                <Button
-                                  type="button"
-                                  class="btn btn-warning"
-                                  // onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
-                                >
-                                  แก้ไข
-                                </Button>
-                              </TableCell>
-                              <TableCell>
-                                <Button
-                                  type="button"
-                                  class="btn btn-danger"
-                                  onClick={() =>
-                                    RepairDelete(row.REPAILDATA_ID)
-                                  }
-                                >
-                                  ลบ
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={items.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage="จำนวนแถวต่อหน้า:"
-                    labelDisplayedRows={({ from, to, count }) =>
-                      `${from}-${to} จากทั้งหมด ${count}`
-                    }
-                  />
-                </Paper>
-              )}
+      <Row>
+        <Col>
+          <div>
+            <div class="search">
+              <Col>
+                <Form>
+                  <InputGroup>
+                    <Form.Control
+                      onChange={handleInputChange}
+                      placeholder="ค้นหา"
+                    />
+                  </InputGroup>
+                </Form>
+                <div>
+                  <Button onClick={handleClick}>คลิกเพื่อแสดง Dialog</Button>
+                  <Alert open={open} handleClose={handleClose} />
+                </div>
+              </Col>
             </div>
-          </Col>
-        </Row>
+            {loading ? (
+              <p>Loading...</p>
+            ) : (
+              <Paper sx={{ width: "100%", overflow: "hidden" }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ชื่อลูกค้า</TableCell>
+                        <TableCell>เลขตัวถัง</TableCell>
+                        <TableCell>เลขทะเบียน</TableCell>
+                        <TableCell>แก้ไขข้อมูล</TableCell>
+                        <TableCell>ลบข้อมูล</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {items
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .filter((row) => {
+                          return (
+                            search.trim() === "" ||
+                            row.USER_FULLNAME.toLowerCase().includes(
+                              search.toLowerCase()
+                            ) ||
+                            row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                              search.toLowerCase()
+                            )
+                          );
+                        })
+                        .map((row) => (
+                          <TableRow
+                            key={row.name}
+                            sx={{
+                              "&:last-child td, &:last-child th": {
+                                border: 0,
+                              },
+                            }}
+                          >
+                            <TableCell>{row.USER_FULLNAME}</TableCell>
+                            <TableCell>
+                              {row.MOTORCYCLE_BUCKET_NUMBER}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                type="button"
+                                class="btn btn-warning"
+                                // onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
+                              >
+                                แก้ไข
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={() => RepairDelete(row.REPAILDATA_ID)}
+                              >
+                                ลบ
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={items.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  labelRowsPerPage="จำนวนแถวต่อหน้า:"
+                  labelDisplayedRows={({ from, to, count }) =>
+                    `${from}-${to} จากทั้งหมด ${count}`
+                  }
+                />
+              </Paper>
+            )}
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 }
 
 function TextUserFullName() {
-
-
-  return (
-    <div>
-
-    </div>
-  );
+  return <div></div>;
 }
 
 function Alert(props) {
-  const { open, handleClose} = props;
+  const { open, handleClose } = props;
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [Model, setModel] = useState("");
-  const [MotorcycleId, setSelectedMotorcycleId] = React.useState(null)
-  const [MotorcycleNumber, setSelectedMotorcycleNumber] = React.useState(null);
+  const [MotorcycleId, setSelectedMotorcycleId] = useState();
+  const [MotorcycleNumber, setSelectedMotorcycleNumber] = useState();
   const [Wise, setWise] = useState("");
   const [Status, setStatus] = useState("");
   const motorcycleIdMap = new Map();
   useEffect(() => {
     Promise.all([MotorcycleGet(), UserGet()])
       .then(([motorcycles, users]) => {
-        const filteredItems = motorcycles.filter(item => item.USER_ID !== null);
+        const filteredItems = motorcycles.filter(
+          (item) => item.USER_ID !== null
+        );
         setItems(
-          filteredItems.map(item => {
-            const user = users.find(u => u.USER_ID === item.USER_ID);
+          filteredItems.map((item) => {
+            const user = users.find((u) => u.USER_ID === item.USER_ID);
             return {
               ...item,
               USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
@@ -310,7 +302,7 @@ function Alert(props) {
         );
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
@@ -339,19 +331,21 @@ function Alert(props) {
       .catch((error) => console.log("error", error));
   };
 
-
   const MotorcycleGet = () => {
     return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .then((result) => {
-        const motorcycles = result; 
+        const motorcycles = result;
         const motorcycleIdMap = new Map();
-        
-        motorcycles.forEach(motorcycle => {
-          motorcycleIdMap.set(motorcycle.MOTORCYCLE_BUCKET_NUMBER, motorcycle.MOTORCYCLE_ID);
+
+        motorcycles.forEach((motorcycle) => {
+          motorcycleIdMap.set(
+            motorcycle.MOTORCYCLE_BUCKET_NUMBER,
+            motorcycle.MOTORCYCLE_ID
+          );
         });
-  
-        return motorcycles; 
+
+        return motorcycles;
       })
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -389,248 +383,266 @@ function Alert(props) {
         <DialogContentText>
           กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
         </DialogContentText>
-        <form onSubmit={event => {
-          event.preventDefault(); 
-          if (MotorcycleNumber !== null) {
-            handleSave({
-              MOTORCYCLE_ID: MotorcycleId,
-              REPAILDATA_WISE: Wise,
-              REPAILDATA_STATUS: Status,
-            });
-          } else {
-            console.error("MotorcycleNumber is null, cannot save.");
-          }
-        }}>
-        <React.Fragment>
-        <Autocomplete
-    value={MotorcycleNumber}
-    onChange={(event, newValue) => {
-      if (newValue !== null) {
-        if (typeof newValue === "string") {
-          if (event.key !== "Enter") {
-            setTimeout(() => {
-              toggleOpen(true);
-              setDialogValue({
-                USER_FULLNAME: newValue,
-                MOTORCYCLE_BUCKET_NUMBER: "", 
-              });
-  
-              const selectedMotorcycleId = motorcycleIdMap.get(newValue);
-              if (selectedMotorcycleId) {
-                setSelectedMotorcycleId(selectedMotorcycleId);
-              } else {
-                setSelectedMotorcycleId(null);
-              }
-            });
-          }
-        } else if (newValue.inputValue) {
-          if (event.key !== "Enter") {
-            toggleOpen(true);
-            setDialogValue({
-              USER_FULLNAME: newValue.inputValue,
-              MOTORCYCLE_BUCKET_NUMBER: "", 
-            });
-          }
-        } else {
-          setValue(newValue);
-          setSelectedMotorcycleNumber(null); 
-        }
-      }
-    }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
-
-            if (params.inputValue !== "") {
-              filtered.push({
-                inputValue: params.inputValue,
-                MOTORCYCLE_BUCKET_NUMBER: `Add "${params.inputValue}"`,
-              });
-            }
-
-            return filtered;
-          }}
-          id="ชื่อ-นามสกุล"
-          options={items}
-          getOptionLabel={(option) => {
-            if (typeof option === "string") {
-              return option;
-            }
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            return option.MOTORCYCLE_BUCKET_NUMBER;
-          }}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          renderOption={(props, option) => {
-            if (option.MOTORCYCLE_BUCKET_NUMBER !== null) {
-              return <li {...props}>{option.MOTORCYCLE_BUCKET_NUMBER}</li>;
-            }
-            return null;
-          }}
-          sx={{ width: 300 }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField {...params} label="MOTORCYCLE_BUCKET_NUMBER" />
-          )}
-        />
-        <Autocomplete
-          value={value}
-          onChange={(event, newValue) => {
-            if (typeof newValue === "string") {
-              setTimeout(() => {
-                toggleOpen(true);
-                setDialogValue({
-                  USER_FULLNAME: newValue,
-                  MOTORCYCLE_BUCKET_NUMBER: "", 
-                });
-                const user = items.find(
-                  (item) => item.USER_FULLNAME === newValue
-                );
-                if (user) {
-                  setSelectedMotorcycleNumber(user.MOTORCYCLE_BUCKET_NUMBER);
-                }
-              });
-            } else if (newValue && newValue.inputValue) {
-              toggleOpen(true);
-              setDialogValue({
-                USER_FULLNAME: newValue.inputValue,
-                MOTORCYCLE_BUCKET_NUMBER: "", 
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (MotorcycleNumber !== null) {
+              handleSave({
+                MOTORCYCLE_ID: MotorcycleId,
+                REPAILDATA_WISE: Wise,
+                REPAILDATA_STATUS: Status,
               });
             } else {
-              setValue(newValue);
-              setSelectedMotorcycleNumber(null); 
+              console.error("MotorcycleNumber is null, cannot save.");
             }
           }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
+        >
+          <React.Fragment>
+            <Autocomplete
+              value={MotorcycleNumber}
+              onChange={(event, newValue) => {
+                if (newValue !== null) {
+                  if (typeof newValue === "string") {
+                    if (event.key !== "Enter") {
+                      setTimeout(() => {
+                        toggleOpen(true);
+                        setDialogValue({
+                          USER_FULLNAME: newValue,
+                          MOTORCYCLE_BUCKET_NUMBER: "",
+                        });
 
-            if (params.inputValue !== "") {
-              filtered.push({
-                inputValue: params.inputValue,
-                USER_FULLNAME: `Add "${params.inputValue}"`,
-              });
-            }
-
-            return filtered;
-          }}
-          id="ชื่อ-นามสกุล"
-          options={items}
-          getOptionLabel={(option) => {
-            if (typeof option === "string") {
-              return option;
-            }
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            return option.USER_FULLNAME;
-          }}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          renderOption={(props, option) => {
-            if (option.USER_FULLNAME !== null) {
-              return <li {...props}>{option.USER_FULLNAME}</li>;
-            }
-            return null;
-          }}
-          sx={{ width: 300 }}
-          freeSolo
-          renderInput={(params) => (
-            <TextField {...params} label="USER_FULLNAME" />
-          )}
-        />
-        <Autocomplete
-          value={value}
-          onChange={(event, newValue) => {
-            if (typeof newValue === "string") {
-              setTimeout(() => {
-                toggleOpen(true);
-                setDialogValue({
-                  USER_TELL: newValue,
-                  MOTORCYCLE_BUCKET_NUMBER: "", 
-                });
-                const user = items.find((item) => item.USER_TELL === newValue);
-                if (user) {
-                  setSelectedMotorcycleNumber(user.MOTORCYCLE_BUCKET_NUMBER);
+                        const selectedMotorcycleId =
+                          motorcycleIdMap.get(newValue);
+                        if (selectedMotorcycleId) {
+                          setSelectedMotorcycleId(selectedMotorcycleId);
+                        } else {
+                          setSelectedMotorcycleId(null);
+                        }
+                      });
+                    }
+                  } else if (newValue.inputValue) {
+                    if (event.key !== "Enter") {
+                      toggleOpen(true);
+                      setDialogValue({
+                        USER_FULLNAME: newValue.inputValue,
+                        MOTORCYCLE_BUCKET_NUMBER: "",
+                      });
+                    }
+                  } else {
+                    setValue(newValue);
+                    setSelectedMotorcycleNumber(newValue);
+                  }
                 }
-              });
-            } else if (newValue && newValue.inputValue) {
-              toggleOpen(true);
-              setDialogValue({
-                USER_TELL: newValue.inputValue,
-                MOTORCYCLE_BUCKET_NUMBER: "",
-              });
-            } else {
-              setValue(newValue);
-              setSelectedMotorcycleNumber(null); 
-            }
-          }}
-          filterOptions={(options, params) => {
-            const filtered = filter(options, params);
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
 
-            if (params.inputValue !== "") {
-              filtered.push({
-                inputValue: params.inputValue,
-                USER_TELL: `Add "${params.inputValue}"`,
-              });
-            }
+                if (params.inputValue !== "") {
+                  filtered.push({
+                    inputValue: params.inputValue,
+                    MOTORCYCLE_BUCKET_NUMBER: `Add "${params.inputValue}"`,
+                  });
+                }
 
-            return filtered;
-          }}
-          id="เบอร์โทร"
-          options={items}
-          getOptionLabel={(option) => {
-            if (typeof option === "string") {
-              return option;
-            }
-            if (option.inputValue) {
-              return option.inputValue;
-            }
-            return option.USER_TELL;
-          }}
-          selectOnFocus
-          clearOnBlur
-          handleHomeEndKeys
-          renderOption={(props, option) => {
-            if (option.USER_TELL !== null) {
-              return <li {...props}>{option.USER_TELL}</li>;
-            }
-            return null;
-          }}
-          sx={{ width: 300 }}
-          freeSolo
-          renderInput={(params) => <TextField {...params} label="USER_TELL" />}
-        /> <Grid item xs={12} sm={6}>
-          <TextField
-            id="Wise"
-            label="อาการ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setWise(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Status"
-            label="สถานะ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setStatus(e.target.value)}
-          ></TextField>
-        </Grid>
-      </React.Fragment>
-     
-        <Button onClick={handleClose}>ยกเลิก</Button>
-        <button type="submit" variant="contained" class="btn btn-primary mb-3">
-          บันทึก
-        </button>
+                return filtered;
+              }}
+              id="ชื่อ-นามสกุล"
+              options={items}
+              getOptionLabel={(option) => {
+                if (typeof option === "string") {
+                  return option;
+                }
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                return option.MOTORCYCLE_BUCKET_NUMBER;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              renderOption={(props, option) => {
+                if (option.MOTORCYCLE_BUCKET_NUMBER !== null) {
+                  return <li {...props}>{option.MOTORCYCLE_BUCKET_NUMBER}</li>;
+                }
+                return null;
+              }}
+              sx={{ width: 300 }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField {...params} label="MOTORCYCLE_BUCKET_NUMBER" />
+              )}
+            />
+            <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (typeof newValue === "string") {
+                  setTimeout(() => {
+                    toggleOpen(true);
+                    console.log(1);
+                    setDialogValue({
+                      USER_FULLNAME: newValue,
+                      MOTORCYCLE_BUCKET_NUMBER: "",
+                    });
+                    const user = items.find(
+                      (item) => item.USER_FULLNAME === newValue
+                    );
+                    if (user) {
+                      setSelectedMotorcycleNumber(
+                        user.MOTORCYCLE_BUCKET_NUMBER
+                      );
+                    }
+                  });
+                } else if (newValue && newValue.inputValue) {
+                  toggleOpen(true);
+                  console.log(2);
+                  setDialogValue({
+                    USER_FULLNAME: newValue.inputValue,
+                    MOTORCYCLE_BUCKET_NUMBER: "",
+                  });
+                } else {
+                  console.log(3);
+                  setValue(newValue);
+                  setSelectedMotorcycleNumber(null);
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                if (params.inputValue !== "") {
+                  filtered.push({
+                    inputValue: params.inputValue,
+                    USER_FULLNAME: `Add "${params.inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              id="ชื่อ-นามสกุล"
+              options={items}
+              getOptionLabel={(option) => {
+                if (typeof option === "string") {
+                  return option;
+                }
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                return option.USER_FULLNAME;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              renderOption={(props, option) => {
+                if (option.USER_FULLNAME !== null) {
+                  return <li {...props}>{option.USER_FULLNAME}</li>;
+                }
+                return null;
+              }}
+              sx={{ width: 300 }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField {...params} label="USER_FULLNAME" />
+              )}
+            />
+            <Autocomplete
+              value={value}
+              onChange={(event, newValue) => {
+                if (typeof newValue === "string") {
+                  setTimeout(() => {
+                    toggleOpen(true);
+                    setDialogValue({
+                      USER_TELL: newValue,
+                      MOTORCYCLE_BUCKET_NUMBER: "",
+                    });
+                    const user = items.find(
+                      (item) => item.USER_TELL === newValue
+                    );
+                    if (user) {
+                      setSelectedMotorcycleNumber(
+                        user.MOTORCYCLE_BUCKET_NUMBER
+                      );
+                    }
+                  });
+                } else if (newValue && newValue.inputValue) {
+                  toggleOpen(true);
+                  setDialogValue({
+                    USER_TELL: newValue.inputValue,
+                    MOTORCYCLE_BUCKET_NUMBER: "",
+                  });
+                } else {
+                  setValue(newValue);
+                  setSelectedMotorcycleNumber(null);
+                }
+              }}
+              filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                if (params.inputValue !== "") {
+                  filtered.push({
+                    inputValue: params.inputValue,
+                    USER_TELL: `Add "${params.inputValue}"`,
+                  });
+                }
+
+                return filtered;
+              }}
+              id="เบอร์โทร"
+              options={items}
+              getOptionLabel={(option) => {
+                if (typeof option === "string") {
+                  return option;
+                }
+                if (option.inputValue) {
+                  return option.inputValue;
+                }
+                return option.USER_TELL;
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              renderOption={(props, option) => {
+                if (option.USER_TELL !== null) {
+                  return <li {...props}>{option.USER_TELL}</li>;
+                }
+                return null;
+              }}
+              sx={{ width: 300 }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField {...params} label="USER_TELL" />
+              )}
+            />{" "}
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="Wise"
+                label="อาการ"
+                variant="outlined"
+                fullWidth
+                required
+                onChange={(e) => setWise(e.target.value)}
+              ></TextField>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="Status"
+                label="สถานะ"
+                variant="outlined"
+                fullWidth
+                required
+                onChange={(e) => setStatus(e.target.value)}
+              ></TextField>
+            </Grid>
+          </React.Fragment>
+
+          <Button onClick={handleClose}>ยกเลิก</Button>
+          <button
+            type="submit"
+            variant="contained"
+            class="btn btn-primary mb-3"
+          >
+            บันทึก
+          </button>
         </form>
       </DialogContent>
     </Dialog>
   );
 }
-
