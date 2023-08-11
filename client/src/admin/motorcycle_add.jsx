@@ -59,10 +59,6 @@ function AddMotorcycle() {
   };
 
   const uploadImage = async () => {
-    //setLoading(true);
-
-    //formData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
-    //formData.append("folder", "Cloudinary-React");
     try {
       const responseBlob = await fetch(image);
       const blob = await responseBlob.blob();
