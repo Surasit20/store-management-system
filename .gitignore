@@ -1,5 +1,7 @@
 client\node_modules\.cache\default-development
 client\node_modules\.cache\babel-loader
+client/node_modules/.cache/
+client/node_modules/.cache
 client/node_modules/.cache/default-development/index.pack.old
 client/node_modules/.cache/default-development/index.pack
 client/node_modules/.cache/default-development/9.pack
@@ -16,6 +18,7 @@ client/node_modules/.cache/default-development/11.pack
 client/node_modules/.cache/default-development/10.pack
 client/node_modules/.cache/default-development/1.pack
 client/node_modules/.cache/default-development/0.pack
+client/node_modules/.cache/babel-loader/
 client/node_modules/.cache/babel-loader/feb886180053197b9c515d4b7436126b900b8c865a6a8f07471adc72fbd054f2.json
 client/node_modules/.cache/babel-loader/e3c8f8c47fc24691c4751ba1625f769457018cb7147054563a021f9e6adf67d6.json
 client/node_modules/.cache/babel-loader/e31bec4cbbd78fa51016b42a1a9817330bb3f9824a10d93c212b1167fce0a17f.json
@@ -61,4 +64,5 @@ client/node_modules/.cache/default-development/11.pack
 client/node_modules/.cache/default-development/10.pack
 client/node_modules/.cache/default-development/1.pack
 client/node_modules/.cache/default-development/0.pack
+client/node_modules/.cache/default-development/
 client/node_modules/.cache/.eslintcache

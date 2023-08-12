@@ -211,7 +211,7 @@ function PayUser() {
             </Button>
           </div>
 
-          <Button onClick={handleConfirm}>ล้างรูป</Button>
+          <Button onClick={handleConfirm}>ยืนยัน</Button>
         </div>
       ) : (
         <div>2</div>
