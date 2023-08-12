@@ -15,24 +15,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DECIMAL(10,0),
       allowNull: true
     },
-    INSTALLMENTS_TIME: {
-      type: DataTypes.TIME,
-      allowNull: true
-    },
-    INSTALLMENTS_DATE: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
     INSTALLMENTS_MONEY: {
       type: DataTypes.DECIMAL(10,0),
-      allowNull: true
-    },
-    INSTALLMENTS_STATUS: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    INSTALLMENTS_IMAGE: {
-      type: DataTypes.STRING(4000),
       allowNull: true
     }
   }, {

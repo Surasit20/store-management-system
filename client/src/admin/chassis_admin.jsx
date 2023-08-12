@@ -60,6 +60,17 @@ export default function ChassisAdmin() {
       });
   }, []);
 
+  useEffect(() => {
+    if (installmentNo !== "") { // Ensure installmentNo is not empty
+      const selectedMotorcycle = items.find((item) => item.MOTORCYCLE_ID === motorcycleId);
+
+      if (selectedMotorcycle) { // Ensure selectedMotorcycle exists
+        const installmentMoneyValue = parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) / parseFloat(installmentNo);
+        setinstallmentMoney(installmentMoneyValue.toFixed(2));
+      }
+    }
+  }, [installmentNo, items, motorcycleId]);
+
   const MotorcycleGet = () => {
     return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
@@ -148,8 +159,8 @@ export default function ChassisAdmin() {
   const handleClickOpen = (MOTORCYCLE_ID) => {
     setMotorcycleId(MOTORCYCLE_ID);
     setOpen(true);
-    // ... remaining code ...
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -258,12 +269,14 @@ export default function ChassisAdmin() {
                               onChange={(e) => setinstallmentNo(e.target.value)}
                             ></TextField>
                               <TextField
-                              id="installmentMoney"
-                              label="ราคางวดล้ะ"
-                              variant="outlined"
-                              fullWidth
-                              required
-                              onChange={(e) => setinstallmentMoney(e.target.value)}
+                               id="installmentMoney"
+                               label="ราคางวดล้ะ"
+                               variant="outlined"
+                               fullWidth
+                               required
+                               value={installmentMoney} 
+                               InputProps={{
+                                 readOnly: true,}}
                             ></TextField>
                           </DialogContent>
                           <DialogActions>
