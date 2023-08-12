@@ -31,6 +31,7 @@ class InstallmentController extends BaseController {
 	//เพิ่มข้อมูล
     static async postInstallment(req, res) {
 		try {
+			console.log(req.body)
 			const result = await super.add(req,'INSTALLMENTS',req.body)
 			return res.send(result);
 		} catch (error) {

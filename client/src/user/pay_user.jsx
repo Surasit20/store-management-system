@@ -22,6 +22,17 @@ function PayUser() {
   const [date, setDate] = useState(new Date());
   const [image, setImage] = useState();
   const [docNo, setdocNo] = useState("");
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    const dataUser = JSON.parse(localStorage.getItem("user"));
+    if (dataUser) {
+      setUser(dataUser.data.user);
+      setFullName(dataUser.data.user.USER_FULLNAME);
+      setTell(dataUser.data.user.USER_TELL);
+    }
+  }, []);
+
   const handleSubmit = (event) => {
     setStep(1);
     uuidv4();
@@ -38,33 +49,37 @@ function PayUser() {
     setImage("");
   };
 
-  const handleConfirm = (event) => {
-    let data = {
-      MOTORCY_BUCKETNUMBER: bucketNumber,
-      INSTALLMENTS_NO: docNo,
-      INSTALLMENTS_TIME: date.getTime,
-      INSTALLMENTS_DATE: date.getTimezoneOffset,
-      INSTALLMENTS_IMAGE: "กดเกดเ",
-    };
-    axios
-      .post("http://localhost:3001/api/v1/auth/login", data)
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-          console.log(response.status);
-          navigate("/user/home");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        Swal.fire({
-          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
-          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
-          icon: "error",
-          confirmButtonText: "หน้าปิ",
+  const handleConfirm = async (event) => {
+    //let imageUrl = await uploadImage();
+
+    if (true) {
+      let data = {
+        MOTORCY_BUCKETNUMBER: bucketNumber,
+        INSTALLMENTS_NO: docNo,
+        INSTALLMENTS_TIME: date.getTime(),
+        INSTALLMENTS_DATE: date.getFullYear(),
+        INSTALLMENTS_IMAGE: "xxxxxx",
+        INSTALLMENTS_STATUS: 0,
+      };
+      axios
+        .post("http://localhost:3001/api/v1/installments", data)
+        .then((response) => {
+          console.log(response);
+          if (response.status == 200) {
+            console.log(response.status);
+            //navigate("/user/home");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal.fire({
+            title: "บัคไงครับ",
+            text: "บัคไงครับ",
+            icon: "error",
+            confirmButtonText: "หน้าปิ",
+          });
         });
-      });
+    }
   };
 
   const uploadImage = async () => {
@@ -97,10 +112,10 @@ function PayUser() {
   };
 
   function uuidv4() {
-    return "ABCD-xxxxxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    return "ABCD-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
       var r = (Math.random() * 16) | 0,
         v = c == "x" ? r : (r & 0x3) | 0x8;
-      setdocNo(v.toString(16));
+      setdocNo(crypto.randomUUID().toString(16));
     });
   }
 
@@ -119,7 +134,8 @@ function PayUser() {
                 placeholder="Username"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
-                onChange={(e) => setFullName(e.target.value)}
+                value={fullName}
+                disabled={true}
               />
             </div>
 
@@ -133,7 +149,8 @@ function PayUser() {
                 placeholder="Username"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
-                onChange={(e) => setTell(e.target.value)}
+                value={tell.toString()}
+                disabled={true}
               />
             </div>
 

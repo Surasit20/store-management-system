@@ -38,11 +38,11 @@ function CardCar(props) {
             </Typography>
 
             <Typography variant="body2" color="text.secondary">
-              ทะเบียน: {props.REGISTRATION_NUMBER}
+              ทะเบียน: {props.MOTORCYCLE_REGISTRATION_NUMBER}
             </Typography>
 
             <Typography variant="body2" color="text.secondary">
-              เลขตัวถัง: {props.BUCKET_NUMBER}
+              เลขตัวถัง: {props.MOTORCYCLE_BUCKET_NUMBER}
             </Typography>
           </CardContent>
         </CardActionArea>
