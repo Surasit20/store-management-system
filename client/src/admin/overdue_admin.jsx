@@ -12,8 +12,13 @@ import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
-function OverdueAdmin() {
+export default function OverdueAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
@@ -22,62 +27,36 @@ function OverdueAdmin() {
   };
 
   useEffect(() => {
-    InstallmentGet()
-      .then(() => {
-        setLoading(false); 
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false); 
-      });
+    InstallmentGet();
   }, []);
 
-  const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
-      .then((res) => res.json())
-      .catch((error) => {
-        console.error("Error fetching motorcycles:", error);
-        return [];
-      });
-  };
-
-  const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
-      .then((res) => res.json())
-      .then((result) => {
-        return result.map((user) => ({
-          USER_ID: user.USER_ID,
-          USER_FULLNAME: user.USER_FULLNAME,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        return [];
-      });
-  };
   const InstallmentGet = () => {
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json"); 
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      redirect: 'follow'
-    };
-    
-   return fetch("http://localhost:3001/api/v1/installments", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+    myHeaders.append("Content-Type", "application/json");
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:3001/api/v1/installments", requestOptions)
+  .then(response => response.json())
+  .then((result) => {
+    setLoading(false);
+    setItems(result);
+  })
+  .catch(error => console.log('error', error));
   };
 
-  const MotorcycleDelete = (MOTORCYCLE_ID) => {
+  const UserDelete = (USER_ID) => {
     var requestOptions = {
       method: "DELETE",
       redirect: "follow",
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `http://localhost:3001/api/v1/users/${USER_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -86,8 +65,8 @@ function OverdueAdmin() {
     window.location.reload();
   };
 
-  const MotorcycleUpdate = (MOTORCYCLE_ID) => {
-    window.location = "/admin/update-motorcycle/" + MOTORCYCLE_ID;
+  const UserUpdate = (USER_ID) => {
+    window.location = "/admin/user/user-update/" + USER_ID;
   };
 
   const [page, setPage] = React.useState(0);
@@ -101,12 +80,8 @@ function OverdueAdmin() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const [gotoAddMotorcycle, setGotoAddMotorcycle] = React.useState(false);
-  if (gotoAddMotorcycle) {
-    return <Navigate to="/admin/add-motorcycle" />;
-  }
-  return(    <diV>
+  return (
+    <diV>
     <Row>
       <div class="search">
         <Col>
@@ -120,18 +95,6 @@ function OverdueAdmin() {
           </Form>
         </Col>
       </div>
-      <div class="additem">
-        <Col>
-          <button
-            class="btn btn-success btn-add-motor"
-            onClick={() => {
-              setGotoAddMotorcycle(true);
-            }}
-          >
-            เพิ่มข้อมูล{" "}
-          </button>
-        </Col>
-      </div>
     </Row>
     {loading ? (
       <p>Loading...</p>
@@ -141,30 +104,30 @@ function OverdueAdmin() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell>ชื่อลูกค้า</TableCell>
-                <TableCell>เลขตัวถัง</TableCell>
-                <TableCell>เลขทะเบียน</TableCell>
+                <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
+                <TableCell>ชื่อ - นามสกุด</TableCell>
+                <TableCell>เบอร์โทร</TableCell>
                 <TableCell>แก้ไขข้อมูล</TableCell>
                 <TableCell>ลบข้อมูล</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {items
-                // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                // .filter((row) => {
-                //   return (
-                //     search.trim() === "" ||
-                //     row.USER_FULLNAME.toLowerCase().includes(
-                //       search.toLowerCase()
-                //     ) ||
-                //     row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                //       search.toLowerCase()
-                //     ) ||
-                //     row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
-                //       search.toLowerCase()
-                //     )
-                //   );
-                // })
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .filter((row) => {
+                  return (
+                    search.trim() === "" ||
+                    row.USER_FULLNAME.toLowerCase().includes(
+                      search.toLowerCase()
+                    ) ||
+                    row.USER_CODE_NUMBER.toLowerCase().includes(
+                      search.toLowerCase()
+                    ) ||
+                    row.USER_TELL.toLowerCase().includes(
+                      search.toLowerCase()
+                    )
+                  );
+                })
                 .map((row) => (
                   <TableRow
                     key={row.name}
@@ -173,13 +136,13 @@ function OverdueAdmin() {
                     <TableCell>{row.INSTALLMENTS_ID}</TableCell>
                     <TableCell>{row.MOTORCYCLE_ID}</TableCell>
                     <TableCell>
-                      {row.INSTALLMENTS_NO}
+                      {row.USER_TELL}
                     </TableCell>
-                    {/* <TableCell>
+                    <TableCell>
                       <Button
                         type="button"
                         class="btn btn-warning"
-                        onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
+                        onClick={() => UserUpdate(row.USER_ID)}
                       >
                         แก้ไข
                       </Button>
@@ -188,11 +151,11 @@ function OverdueAdmin() {
                       <Button
                         type="button"
                         class="btn btn-danger"
-                        onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
+                        onClick={() => UserDelete(row.USER_ID)}
                       >
                         ลบ
                       </Button>
-                    </TableCell> */}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
@@ -213,7 +176,6 @@ function OverdueAdmin() {
         />
       </Paper>
     )}
-  </diV>)
+  </diV>
+  );
 }
-
-export default OverdueAdmin;
