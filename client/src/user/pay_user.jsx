@@ -62,7 +62,7 @@ function PayUser() {
         INSTALLMENTS_STATUS: 0,
       };
       axios
-        .post("http://localhost:3001/api/v1/installments", data)
+        .post("http://localhost:3001/api/v1/month-installments", data)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {

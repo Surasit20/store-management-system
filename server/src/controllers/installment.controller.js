@@ -30,12 +30,7 @@ class InstallmentController extends BaseController {
 	}
 	//เพิ่มข้อมูล
     static async postInstallment(req, res) {
-		try {
-			
-			const options = {
-				where: { MOTORCYCLE_BUCKET_NUMBER: req.body.MOTORCY_BUCKETNUMBER },
-			};
-			const motorycle = await super.getByCustomOptions(req, 'MOTORCYCLE', options);
+		try {			
 			const result = await super.add(req,'INSTALLMENTS',req.body)
 
 			return res.send(result);
