@@ -22,97 +22,51 @@ export default function OverdueAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [Wise, setWise] = useState("");
-  const [Status, setStatus] = useState("");
-  const [MotorcycleId, setMotorcycleId] = useState("");
-  const [open, setOpen] = useState(false);
-
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [installments, motorcycles, users] = await Promise.all([
-          InstallmentGet(),
-          MotorcycleGet(),
-          UserGet(),
-        ]);
-    
-        if (!installments) {
-          console.error("Error fetching installments data");
-          return;
-        }
-        const installmentDataWithDetails = installments.map((item) => {
-          const motorcycle = motorcycles.find((m) => m.MOTORCYCLE_ID === item.MOTORCYCLE_ID);
-          if (!motorcycle || typeof motorcycle.USER_ID === 'undefined') {
-            return null; 
-          }
-    
-          const user = users.find((u) => u.USER_ID === motorcycle.USER_ID);
-          if (!user || typeof user.USER_FULLNAME === 'undefined') {
-            return null; 
-          }
-          return {
-            ...item,
-            USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
-            MOTORCYCLE_BUCKET_NUMBER: motorcycle ? motorcycle.MOTORCYCLE_BUCKET_NUMBER : "N/A",
-            MOTORCYCLE_REGISTRATION_NUMBER: motorcycle ? motorcycle.MOTORCYCLE_REGISTRATION_NUMBER : "N/A",
-            MOTORCYCLE_REGISTRATION_NUMBER : motorcycle ? motorcycle.MOTORCYCLE_REGISTRATION_NUMBER : "N/A"
-          };
-        });
-    
-        setItems(installmentDataWithDetails.filter(item => item !== null)); // Remove null entries
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    InstallmentGet();
   }, []);
 
-  const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
-      .then((res) => res.json())
-      .then((result) => {
-        return result.map((motorcycle) => ({
-          MOTORCYCLE_ID: motorcycle.MOTORCYCLE_ID,
-          USER_ID: motorcycle.USER_ID,
-          MOTORCYCLE_BUCKET_NUMBER: motorcycle.MOTORCYCLE_BUCKET_NUMBER,
-          MOTORCYCLE_REGISTRATION_NUMBER :  motorcycle.MOTORCYCLE_REGISTRATION_NUMBER
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching motorcycles:", error);
-        return [];
-      });
-  };
-
-  const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
-      .then((res) => res.json())
-      .then((result) => {
-        return result.map((user) => ({
-          USER_ID: user.USER_ID,
-          USER_FULLNAME: user.USER_FULLNAME,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        return [];
-      });
-  };
-
   const InstallmentGet = () => {
-    return fetch("http://localhost:3001/api/v1/installments")
-      .then((res) => res.json())
-      .catch((error) => {
-        console.error("Error fetching installments:", error);
-        return [];
-      });
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:3001/api/v1/installments", requestOptions)
+  .then(response => response.json())
+  .then((result) => {
+    setLoading(false);
+    setItems(result);
+  })
+  .catch(error => console.log('error', error));
+  };
+
+  const UserDelete = (USER_ID) => {
+    var requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    fetch(
+      `http://localhost:3001/api/v1/users/${USER_ID}`,
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+    window.location.reload();
+  };
+
+  const UserUpdate = (USER_ID) => {
+    window.location = "/admin/user/user-update/" + USER_ID;
   };
 
   const [page, setPage] = React.useState(0);
@@ -126,112 +80,102 @@ export default function OverdueAdmin() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
-    <div>
+    <diV>
     <Row>
-
-      <Col>
-        <div>
-          <div class="search">
-            <Col>
-              <Form>
-                <InputGroup>
-                  <Form.Control
-                    onChange={handleInputChange}
-                    placeholder="ค้นหา"
-                  />
-                </InputGroup>
-              </Form>
-            </Col>
-          </div>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <Paper sx={{ width: "100%", overflow: "hidden" }}>
-              <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>ชื่อลูกค้า</TableCell>
-                      <TableCell>เลขตัวถัง</TableCell>
-                      <TableCell>เลขทะเบียน</TableCell>
-                      <TableCell>แก้ไขข้อมูล</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {items
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                      .filter((row) => {
-                        return (
-                          search.trim() === "" ||
-                          row.USER_FULLNAME.toLowerCase().includes(
-                            search.toLowerCase()
-                          ) ||
-                          row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                            search.toLowerCase()
-                          )
-                        );
-                      })
-                      .map((row) => (
-                        <TableRow
-                          key={row.name}
-                          sx={{
-                            "&:last-child td, &:last-child th": {
-                              border: 0,
-                            },
-                          }}
-                        >
-                          <TableCell>{row.USER_FULLNAME}</TableCell>
-                          <TableCell>
-                            {row.MOTORCYCLE_BUCKET_NUMBER}
-                          </TableCell>
-                          <TableCell>
-                            {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                          </TableCell>
-                          <TableCell>
-                            <Button
-                              type="button"
-                              class="btn btn-warning"
-                              // onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
-                            >
-                              รายละเอียด
-                            </Button>
-                          </TableCell>
-                          
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={items.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="จำนวนแถวต่อหน้า:"
-                labelDisplayedRows={({ from, to, count }) =>
-                  `${from}-${to} จากทั้งหมด ${count}`
-                }
+      <div class="search">
+        <Col>
+          <Form>
+            <InputGroup>
+              <Form.Control
+                onChange={handleInputChange}
+                placeholder="ค้นหา"
               />
-            </Paper>
-          )}
-        </div>
-      </Col>
+            </InputGroup>
+          </Form>
+        </Col>
+      </div>
     </Row>
-</div>
-);
+    {loading ? (
+      <p>Loading...</p>
+    ) : (
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
+                <TableCell>ชื่อ - นามสกุด</TableCell>
+                <TableCell>เบอร์โทร</TableCell>
+                <TableCell>แก้ไขข้อมูล</TableCell>
+                <TableCell>ลบข้อมูล</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {items
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .filter((row) => {
+                  return (
+                    search.trim() === "" ||
+                    row.USER_FULLNAME.toLowerCase().includes(
+                      search.toLowerCase()
+                    ) ||
+                    row.USER_CODE_NUMBER.toLowerCase().includes(
+                      search.toLowerCase()
+                    ) ||
+                    row.USER_TELL.toLowerCase().includes(
+                      search.toLowerCase()
+                    )
+                  );
+                })
+                .map((row) => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell>{row.INSTALLMENTS_ID}</TableCell>
+                    <TableCell>{row.MOTORCYCLE_ID}</TableCell>
+                    <TableCell>
+                      {row.USER_TELL}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        type="button"
+                        class="btn btn-warning"
+                        onClick={() => UserUpdate(row.USER_ID)}
+                      >
+                        แก้ไข
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        type="button"
+                        class="btn btn-danger"
+                        onClick={() => UserDelete(row.USER_ID)}
+                      >
+                        ลบ
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={items.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="จำนวนแถวต่อหน้า:"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} จากทั้งหมด ${count}`
+          }
+        />
+      </Paper>
+    )}
+  </diV>
+  );
 }
