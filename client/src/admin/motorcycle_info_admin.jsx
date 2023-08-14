@@ -24,6 +24,8 @@ export default function MotorcycleInfoAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [motorcycleId, setMotorcycleId] = useState(null); // Initialize with null
+  const [open, setOpen] = useState(false);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -86,17 +88,19 @@ export default function MotorcycleInfoAdmin() {
       requestOptions
     )
       .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        window.location.reload();
+      })
       .catch((error) => console.log("error", error));
-    window.location.reload();
   };
 
   const MotorcycleUpdate = (MOTORCYCLE_ID) => {
     window.location = "/admin/update-motorcycle/" + MOTORCYCLE_ID;
   };
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -107,27 +111,38 @@ export default function MotorcycleInfoAdmin() {
     setPage(0);
   };
 
-  const [gotoAddMotorcycle, setGotoAddMotorcycle] = React.useState(false);
+  const [gotoAddMotorcycle, setGotoAddMotorcycle] = useState(false);
   if (gotoAddMotorcycle) {
     return <Navigate to="/admin/add-motorcycle" />;
   }
 
+  const handleOpen = (MOTORCYCLE_ID) => {
+    setMotorcycleId(MOTORCYCLE_ID);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    handleClose();
+    if (motorcycleId !== null) {
+      MotorcycleDelete(motorcycleId);
+    }
+  };
   return (
     <diV>
-      <Row>
-        <div class="search">
-          <Col>
-            <Form>
-              <InputGroup>
-                <Form.Control
-                  onChange={handleInputChange}
-                  placeholder="ค้นหา"
-                />
-              </InputGroup>
-            </Form>
-          </Col>
-        </div>
-        <div class="additem">
+      <div  class = "search"></div>
+            <form class="search-form">
+              <input
+                type="search"
+                onChange={handleInputChange}
+                placeholder="ค้นหา"
+                class="search-input"
+              />
+            </form>
+            <div class="additem">
           <Col>
             <button
               class="btn btn-success btn-add-motor"
@@ -138,7 +153,14 @@ export default function MotorcycleInfoAdmin() {
               เพิ่มข้อมูล{" "}
             </button>
           </Col>
-        </div>
+        </div> 
+        
+      <Row>
+       
+          <Col>
+            
+          </Col>
+         
       </Row>
       {loading ? (
         <p>Loading...</p>
@@ -195,10 +217,24 @@ export default function MotorcycleInfoAdmin() {
                         <Button
                           type="button"
                           class="btn btn-danger"
-                          onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
+                          onClick={() => handleOpen(row.MOTORCYCLE_ID)}
                         >
                           ลบ
                         </Button>
+                        <Dialog open={open} onClose={handleClose}>
+                          <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+                          <DialogContent>
+                            <DialogContentText>
+                              คุณต้องการลบข้อมูลนี้ใช่หรือไม่?
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose}>ยกเลิก</Button>
+                            <Button onClick={handleDeleteConfirmation}>
+                              ยืนยัน
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
                       </TableCell>
                     </TableRow>
                   ))}
