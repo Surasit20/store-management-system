@@ -43,6 +43,8 @@ function HomeUser() {
               MOTORCYCLE_COLOR={i.MOTORCYCLE_COLOR}
               MOTORCYCLE_BUCKET_NUMBER={i.MOTORCYCLE_BUCKET_NUMBER}
               MOTORCYCLE_REGISTRATION_NUMBER={i.MOTORCYCLE_REGISTRATION_NUMBER}
+              MOTORCYCLE_ID={i.MOTORCYCLE_ID}
+              IS_RECEIPT={false}
             ></CardCar>
           );
         })}

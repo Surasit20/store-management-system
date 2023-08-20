@@ -21,6 +21,7 @@ class MonthInstallmentsController extends BaseController {
 	//เสดงทั้งหมด
 	static async getMonthInstallments(req, res) {
 		try {
+			//const include = {model:"INSTALLMENTS"}
 			const result = await super.getAll(req, 'MONTH_INSTALLMENTS');
 			return res.send(result)
 		} catch (error) {
@@ -36,12 +37,16 @@ class MonthInstallmentsController extends BaseController {
 			const motorycle = await super.getByCustomOptions(req, 'MOTORCYCLE', optionsMotorcycle);
 
 			const optionsInstallments = {
-				where: { MOTORCYCLE_ID: motorycle.MOTORCYCLE_ID },
+				where: { MOTORCYCLE_ID: parseInt(motorycle.MOTORCYCLE_ID) },
 			};
 
-			const installments = await super.getByCustomOptions(req,'INSTALLMENTS',req.optionsInstallments)
+			const installments = await super.getByCustomOptions(req,'INSTALLMENTS',optionsInstallments)
 
-			req.body.add()
+			req.body = {...req.body, 
+				INSTALLMENTS_ID: installments.INSTALLMENTS_ID,
+				MONTH_INSTALLMENTS_STATUS: 1,
+				MONTH_INSTALLMENTS_MONEY: installments.INSTALLMENTS_MONEY,						
+			}
 			const result = await super.add(req,'MONTH_INSTALLMENTS',req.body)
 			return res.send(result);
 		} catch (error) {

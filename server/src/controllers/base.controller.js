@@ -53,6 +53,17 @@ class BaseController {
 		return result;
 	}
 
+	static async getAllInclude(req, modelName) {
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].findAll({ include: { all: true }});
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
+
 	static async add(req,modelName,data){
 		const reqParam = req.params.id;
 		let obj = data

@@ -12,8 +12,10 @@ import {
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import moment from "moment";
+import "moment/locale/th";
 function PayUser() {
+  moment.locale("th");
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [tell, setTell] = useState("");
@@ -51,14 +53,16 @@ function PayUser() {
 
   const handleConfirm = async (event) => {
     //let imageUrl = await uploadImage();
-
+    //moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    setStep(2);
+    return;
     if (true) {
       let data = {
         MOTORCY_BUCKETNUMBER: bucketNumber,
         INSTALLMENTS_NO: docNo,
-        INSTALLMENTS_TIME: date.getTime(),
-        INSTALLMENTS_DATE: date.getFullYear(),
-        INSTALLMENTS_IMAGE: "xxxxxx",
+        MONTH_INSTALLMENTS_TIME: moment(date.getTime()).format("HH:mm"),
+        MONTH_INSTALLMENTS_DATE: moment(new Date(), "yyyy-mm-dd HH:MM:ss"),
+        MONTH_INSTALLMENTS_IMAGE: "xxxxxx",
         INSTALLMENTS_STATUS: 0,
       };
       axios
@@ -67,6 +71,7 @@ function PayUser() {
           console.log(response);
           if (response.status == 200) {
             console.log(response.status);
+            setStep(2);
             //navigate("/user/home");
           }
         })
@@ -175,10 +180,8 @@ function PayUser() {
       ) : step == 1 ? (
         <div>
           <p>เลขใบเสร็จ {docNo}</p>
-          <p>วันที่ {date.toUTCString()} </p>
-          <p>
-            เวลา {date.getHours()} :{date.getMinutes()}
-          </p>
+          <p>วันที่ {moment(date.getTime()).format("D-MMMM-yyyy")} </p>
+          <p>เวลา {moment(date.getTime()).format("HH:mm")} น.</p>
           <p>ชื่อ-นามสกุล {fullName}</p>
           <p>เบอร์โทรศัพท์ {tell}</p>
           <p>เลขตัวถัง {bucketNumber}</p>
@@ -214,7 +217,36 @@ function PayUser() {
           <Button onClick={handleConfirm}>ยืนยัน</Button>
         </div>
       ) : (
-        <div>2</div>
+        <div>
+          <div className="bg-secondary">
+            <div className="row d-flex">
+              <p className="col d-flex justify-content-between">
+                เลขที่ใบเสร็จ: {docNo}
+              </p>
+              <p className="col">
+                วันที่: {moment(date.getTime()).format("D-MMMM-yyyy")}
+              </p>
+              <p className="col">
+                เวลา: {moment(date.getTime()).format("HH:mm")} น.
+              </p>
+            </div>
+
+            <div className="row">
+              <p>ชื่อ-นามสกุล {fullName}</p>
+            </div>
+
+            <div className="row">
+              <p>เบอร์โทรศัพท์ {tell}</p>
+            </div>
+
+            <div className="row">
+              <p>เลขตัวถัง {bucketNumber}</p>
+            </div>
+          </div>
+          <p className="text-success">
+            ........ทำการชำระค่างวดสำเสร็จรอการตรวจสอบจากพนักงาน..........
+          </p>
+        </div>
       )}
     </div>
   );
