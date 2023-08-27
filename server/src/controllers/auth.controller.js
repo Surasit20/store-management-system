@@ -14,8 +14,8 @@ class AuthController extends BaseController {
 	//สมัคร
 	static async register(req, res) {
 		try {
-			const data = req.body;
-			const options = { where: { USER_EMAIL: data.USER_EMAIL } };
+			const data = req.body;          
+			const options = { where: { USER_USERNAME: data.USER_EMAIL } };
 			const user = await super.getByCustomOptions(req, 'USER', options);
 
 			if (user) {
@@ -59,7 +59,7 @@ class AuthController extends BaseController {
 	static async login(req, res) {
 		try {
 			const options = {
-				where: { USER_EMAIL: req.body.USER_EMAIL },
+				where: { USER_USERNAME: req.body.USER_EMAIL },
 			};
 			const user = await super.getByCustomOptions(req, 'USER', options);
 			if (!user) {

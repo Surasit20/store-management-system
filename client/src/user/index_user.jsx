@@ -1,12 +1,13 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState,forwardRef, useImperativeHandle, useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, } from "react-router-dom";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import ProfileDialog from "../component/profile"
 function IndexUser() {
   // const [currentPage, setCurrentPage] = useState(new Map([
   //   { key: 'home', value: true },
@@ -15,12 +16,23 @@ function IndexUser() {
   //   { key: 'repair', value: false },
   // ]));
   const location = useLocation();
+  const navigate = useNavigate();
   console.log(location.pathname);
   const [menu, setMenu] = React.useState("");
   const [user, setUser] = useState();
   const [name, setName] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const childRef = useRef(null);
+
   const handleChange = (event) => {
-    setMenu("");
+
+    if(event.target.value == 1){
+      navigate("/login");
+      setMenu("")
+    }else{
+      setMenu("")
+      childRef.current.childFunction1();;
+    }
   };
 
   useEffect(async () => {
@@ -136,6 +148,7 @@ function IndexUser() {
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     onChange={handleChange}
+                    onClick={handleChange}
                   >
                     <MenuItem value={0}>ข้อมูลผู้ใช้งาน</MenuItem>
                     <MenuItem value={1}>ออกจากระบบ</MenuItem>
@@ -149,6 +162,8 @@ function IndexUser() {
       <div className="container-fluid bg-warning bg-gradient ">
         <Outlet />
       </div>
+
+      <ProfileDialog ref={childRef} ></ProfileDialog>
     </div>
   );
 }

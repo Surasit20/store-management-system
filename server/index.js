@@ -13,7 +13,7 @@ const app = express();
 //   host: 'mysql_db', // the host name MYSQL_DATABASE: node_mysql
 //   user: 'MYSQL_USER', // database user MYSQL_USER: MYSQL_USER
 //   password: 'MYSQL_PASSWORD', // database user password MYSQL_PASSWORD: MYSQL_PASSWORD
-//   database: 'books' // database name MYSQL_HOST_IP: mysql_db
+//   database: 'l' // : mysql_db
 // })
 
 
@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 //   const bookId = req.params.bookId;
 //   const UpdateQuery = "UPDATE books_reviews SET book_review = ? WHERE id = ?";
 //   db.query(UpdateQuery, [bookReview, bookId], (err, result) => {
-//     if (err) console.log(err)
+//     sf (err) console.log(err)
 //   })
 // })
 
