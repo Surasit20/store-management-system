@@ -56,6 +56,41 @@ function Login() {
       });
   };
 
+  const handleSubmitAdmin = (event) => {
+    event.preventDefault();
+    let data = { USER_EMAIL: email, USER_PASSWORD: password };
+
+    event.preventDefault();
+    localStorage.setItem("user", null);
+    axios
+      .post("http://localhost:3001/api/v1/auth/login", data)
+      .then((response) => {
+
+        console.log();
+        if (response.status == 200 && response.data.data.user.USER_CHECK == "admin") {
+          localStorage.setItem("user", JSON.stringify(response.data));
+          console.log(response.status);
+          setGotoIndexAdmin(true);
+        }else{
+          Swal.fire({
+            title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+            text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+            icon: "error",
+            confirmButtonText: "หน้าปิ",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire({
+          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+          icon: "error",
+          confirmButtonText: "หน้าปิ",
+        });
+      });
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-custom-grey ">
@@ -129,13 +164,11 @@ function Login() {
           </div>
           <div></div>
         </form>
-
+        
         {IsAdmin ? (
           <div>
             <button
-              onClick={() => {
-                setGotoIndexAdmin(true);
-              }}
+              onClick={handleSubmitAdmin}
             >
               ไปจ้า
             </button>
