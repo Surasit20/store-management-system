@@ -11,11 +11,22 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'start',
+  color: theme.palette.text.secondary,
+}));
 export default React.forwardRef(function FullScreenDialog(props, ref) {
   const [open, setOpen] = React.useState(false);
 
@@ -37,9 +48,10 @@ export default React.forwardRef(function FullScreenDialog(props, ref) {
     },
   }));
 
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleClickOpen} style={{ paddingLeft: "50px", paddingRight: "50px", display: "none" }}>
         Open full-screen dialog
       </Button>
       <Dialog
@@ -59,25 +71,46 @@ export default React.forwardRef(function FullScreenDialog(props, ref) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              ข้อมูลผู้ใช้งาน
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
+
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
-        </List>
+  <Grid container spacing={2}>
+
+  <Grid item xs={8}>
+    <Item>ชื่อ-นามสกุล: {props.USER_FULLNAME}</Item>
+  </Grid>
+  <Grid item xs={4}>
+    <Item>วัน/เดือน/ปี เกิด: {props.USER_BIRTHDAY}</Item>
+  </Grid>
+
+
+  <Grid item xs={12}>
+    <Item>เลขประจำตัวบัตรประชาชน: {props.USER_CODE_NUMBER}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item>เบอร์โทรศัพท์: {props.USER_TELL}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item>อาชีพ: {props.USER_OCCUPATION}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item>ที่อยู่: บ้านเลขที่: {props.USER_HOUSE_NUMBER} หมู่: {props.USER_GROUP} ซอย: {props.USER_ALLEY} ตำบล: {props.USER_SUB_DISTRICT} อำเภอ: {props.USER_DISTRICT} จัวหวัด: {props.USER_PROVINCE} รหัสไปรษณีย์: {props.USER_POSTAL_CODE}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item>อีเมล์: {props.USER_EMAIL}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item>ชื่อผู้ใช้: {props.USER_USERNAME}</Item>
+  </Grid>
+
+</Grid>
       </Dialog>
     </div>
   );
