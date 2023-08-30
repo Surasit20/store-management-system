@@ -173,7 +173,7 @@ function PaymentCheckAdmin() {
                   <TableCell>ชื่อ-นามสกุล</TableCell>
                   <TableCell>หลักฐาน</TableCell>
                   <TableCell>สถานะ</TableCell>
-                  <TableCell>ออกใบเสร็จ</TableCell>
+                  <TableCell>ใบเสร็จ</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -254,7 +254,7 @@ function PaymentCheckAdmin() {
                           className="btn btn-danger"
                           onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
                         >
-                          ลบ
+                          ออกใบเสร็จ
                         </Button>
                       </TableCell>
                     </TableRow>
