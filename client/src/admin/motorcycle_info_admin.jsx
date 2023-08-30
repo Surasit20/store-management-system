@@ -17,7 +17,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // นำเข้า FontAwesomeIcon
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import {
   faPlusCircle,
   faPencilSquare,
@@ -28,7 +28,7 @@ export default function MotorcycleInfoAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [motorcycleId, setMotorcycleId] = useState(null); // Initialize with null
+  const [motorcycleId, setMotorcycleId] = useState(null); 
   const [open, setOpen] = useState(false);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
@@ -167,7 +167,7 @@ export default function MotorcycleInfoAdmin() {
                   <TableCell class="t-code" style={{ padding: "10px" }}>
                     เลขประจำตัวบัตรประชาชน
                   </TableCell>
-                  <TableCell class="t-name">ชื่อลูกค้า</TableCell>
+                  <TableCell class="t-name">ชื่อ-นามสกุล</TableCell>
                   <TableCell class="t-bukget">เลขตัวถัง</TableCell>
                   <TableCell class="t-rig">เลขทะเบียน</TableCell>
                   <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>

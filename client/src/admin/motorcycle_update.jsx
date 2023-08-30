@@ -1,11 +1,13 @@
 import React, { Component, useState, useEffect } from "react";
 import "../admin/css/motorcycle_update.css";
-import { useParams } from "react-router-dom";
+import { useParams , useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Grid, TextField, Button, Box } from "@mui/material";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 function UpdateMotorcycle() {
   const { MOTORCYCLE_ID } = useParams();
@@ -18,6 +20,7 @@ function UpdateMotorcycle() {
   const [Balance, setBalance] = useState("");
   const [imageOld, setImageOld] = useState();
   const [imageNew, setImageNew] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     var requestOptions = {
@@ -110,6 +113,7 @@ function UpdateMotorcycle() {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
+        navigate("/admin/motorcycle");
     }
   };
 
@@ -155,8 +159,12 @@ function UpdateMotorcycle() {
 
   return (
     <div>
+      <div class="contrainer" > 
       <form onSubmit={handleSubmit}>
-        <Grid item xs={12} sm={6}>
+        <Row>
+        <div class="text-file">
+        <Col  class="col1">
+          <Grid item xs={12} sm={6}>
           <TextField
             id="RegistrationNumber"
             label="เลขทะเบียน"
@@ -233,16 +241,16 @@ function UpdateMotorcycle() {
             value={Balance}
           ></TextField>
         </Grid>
-        <div>
+        </Col>
+          </div>
+          
+         
+<div class="image">
+<Col>
+          <div>
           <Box
+          class="box-img"
             component="img"
-            sx={{
-              height: 300,
-              width: 300,
-              borderColor: "primary.main",
-              borderRadius: "50%",
-              border: 15,
-            }}
             src={imageNew ?? imageOld}
           />
 
@@ -259,11 +267,19 @@ function UpdateMotorcycle() {
             />
           </Button>
         </div>
+          </Col>
+</div>
+          
+        </Row>
+       
+      
 
         <button type="submit" variant="contained" class="btn btn-primary mb-3">
           แก้ไข
         </button>
       </form>
+      </div>
+      
     </div>
   );
 }
