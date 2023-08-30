@@ -64,9 +64,9 @@ class MonthInstallmentsController extends BaseController {
 		}
 	}
 	//แก้ไข
-	static async updateMonthInstallmentsById(req, res) {
+	static async updateByIdMonthInstallment(req, res) {
 		try {
-			const result = await super.updateByIdMotorcycle(req,'MONTH_INSTALLMENTS',req.body);
+			const result = await super.updateByIdMonthInstallment(req,'MONTH_INSTALLMENTS',req.body);
 			return res.send(result);
 		} catch (err) {
 			return requestHandler.sendError(req, res, err);

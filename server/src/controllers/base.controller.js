@@ -253,5 +253,21 @@ class BaseController {
 		return result;
 	}
 
+	static async updateByIdMonthInstallment(req, modelName,data) {
+		const reqParam = req.params.MONTH_INSTALLMENTS_ID ;
+		let result;
+		try {
+			result = await req.app.get('db')[modelName].update(
+				{ MONTH_INSTALLMENTS_STATUS: req.body.MONTH_INSTALLMENTS_STATUS},
+				{where: {MONTH_INSTALLMENTS_ID : reqParam}}
+				).then(
+					updatedRecored => Promise.resolve(updatedRecored),
+				);
+		} catch (err) {
+			return Promise.reject(err);
+		}
+		return result;
+	}
+
 }
 module.exports = BaseController;
