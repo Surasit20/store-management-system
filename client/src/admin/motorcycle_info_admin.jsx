@@ -12,13 +12,17 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // นำเข้า FontAwesomeIcon
+import {
+  faPlusCircle,
+  faPencilSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function MotorcycleInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -41,6 +45,7 @@ export default function MotorcycleInfoAdmin() {
             const user = users.find((u) => u.USER_ID === item.USER_ID);
             return {
               ...item,
+              USER_CODE_NUMBER: user ? user.USER_CODE_NUMBER : "N/A",
               USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
             };
           })
@@ -69,6 +74,7 @@ export default function MotorcycleInfoAdmin() {
         return result.map((user) => ({
           USER_ID: user.USER_ID,
           USER_FULLNAME: user.USER_FULLNAME,
+          USER_CODE_NUMBER: user.USER_CODE_NUMBER,
         }));
       })
       .catch((error) => {
@@ -133,113 +139,139 @@ export default function MotorcycleInfoAdmin() {
   };
   return (
     <diV>
-      <div  class = "search"></div>
-            <form class="search-form">
-              <input
-                type="search"
-                onChange={handleInputChange}
-                placeholder="ค้นหา"
-                class="search-input"
-              />
-            </form>
-            <div class="additem">
-          <Col>
-            <button
-              class="btn btn-success btn-add-motor"
-              onClick={() => {
-                setGotoAddMotorcycle(true);
-              }}
-            >
-              เพิ่มข้อมูล{" "}
-            </button>
-          </Col>
-        </div> 
-        
-      <Row>
-       
-          <Col>
-            
-          </Col>
-         
-      </Row>
+      <div class="search"></div>
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+      <div class="additem">
+        <button
+          class="btn btn-success btn-add-motor"
+          onClick={() => {
+            setGotoAddMotorcycle(true);
+          }}
+        >
+          <FontAwesomeIcon icon={faPlusCircle} className="mr-1" /> เพิ่มข้อมูล
+        </button>
+      </div>
+      <div class="header-t">
+        <div>
+          <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow class="table-row">
+                  <TableCell class="t-code" style={{ padding: "10px" }}>
+                    เลขประจำตัวบัตรประชาชน
+                  </TableCell>
+                  <TableCell class="t-name">ชื่อลูกค้า</TableCell>
+                  <TableCell class="t-bukget">เลขตัวถัง</TableCell>
+                  <TableCell class="t-rig">เลขทะเบียน</TableCell>
+                  <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>
+                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>ชื่อลูกค้า</TableCell>
-                  <TableCell>เลขตัวถัง</TableCell>
-                  <TableCell>เลขทะเบียน</TableCell>
-                  <TableCell>แก้ไขข้อมูล</TableCell>
-                  <TableCell>ลบข้อมูล</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    return (
-                      search.trim() === "" ||
-                      row.USER_FULLNAME.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      )
-                    );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>{row.USER_FULLNAME}</TableCell>
-                      <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                      <TableCell>
-                        {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-warning"
-                          onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
+        <Paper sx={{ width: "100%", overflow: "hidden", borderRadius: 2 }}>
+          <TableContainer sx={{ maxHeight: 440, borderRadius: 0 }}>
+            <div class="d">
+              <Table stickyHeader aria-label="sticky table">
+                <TableBody>
+                  {items
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .filter((row) => {
+                      return (
+                        search.trim() === "" ||
+                        row.USER_FULLNAME.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        )
+                      );
+                    })
+                    .map((row) => (
+                      <TableRow
+                        class="tablebody-row"
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <TableCell
+                          class="t-code"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
                         >
-                          แก้ไข
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-danger"
-                          onClick={() => handleOpen(row.MOTORCYCLE_ID)}
+                          {row.USER_CODE_NUMBER}
+                        </TableCell>
+                        <TableCell
+                          class="t-name"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
                         >
-                          ลบ
-                        </Button>
-                        <Dialog open={open} onClose={handleClose}>
-                          <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
-                          <DialogContent>
-                            <DialogContentText>
-                              คุณต้องการลบข้อมูลนี้ใช่หรือไม่?
-                            </DialogContentText>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClose}>ยกเลิก</Button>
-                            <Button onClick={handleDeleteConfirmation}>
-                              ยืนยัน
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+                          {row.USER_FULLNAME}
+                        </TableCell>
+                        <TableCell
+                          class="t-bukget"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
+                        >
+                          {row.MOTORCYCLE_BUCKET_NUMBER}
+                        </TableCell>
+                        <TableCell
+                          class="t-rig"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
+                        >
+                          {row.MOTORCYCLE_REGISTRATION_NUMBER}
+                        </TableCell>
+                        <TableCell
+                          class="t-edit"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
+                        >
+                          <Button
+                            type="button"
+                            class="btn btn-outline-warning btn-edit"
+                            onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faPencilSquare}
+                              class="icon-edit"
+                            />
+                          </Button>
+                        </TableCell>
+                        <TableCell
+                          class="t-delete"
+                          style={{ verticalAlign: "middle", padding: "10px" }}
+                        >
+                          <Button
+                            type="button"
+                            class="btn btn-outline-danger btn-delete"
+                            onClick={() => handleOpen(row.MOTORCYCLE_ID)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              class="icon-delete"
+                            />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </div>
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
@@ -256,6 +288,18 @@ export default function MotorcycleInfoAdmin() {
           />
         </Paper>
       )}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            คุณต้องการลบข้อมูลของรถจักรยานยนต์คันนี้ใช่หรือไม่?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>ยกเลิก</Button>
+          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+        </DialogActions>
+      </Dialog>
     </diV>
   );
 }

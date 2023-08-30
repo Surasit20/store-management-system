@@ -24,9 +24,10 @@
     width: 100px;
     padding-top: 20px;
     padding-left: 5px;
+    padding-bottom: 20px;
 }
 .btn-add-motor{
-  width: 100px;
+  width: 150px;
 }
 
 .search-form {
@@ -58,3 +59,87 @@
   appearance: none;
   outline: none;
 }
+.btn-edit {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-edit:hover {
+  border-color: transparent; 
+  background-color: transparent; 
+}
+.icon-edit {
+  width: 30x;
+  height: 25px;
+  color: rgba(251, 182, 6, 1);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.icon-edit:hover {
+  border-color: transparent; 
+}
+
+.btn-delete {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-delete:hover {
+  border-color: transparent; 
+  background-color: transparent; 
+}
+.icon-delete {
+  width: 30x;
+  height: 20px;
+  color: rgb(214, 34, 34);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.icon-delete:hover {
+  border-color: transparent; 
+}
+.header-t{
+  border-color: rgb(0, 0, 0);
+  border: 0px;
+  height: 50px;
+  background-color: #ffffff;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+.table-row {
+  text-align: left; 
+  
+}
+.table-row td,
+.table-row th {
+  border: none; 
+  padding: 10px 0;
+  vertical-align: middle;
+}
+.t-code{
+  padding-left: 2%;
+  text-align: left;
+  width: 20%;
+}
+.t-name{
+  
+  text-align: left;
+  width: 30%;
+}
+.t-bukget{
+  text-align: left;
+  width: 15%;
+}
+.t-rig{
+  text-align: left;
+  width: 15%;
+}
+.t-edit{
+  text-align: center;
+  width: 10%;
+}
+.t-delete{
+  text-align: center;
+}
+.d{
+  margin-top: 10px;
+}
+

@@ -4,6 +4,8 @@ import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Grid, TextField, Box, Button, Badge } from "@mui/material";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 function AddMotorcycle() {
   const [RegistrationNumber, setRegistrationNumber] = useState("");
@@ -85,108 +87,113 @@ function AddMotorcycle() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="RegistrationNumber"
-            label="เลขทะเบียน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setRegistrationNumber(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="BucketNumber"
-            label="เลขตัวถัง"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBucketNumber(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Brand"
-            label="ยี่ห้อ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBrand(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Model"
-            label="รุ่น"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setModel(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Color"
-            label="สี"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setColor(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Price"
-            label="ราคา"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setPrice(e.target.value)}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Balance"
-            label="ยอดคงเหลือ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBalance(e.target.value)}
-          ></TextField>
-        </Grid>
-        <div>
-          <Box
-            component="img"
-            sx={{
-              height: 300,
-              width: 300,
-              borderColor: "primary.main",
-              borderRadius: "50%",
-              border: 15,
-            }}
-            src={image}
-          />
-
-          <Button onClick={handleRemoceImage}>ล้างรูป</Button>
-        </div>
-        <div>
-          <Button variant="contained" component="label">
-            Upload File
-            <input
-              accept="image/*"
-              type="file"
-              hidden
-              onChange={handleChangeImage}
-            />
-          </Button>
-        </div>
-
-        <button type="submit" variant="contained" class="btn btn-primary mb-3">
-          บันทึก
-        </button>
-      </form>
+      <div class="contrainer">
+        <form onSubmit={handleSubmit}>
+          <Row>
+            <div class="text-file">
+              <Col class="col1">
+                <p>กรอกข้อมูลรถจักรยานยนต์</p>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="RegistrationNumber"
+                    label="เลขทะเบียน"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setRegistrationNumber(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="BucketNumber"
+                    label="เลขตัวถัง"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setBucketNumber(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="Brand"
+                    label="ยี่ห้อ"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setBrand(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="Model"
+                    label="รุ่น"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setModel(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="Color"
+                    label="สี"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setColor(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="Price"
+                    label="ราคา"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setPrice(e.target.value)}
+                  ></TextField>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="Balance"
+                    label="ยอดคงเหลือ"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    onChange={(e) => setBalance(e.target.value)}
+                  ></TextField>
+                </Grid>
+              </Col>
+            </div>
+            <div class="image">
+              <Col>
+                <div>
+                  <Box class="box-img" component="img" src={image} />
+                </div>
+                <div>
+                  <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
+                  <Button variant="contained" component="label">
+                    อัพโหลดรูปภาพ
+                    <input
+                      accept="image/*"
+                      type="file"
+                      hidden
+                      onChange={handleChangeImage}
+                    />
+                  </Button>
+                </div>
+              </Col>
+            </div>
+          </Row>
+          <button
+            type="submit"
+            variant="contained"
+            class="btn btn-primary mb-3"
+          >
+            บันทึก
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

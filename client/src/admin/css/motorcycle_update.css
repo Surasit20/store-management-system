@@ -11,10 +11,26 @@
     padding-right: 15px;
     padding-bottom: 20px;
 }
-.container-image{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-right: 15px;
+.text-file{
     background-color: white;
-    width: 700px;
+    width: 50%;
+    border-radius: 20px;
+    margin-right: 50px;
+    
+}
+.col1{
+    padding: 30px;
+    
+}
+.image{
+    width: 40%;
+    background-color: white;
+    border-radius:20px ;
+}
+.box-img{
+    margin-top: 20px;
+    height: 300px;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 20px;
 }
