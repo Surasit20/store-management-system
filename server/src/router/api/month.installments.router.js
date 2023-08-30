@@ -8,7 +8,7 @@ router.get ('/',MonthInstallmentsController.getMonthInstallments);
 
 router.get('/:id',MonthInstallmentsController.getMonthInstallmentsById);
 
-router.put('/:MONTH_INSTALLMENTS_ID',MonthInstallmentsController.updateMonthInstallmentsById)
+router.put('/:MONTH_INSTALLMENTS_ID',MonthInstallmentsController.updateByIdMonthInstallment)
 
 router.delete('/:MONTH_INSTALLMENTS_ID', MonthInstallmentsController.deleteMonthInstallmentsById);
 

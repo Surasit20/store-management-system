@@ -19,15 +19,45 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import axios from "axios";
 function PaymentCheckAdmin() {
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
 
+
+  const handleDropDownChange = async(event , context) => {
+   console.log(context)
+   context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
+   console.log(context)
+   let res = await axios.put(`http://localhost:3001/api/v1/month-installments/`+context.MONTH_INSTALLMENTS_ID,context);
+    if(res.status == 200){
+      let data1 = await axios.get(
+        `http://localhost:3001/api/v1/month-installments`
+      );
+      let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+  
+      let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+  
+      let arr3 = data1.data.map((item, i) =>
+        Object.assign({}, item, data2.data[i], data3.data[i])
+      );
+  
+      console.log(arr3);
+  
+      setItems(arr3);
+    }
+  };
   useEffect(async () => {
     // Promise.all([MotorcycleGet(), UserGet()])
     //   .then(([motorcycles, users]) => {
@@ -127,6 +157,8 @@ function PaymentCheckAdmin() {
   if (gotoAddMotorcycle) {
     return <Navigate to="/admin/add-motorcycle" />;
   }
+
+
   return (
     <diV>
       {loading ? (
@@ -172,13 +204,49 @@ function PaymentCheckAdmin() {
                         <a href={row.MONTH_INSTALLMENTS_IMAGE}>ดูสลิปใบเสร็จ</a>
                       </TableCell>
                       <TableCell>
-                        <Button
-                          type="button"
-                          className="btn btn-warning"
-                          onClick={() => MotorcycleUpdate(row.MOTORCYCLE_ID)}
-                        >
-                          แก้ไข
-                        </Button>
+                      {row.MONTH_INSTALLMENTS_STATUS == 1 
+                      ?       <Box sx={{ minWidth: 120 }}>                    
+                      <FormControl fullWidth >
+                        <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={row.MONTH_INSTALLMENTS_STATUS}
+                          label="เลือกสถาณะ"
+                          onChange={(e)=>handleDropDownChange(e,row)}
+                    
+                          >
+                          <MenuItem value={1}>รออนุมัติ</MenuItem>
+                          <MenuItem value={2}>ผ่าน</MenuItem>
+                          <MenuItem value={0}>ไม่ผ่าน</MenuItem>
+                                    
+                        </Select>
+                      </FormControl>
+                    </Box>
+                      
+                      
+                      :      <Box sx={{ minWidth: 120 }}>
+                    
+                      <FormControl fullWidth disabled>
+                        <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={row.MONTH_INSTALLMENTS_STATUS}
+                          label="เลือกสถาณะ"
+                          onChange={handleDropDownChange}
+                    
+                          >
+                          <MenuItem value={1}>รออนุมัติ</MenuItem>
+                          <MenuItem value={2}>ผ่าน</MenuItem>
+                          <MenuItem value={0}>ไม่ผ่าน</MenuItem>
+                                    
+                        </Select>
+                      </FormControl>
+                    </Box>
+                      }
+
+
                       </TableCell>
                       <TableCell>
                         <Button
