@@ -96,6 +96,7 @@ fetch("http://localhost:3001/api/v1/users", requestOptions)
         </Col>
       </div>
     </Row>
+    
     {loading ? (
       <p>Loading...</p>
     ) : (
