@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
+
 //const compression = require('compression');
 //const Logger = require('./src/utils/logger.js');
 
@@ -84,4 +85,14 @@ app.use((req, res, next) => {
 //   })
 // })
 
+
+// var job = new CronJob(
+//     '*/10 * * * * *',
+//     function() {
+//         console.log('You will see this message every second');
+//     },
+//     null,
+//     true,
+//     'Asia/Bangkok'
+// );
 app.listen('3001', () => { })

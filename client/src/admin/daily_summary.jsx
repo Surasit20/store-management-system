@@ -26,6 +26,7 @@ import dayjs from 'dayjs';
 
 function DailySummaryAdmin() {
   const [search, setSearch] = useState("");
+  const [summary, setSummary] = useState(0);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
@@ -65,7 +66,15 @@ function DailySummaryAdmin() {
     //   let arr2 = arr1.data.map((item, i) =>
     //  Object.assign({}, item, data3.data[i]));
 
-   
+    let _sum = 0;
+    for (var j = 0; j < arr2.length; j++){
+
+      if(arr2[j].MONTH_INSTALLMENTS_MONEY != null){
+        _sum += parseInt(arr2[j].MONTH_INSTALLMENTS_MONEY);
+      }     
+      }
+
+    setSummary(_sum);
     setItems(arr2)
 
     setLoading(false);
@@ -78,7 +87,7 @@ function DailySummaryAdmin() {
     let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`);
     let data2 = await axios.get(`http://localhost:3001/api/v1/users`);
     let data3 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
-    console.log(data1.data )
+    //console.log(data1.data )
     // ของวันที่ปัจจุบัน
     const today = new Date();
     today.setHours(0, 0, 0, 0); // กำหนดเวลาให้เป็นเที่ยงคืน
@@ -92,8 +101,8 @@ function DailySummaryAdmin() {
 
       dateWithoutTime.setHours(0, 0, 0, 0);
       dateWithoutTime1.setHours(0, 0, 0, 0);
-      console.log(dateWithoutTime + "wwww")
-      console.log(dateWithoutTime1)
+     // console.log(dateWithoutTime + "wwww")
+      //console.log(dateWithoutTime1)
       return dateWithoutTime.getTime() === dateWithoutTime1.getTime();
     }
 
@@ -109,7 +118,15 @@ function DailySummaryAdmin() {
     //   let arr2 = arr1.data.map((item, i) =>
     //  Object.assign({}, item, data3.data[i]));
 
-   
+   let _sum = 0;
+    for (var j = 0; j < arr2.length; j++){
+
+      if(arr2[j].MONTH_INSTALLMENTS_MONEY != null){
+        _sum += parseInt(arr2[j].MONTH_INSTALLMENTS_MONEY);
+      }     
+      }
+
+    setSummary(_sum);
     setItems(arr2)
 
     setLoading(false);
@@ -182,6 +199,7 @@ fetch("http://localhost:3001/api/v1/month-installments", requestOptions)
       </DemoContainer>
     </LocalizationProvider>
     
+    <p>รวมรายวัน {summary}</p>
     {loading ? (
       <p>Loading...</p>
     ) : (
