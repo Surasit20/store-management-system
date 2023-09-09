@@ -294,11 +294,13 @@ function Alert(props) {
   const [MotorcycleNumber, setSelectedMotorcycleNumber] = useState();
   const [Wise, setWise] = useState("");
   const [Status, setStatus] = useState("");
+  const [motorcycles, setMotorcycles] = useState([]);
+
   const motorcycleIdMap = new Map();
   useEffect(() => {
     Promise.all([MotorcycleGet(), UserGet()])
-      .then(([motorcycles, users]) => {
-        const filteredItems = motorcycles.filter(
+      .then(([motorcycleData, users]) => {
+        const filteredItems = motorcycleData.filter(
           (item) => item.USER_ID !== null
         );
         setItems(
@@ -311,6 +313,7 @@ function Alert(props) {
             };
           })
         );
+        setMotorcycles(motorcycleData);
         setLoading(false);
       })
       .catch((error) => {
@@ -319,27 +322,44 @@ function Alert(props) {
       });
   }, []);
 
-  const handleSave = async (event) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+  const handleSave = async() => {
 
-    var raw = JSON.stringify({
-      MOTORCYCLE_ID: MotorcycleId,
-      REPAILDATA_WISE: Wise,
-      REPAILDATA_SATUS: Status,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    fetch("http://localhost:3001/api/v1/repaildataes", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+    if (MotorcycleNumber !== null) {
+      const selectedMotorcycle = motorcycles.find(
+        (motorcycle) => motorcycle.MOTORCYCLE_BUCKET_NUMBER === MotorcycleNumber
+      );
+  
+      if (selectedMotorcycle) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+  
+        var raw = JSON.stringify({
+          MOTORCYCLE_ID: selectedMotorcycle.MOTORCYCLE_ID, 
+          REPAILDATA_WISE: Wise,
+          REPAILDATA_SATUS: Status,
+        });
+  
+        var requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+  
+        fetch("http://localhost:3001/api/v1/repaildataes", requestOptions)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log(result);
+            console.log("motorcycles:", motorcycles);
+            // ทำการปรับปรุงสถานะหรือทำอย่างอื่นตามที่คุณต้องการหลังจากบันทึกข้อมูลสำเร็จ
+          })
+          .catch((error) => console.log("error", error));
+      } else {
+        console.error("MOTORCYCLE_ID not found for MOTORCYCLE_NUMBER:", MotorcycleNumber);
+      }
+    } else {
+      console.error("MotorcycleNumber is null, cannot save.");
+    }
   };
 
   const MotorcycleGet = () => {
@@ -401,7 +421,7 @@ function Alert(props) {
               handleSave({
                 MOTORCYCLE_ID: MotorcycleId,
                 REPAILDATA_WISE: Wise,
-                REPAILDATA_STATUS: Status,
+                REPAILDATA_SATUS: Status,
               });
             } else {
               console.error("MotorcycleNumber is null, cannot save.");

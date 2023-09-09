@@ -252,13 +252,12 @@ function UpdateMotorcycle() {
           class="box-img"
             component="img"
             src={imageNew ?? imageOld}
-          />
-
-          <Button onClick={handleRemoceImage}>ล้างรูป</Button>
-        </div>
+          /> 
         <div>
+        </div>
+        <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
           <Button variant="contained" component="label">
-            Upload File
+            อัพโหลดรูปภาพ
             <input
               accept="image/*"
               type="file"
