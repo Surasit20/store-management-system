@@ -18,16 +18,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import TextField from '@mui/material/TextField';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+
 function DailySummaryAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
-
+  const [valueDate, setValueDate] = React.useState(new Date());
+  const [valueDate1, setDate1] = React.useState(dayjs());
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -68,6 +71,49 @@ function DailySummaryAdmin() {
     setLoading(false);
   }, []);
 
+
+  const setDateTime = async(dateNow)=>{
+
+    setLoading(true);
+    let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`);
+    let data2 = await axios.get(`http://localhost:3001/api/v1/users`);
+    let data3 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    console.log(data1.data )
+    // ของวันที่ปัจจุบัน
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // กำหนดเวลาให้เป็นเที่ยงคืน
+    // ฟังก์ชันในการเปรียบเทียบวันที่
+    const dateWithoutTime =  new Date(dateNow);
+    function isToday(date) {
+
+
+      
+      const dateWithoutTime1 =  new Date(date.MONTH_INSTALLMENTS_DATE);
+
+      dateWithoutTime.setHours(0, 0, 0, 0);
+      dateWithoutTime1.setHours(0, 0, 0, 0);
+      console.log(dateWithoutTime + "wwww")
+      console.log(dateWithoutTime1)
+      return dateWithoutTime.getTime() === dateWithoutTime1.getTime();
+    }
+
+// กรองอาร์เรย์เพื่อให้ได้วันที่ที่เท่ากับวันนี้
+  data1.data = data1.data.filter(isToday);
+  console.log(data1.data )
+
+    let arr1 = data1.data.map((item, i) =>
+    Object.assign({}, item, data3.data[i]))
+
+    let arr2 = arr1.map((item, i) =>
+    Object.assign({}, item, data2.data[i]))
+    //   let arr2 = arr1.data.map((item, i) =>
+    //  Object.assign({}, item, data3.data[i]));
+
+   
+    setItems(arr2)
+
+    setLoading(false);
+  }
   const UserGet = () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -121,17 +167,19 @@ fetch("http://localhost:3001/api/v1/month-installments", requestOptions)
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+
+
   return (
     <div> 
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DatePicker
-        label="Basic example"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DemoContainer components={['DatePicker']}>
+        <DatePicker 
+        label="Basic date picker"
+    
+        onChange={(newValue) =>{ setValueDate(newValue); setDateTime(newValue)}}
+        />
+      </DemoContainer>
     </LocalizationProvider>
     
     {loading ? (
