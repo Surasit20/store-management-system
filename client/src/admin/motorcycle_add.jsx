@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
@@ -16,6 +16,7 @@ function AddMotorcycle() {
   const [Price, setPrice] = useState("");
   const [Balance, setBalance] = useState("");
   const [image, setImage] = useState();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,6 +47,7 @@ function AddMotorcycle() {
         .then((response) => response.text())
         .then((result) => console.log(result))
         .catch((error) => console.log("error", error));
+        navigate("/admin/motorcycle");
     }
   };
 

@@ -1,4 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
+import "../css/motorcycle_info.css";
+import "../css_admin.css";
+import "./css/user_info.css";
 import { Form, InputGroup } from "react-bootstrap";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -17,11 +20,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faPencilSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function UserInfoAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const [userId, setUserId] = useState(null); 
+  const [open, setOpen] = useState(false);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -34,19 +45,19 @@ export default function UserInfoAdmin() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
-};
+    var requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
 
-fetch("http://localhost:3001/api/v1/users", requestOptions)
-  .then(response => response.json())
-  .then((result) => {
-    setLoading(false);
-    setItems(result);
-  })
-  .catch(error => console.log('error', error));
+    fetch("http://localhost:3001/api/v1/users", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        setLoading(false);
+        setItems(result);
+      })
+      .catch((error) => console.log("error", error));
   };
 
   const UserDelete = (USER_ID) => {
@@ -55,10 +66,7 @@ fetch("http://localhost:3001/api/v1/users", requestOptions)
       redirect: "follow",
     };
 
-    fetch(
-      `http://localhost:3001/api/v1/users/${USER_ID}`,
-      requestOptions
-    )
+    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
@@ -80,103 +88,155 @@ fetch("http://localhost:3001/api/v1/users", requestOptions)
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const handleOpen = (USER_ID) => {
+    setUserId(USER_ID);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    handleClose();
+    if (userId !== null) {
+      UserDelete(userId);
+    }
+  };
   return (
     <diV>
-    <Row>
-      <div class="search">
-        <Col>
-          <Form>
-            <InputGroup>
-              <Form.Control
-                onChange={handleInputChange}
-                placeholder="ค้นหา"
-              />
-            </InputGroup>
-          </Form>
-        </Col>
-      </div>
-    </Row>
-    
-    {loading ? (
-      <p>Loading...</p>
-    ) : (
-      <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
-                <TableCell>ชื่อ - นามสกุด</TableCell>
-                <TableCell>เบอร์โทร</TableCell>
-                <TableCell>แก้ไขข้อมูล</TableCell>
-                <TableCell>ลบข้อมูล</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {items
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .filter((row) => {
-                  return (
-                    search.trim() === "" ||
-                    row.USER_FULLNAME.toLowerCase().includes(
-                      search.toLowerCase()
-                    ) ||
-                    row.USER_CODE_NUMBER.toLowerCase().includes(
-                      search.toLowerCase()
-                    ) ||
-                    row.USER_TELL.toLowerCase().includes(
-                      search.toLowerCase()
-                    )
-                  );
-                })
-                .map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell>{row.USER_CODE_NUMBER}</TableCell>
-                    <TableCell>{row.USER_FULLNAME}</TableCell>
-                    <TableCell>
-                      {row.USER_TELL}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        type="button"
-                        class="btn btn-warning"
-                        onClick={() => UserUpdate(row.USER_ID)}
-                      >
-                        แก้ไข
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        type="button"
-                        class="btn btn-danger"
-                        onClick={() => UserDelete(row.USER_ID)}
-                      >
-                        ลบ
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={items.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage="จำนวนแถวต่อหน้า:"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} จากทั้งหมด ${count}`
-          }
+      <div class="search"></div>
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
         />
-      </Paper>
-    )}
-  </diV>
+      </form>
+      <div class="header-t-user">
+        <div>
+          <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow class="table-row">
+                  <TableCell class="t-code" style={{ padding: "10px" }}>
+                    เลขประจำตัวบัตรประชาชน
+                  </TableCell>
+                  <TableCell class="t-name">ชื่อ-นามสกุล</TableCell>
+                  <TableCell class="t-bukget">เบอร์โทร</TableCell>
+                  <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>
+                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableBody>
+                {items
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .filter((row) => {
+                    return (
+                      search.trim() === "" ||
+                      row.USER_FULLNAME.toLowerCase().includes(
+                        search.toLowerCase()
+                      ) ||
+                      row.USER_CODE_NUMBER.toLowerCase().includes(
+                        search.toLowerCase()
+                      ) ||
+                      row.USER_TELL.toLowerCase().includes(search.toLowerCase())
+                    );
+                  })
+                  .map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell
+                        class="t-code"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
+                        {row.USER_CODE_NUMBER}
+                      </TableCell>
+                      <TableCell
+                        class="t-name"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
+                        {row.USER_FULLNAME}
+                      </TableCell>
+                      <TableCell
+                        class="t-bukget"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
+                        {row.USER_TELL}
+                      </TableCell>
+                      <TableCell
+                        class="t-edit"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
+                        <Button
+                          type="button"
+                          class="btn btn-outline-warning btn-edit"
+                          onClick={() => UserUpdate(row.USER_ID)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPencilSquare}
+                            class="icon-edit"
+                          />
+                        </Button>
+                      </TableCell>
+                      <TableCell
+                        class="t-delete"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
+                        <Button
+                          type="button"
+                          class="btn btn-outline-danger btn-delete"
+                          onClick={() => handleOpen(row.USER_ID)}
+                        >
+                          <FontAwesomeIcon icon={faTrash} class="icon-delete" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={items.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="จำนวนแถวต่อหน้า:"
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}-${to} จากทั้งหมด ${count}`
+            }
+          />
+        </Paper>
+      )}
+       <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            คุณต้องการลบข้อมูลลูกค้าคนนี้ใช่หรือไม่?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>ยกเลิก</Button>
+          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+        </DialogActions>
+      </Dialog>
+    </diV>
   );
 }

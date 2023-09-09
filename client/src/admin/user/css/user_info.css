@@ -1,0 +1,20 @@
+.header-t-user{
+    border-color: rgb(0, 0, 0);
+    border: 0px;
+    height: 50px;
+    background-color: #ffffff;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    margin-top: 20px;
+
+  }
+  .table-row {
+    text-align: left; 
+    
+  }
+  .table-row td,
+  .table-row th {
+    border: none; 
+    padding: 10px 0;
+    vertical-align: middle;
+  }

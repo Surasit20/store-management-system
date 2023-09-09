@@ -161,25 +161,39 @@ export default function RepairInfoAdmin() {
   };
   return (
     <div>
-      <Row>
-        <Col>
-          <div>
-            <div class="search">
-              <Col>
-                <Form>
-                  <InputGroup>
-                    <Form.Control
-                      onChange={handleInputChange}
-                      placeholder="ค้นหา"
-                    />
-                  </InputGroup>
-                </Form>
-                <div>
+       <div class="search"></div>
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+      <div>
                   <Button onClick={handleClick}>คลิกเพื่อแสดง Dialog</Button>
                   <Alert open={open} handleClose={handleClose} />
                 </div>
-              </Col>
-            </div>
+      <div class="header-t-user">
+        <div>
+          <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow class="table-row">
+                  <TableCell class="t-code" style={{ padding: "10px" }}>
+                    เลขประจำตัวบัตรประชาชน
+                  </TableCell>
+                  <TableCell class="t-name">ชื่อ-นามสกุล</TableCell>
+                  <TableCell class="t-bukget">เบอร์โทร</TableCell>
+                  <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>
+                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
+      
             {loading ? (
               <p>Loading...</p>
             ) : (
@@ -263,9 +277,6 @@ export default function RepairInfoAdmin() {
                 />
               </Paper>
             )}
-          </div>
-        </Col>
-      </Row>
     </div>
   );
 }
