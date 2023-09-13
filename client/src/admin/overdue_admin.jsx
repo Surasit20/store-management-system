@@ -27,20 +27,62 @@ export default function OverdueAdmin() {
   };
 
   useEffect(() => {
-    InstallmentGet();
+    const fetchData = async () => {
+      try {
+        const [motorcycles, users, repaildataes] = await Promise.all([
+          MotorcycleGet(),
+          UserGet(),
+          InstallmentGet(),
+        ]);
+
+        console.log("motorcycles:", motorcycles);
+        console.log("users:", users);
+        console.log("repaildataes:", repaildataes);
+
+        const repaildataesWithUserFullname = repaildataes.map((item) => {
+          const motorcycle = motorcycles.find(
+            (m) => m.MOTORCYCLE_ID === item.MOTORCYCLE_ID
+          );
+          const user = users.find(
+            (u) => u.USER_ID === (motorcycle ? motorcycle.USER_ID : null)
+          ); // Check if motorcycle is defined before accessing USER_ID
+          return {
+            ...item,
+            USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
+            USER_TELL: user ? user.USER_TELL : "N/A",
+          };
+        });
+
+        const repaildataesWithBothData = repaildataesWithUserFullname.map(
+          (item) => {
+            const motorcycle = motorcycles.find(
+              (m) => m.MOTORCYCLE_ID === item.MOTORCYCLE_ID
+            );
+            return {
+              ...item,
+              MOTORCYCLE_BUCKET_NUMBER: motorcycle
+                ? motorcycle.MOTORCYCLE_BUCKET_NUMBER
+                : "N/A",
+              MOTORCYCLE_REGISTRATION_NUMBER: motorcycle
+                ? motorcycle.MOTORCYCLE_REGISTRATION_NUMBER
+                : "N/A",
+            };
+          }
+        );
+
+        setItems(repaildataesWithBothData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const InstallmentGet = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  redirect: 'follow'
-};
-
-fetch("http://localhost:3001/api/v1/installments", requestOptions)
+  return fetch("http://localhost:3001/api/v1/installments")
   .then(response => response.json())
   .then((result) => {
     setLoading(false);
@@ -80,6 +122,43 @@ fetch("http://localhost:3001/api/v1/installments", requestOptions)
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const MotorcycleGet = () => {
+    return fetch("http://localhost:3001/api/v1/motorcycles")
+      .then((res) => res.json())
+      .then((result) => {
+        const motorcycles = result;
+        const motorcycleIdMap = new Map();
+
+        motorcycles.forEach((motorcycle) => {
+          motorcycleIdMap.set(
+            motorcycle.MOTORCYCLE_REGISTRATION_NUMBER,
+            motorcycle.MOTORCYCLE_ID
+          );
+        });
+
+        return motorcycles;
+      })
+      .catch((error) => {
+        console.error("Error fetching motorcycles:", error);
+        return [];
+      });
+  };
+  const UserGet = () => {
+    return fetch("http://localhost:3001/api/v1/users")
+      .then((res) => res.json())
+      .then((result) => {
+        return result.map((user) => ({
+          USER_ID: user.USER_ID,
+          USER_FULLNAME: user.USER_FULLNAME,
+        }));
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+        return [];
+      });
+  };
+  
   return (
     <diV>
     <Row>
@@ -133,18 +212,15 @@ fetch("http://localhost:3001/api/v1/installments", requestOptions)
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell>{row.INSTALLMENTS_ID}</TableCell>
-                    <TableCell>{row.MOTORCYCLE_ID}</TableCell>
-                    <TableCell>
-                      {row.USER_TELL}
-                    </TableCell>
+                    <TableCell>{row.USER_FULLNAME}</TableCell>
+                    <TableCell>{row.MOTORCYCLE_REGISTRATION_NUMBER}</TableCell>
                     <TableCell>
                       <Button
                         type="button"
                         class="btn btn-warning"
                         onClick={() => UserUpdate(row.USER_ID)}
                       >
-                        แก้ไข
+                       รายละเอียด
                       </Button>
                     </TableCell>
                     <TableCell>

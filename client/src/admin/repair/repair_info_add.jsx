@@ -79,7 +79,6 @@ export default function RepairAddAdmin() {;
           .then((result) => {
             console.log(result);
             console.log("motorcycles:", motorcycles);
-            // ทำการปรับปรุงสถานะหรือทำอย่างอื่นตามที่คุณต้องการหลังจากบันทึกข้อมูลสำเร็จ
           })
           .catch((error) => console.log("error", error));
       } else {

@@ -58,6 +58,7 @@ export default function RepairInfoAdmin() {
           return {
             ...item,
             USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
+            USER_TELL: user ? user.USER_TELL : "N/A",
           };
         });
 
@@ -120,6 +121,7 @@ export default function RepairInfoAdmin() {
         return result.map((user) => ({
           USER_ID: user.USER_ID,
           USER_FULLNAME: user.USER_FULLNAME,
+          USER_TELL : user.USER_TELL
         }));
       })
       .catch((error) => {
@@ -217,6 +219,9 @@ export default function RepairInfoAdmin() {
                   <TableCell class="t-code" style={{ padding: "10px" }}>
                     ชื่อลูกค้า
                   </TableCell>
+                  <TableCell class="t-code" style={{ padding: "10px" }}>
+                    เบอร์โทร
+                  </TableCell>
                   <TableCell class="t-name">เลขตัวถัง</TableCell>
                   <TableCell class="t-bukget">เลขทะเบียน</TableCell>
                   <TableCell class="t-edit">เปลี่ยนสถานะ</TableCell>
@@ -257,14 +262,21 @@ export default function RepairInfoAdmin() {
                         },
                       }}
                     >
+                      <TableCell>
+                        {row.REPAILDATA_DATE}
+                      </TableCell>
                       <TableCell>{row.USER_FULLNAME}</TableCell>
+                      <TableCell>{row.USER_TELL}</TableCell>
                       <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
                       <TableCell>
                         {row.MOTORCYCLE_REGISTRATION_NUMBER}
                       </TableCell>
                       <TableCell>
+                        {row.REPAILDATA_WISE}
+                      </TableCell>
+                      <TableCell>
                         {row.REPAILDATA_SATUS == 0 ? (
-                          <Box sx={{ minWidth: 120 }}>
+                          <Box sx={{ minWidth: 50 }}>
                             <FormControl fullWidth>
                               <InputLabel id="demo-simple-select-label">
                                 เลือกสถานะ
@@ -284,7 +296,7 @@ export default function RepairInfoAdmin() {
                             </FormControl>
                           </Box>
                         ) : (
-                          <Box sx={{ minWidth: 120 }}>
+                          <Box sx={{ minWidth: 50 }}>
                             <FormControl fullWidth disabled>
                               <InputLabel id="demo-simple-select-label">
                                 เลือกสถาณะ
@@ -305,7 +317,7 @@ export default function RepairInfoAdmin() {
                           </Box>
                         )}
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <Button
                           type="button"
                           class="btn btn-danger"
@@ -313,7 +325,7 @@ export default function RepairInfoAdmin() {
                         >
                           รายละเอียด
                         </Button>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <Button
                           type="button"
