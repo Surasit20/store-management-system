@@ -54,7 +54,7 @@ export default function RepairInfoAdmin() {
           );
           const user = users.find(
             (u) => u.USER_ID === (motorcycle ? motorcycle.USER_ID : null)
-          ); // Check if motorcycle is defined before accessing USER_ID
+          ); 
           return {
             ...item,
             USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
