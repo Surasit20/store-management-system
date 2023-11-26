@@ -2,7 +2,9 @@ const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
+var CronJob = require('cron').CronJob;
 
+const MailerService = require("./src/service/mailer.js")
 //const compression = require('compression');
 //const Logger = require('./src/utils/logger.js');
 
@@ -86,13 +88,14 @@ app.use((req, res, next) => {
 // })
 
 
-// var job = new CronJob(
-//     '*/10 * * * * *',
-//     function() {
-//         console.log('You will see this message every second');
-//     },
-//     null,
-//     true,
-//     'Asia/Bangkok'
-// );
+var job = new CronJob(
+    '*/10 * * * * *',
+    async function () {
+		await MailerService(app);
+        console.log('You will see this message every second');
+    },
+    null,
+    true,
+    'Asia/Bangkok'
+);
 app.listen('3001', () => { })
