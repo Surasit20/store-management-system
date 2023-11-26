@@ -25,7 +25,9 @@ import RepairInfoAdmin from './admin/repair/repair_info_admin';
 import AddMotorcycle from './admin/motorcycle_add';
 import UpdateMotorcycle from './admin/motorcycle_update';
 import UserInfoAdmin from './admin/user/user_info';
-import UserUpdateAdmin from './admin/user/user_update'
+import UserUpdateAdmin from './admin/user/user_update';
+import RepairAddAdmin from './admin/repair/repair_info_add';
+import RepairGetByIdAdmin from './admin/repair/repair_get_by_id'
 const router = createBrowserRouter([
   {
   //home
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
     {
       path: "/admin/repair/repair-info",
       element: <RepairInfoAdmin />,
+    },
+    {
+      path: "/admin/repair/repair-add",
+      element: <RepairAddAdmin />,
+    },
+    {
+      path: "/admin/repair/repair-get-by-id/:REPAILDATA_ID",
+      element: <RepairGetByIdAdmin />,
     },
     {
       path: "/admin/chassis",

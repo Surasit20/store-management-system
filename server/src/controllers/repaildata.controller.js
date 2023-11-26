@@ -14,7 +14,7 @@ class RepailDataController extends BaseController {
 	static async getRepailDataById(req, res) {
 		try {
 			const result = await super.getById(req, 'REPAILDATA');
-			return res.send(result)
+			return res.json({"status": "ok",result});
 		} catch (error) {
 			return requestHandler.sendError(req, res, error);
 		}
