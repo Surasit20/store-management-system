@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import "../repair/css/repair_info.css";
+import { useParams , useNavigate } from "react-router-dom";
 import { Form, InputGroup } from "react-bootstrap";
 import { Grid, TextField } from "@mui/material";
 import Col from "react-bootstrap/Col";
@@ -14,7 +15,7 @@ import Select from '@mui/material/Select';
 import axios from "axios";
 
 
-export default function RepairAddAdmin() {;
+function RepairAddAdmin() {;
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [Model, setModel] = useState("");
@@ -23,6 +24,7 @@ export default function RepairAddAdmin() {;
   const [Wise, setWise] = useState("");
   const [Status, setStatus] = useState("");
   const [motorcycles, setMotorcycles] = useState([]);
+  const navigate = useNavigate();
 
   const motorcycleIdMap = new Map();
   useEffect(() => {
@@ -81,6 +83,7 @@ export default function RepairAddAdmin() {;
             console.log("motorcycles:", motorcycles);
           })
           .catch((error) => console.log("error", error));
+          navigate("/admin/repair/repair-info");
       } else {
         console.error("ไม่มี", MotorcycleNumber);
       }
@@ -208,3 +211,4 @@ export default function RepairAddAdmin() {;
         </form>
   );
 }
+export default RepairAddAdmin;

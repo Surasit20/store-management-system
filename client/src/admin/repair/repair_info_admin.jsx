@@ -16,6 +16,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusCircle,
@@ -34,6 +39,7 @@ export default function RepairInfoAdmin() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [gotoAddAddRepair, setGotoAddRepair] = useState(false);
+  const [repairId, setRepairId] = useState(null); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -166,6 +172,23 @@ export default function RepairInfoAdmin() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleOpen = (USER_ID) => {
+    setRepairId(USER_ID);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteConfirmation = () => {
+    handleClose();
+    if (repairId !== null) {
+      RepairDelete(repairId);
+    }
+  };
+
   const handleDropDownChange = async (event, context) => {
     console.log(context);
     context.REPAILDATA_SATUS = parseInt(event.target.value);
@@ -216,14 +239,9 @@ export default function RepairInfoAdmin() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow class="table-row">
-                  <TableCell class="t-code" style={{ padding: "10px" }}>
-                    ชื่อลูกค้า
-                  </TableCell>
-                  <TableCell class="t-code" style={{ padding: "10px" }}>
-                    เบอร์โทร
-                  </TableCell>
-                  <TableCell class="t-name">เลขตัวถัง</TableCell>
-                  <TableCell class="t-bukget">เลขทะเบียน</TableCell>
+                  <TableCell class="t-name" style={{ padding: "10px" }}> ชื่อลูกค้า </TableCell>
+                  <TableCell class="t-code" style={{ padding: "10px" }}> เบอร์โทร</TableCell>
+                  <TableCell class="t-rig">เลขทะเบียน</TableCell>
                   <TableCell class="t-edit">เปลี่ยนสถานะ</TableCell>
                   <TableCell class="t-delete">ลบข้อมูล</TableCell>
                 </TableRow>
@@ -262,21 +280,12 @@ export default function RepairInfoAdmin() {
                         },
                       }}
                     >
-                      <TableCell>
-                        {row.REPAILDATA_DATE}
-                      </TableCell>
-                      <TableCell>{row.USER_FULLNAME}</TableCell>
-                      <TableCell>{row.USER_TELL}</TableCell>
-                      <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                      <TableCell>
-                        {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                      </TableCell>
-                      <TableCell>
-                        {row.REPAILDATA_WISE}
-                      </TableCell>
-                      <TableCell>
+                      <TableCell  class="t-name"  >{row.USER_FULLNAME}</TableCell>
+                      <TableCell  class="t-code" >{row.USER_TELL}</TableCell>
+                      <TableCell  class="t-rig" >{row.MOTORCYCLE_REGISTRATION_NUMBER}</TableCell>
+                      <TableCell  class="t-edit" >
                         {row.REPAILDATA_SATUS == 0 ? (
-                          <Box sx={{ minWidth: 50 }}>
+                          <Box sx={{ Width: 50 }}>
                             <FormControl fullWidth>
                               <InputLabel id="demo-simple-select-label">
                                 เลือกสถานะ
@@ -296,7 +305,7 @@ export default function RepairInfoAdmin() {
                             </FormControl>
                           </Box>
                         ) : (
-                          <Box sx={{ minWidth: 50 }}>
+                          <Box sx={{ Width: 50 }}>
                             <FormControl fullWidth disabled>
                               <InputLabel id="demo-simple-select-label">
                                 เลือกสถาณะ
@@ -326,13 +335,16 @@ export default function RepairInfoAdmin() {
                           รายละเอียด
                         </Button>
                       </TableCell> */}
-                      <TableCell>
+                      <TableCell
+                        class="t-delete"
+                        style={{ verticalAlign: "middle", padding: "10px" }}
+                      >
                         <Button
                           type="button"
-                          class="btn btn-danger"
-                          onClick={() => RepairDelete(row.REPAILDATA_ID)}
+                          class="btn btn-outline-danger btn-delete"
+                          onClick={() => handleOpen(row.REPAILDATA_ID)}
                         >
-                          ลบ
+                          <FontAwesomeIcon icon={faTrash} class="icon-delete" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -355,6 +367,18 @@ export default function RepairInfoAdmin() {
           />
         </Paper>
       )}
+       <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            คุณต้องการลบข้อมูลส่งซ่อมนี้ใช่หรือไม่?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>ยกเลิก</Button>
+          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

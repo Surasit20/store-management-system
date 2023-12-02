@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { useParams } from "react-router-dom";
+import { useLocation  } from "react-router-dom";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
 import Paper from "@mui/material/Paper";
@@ -22,6 +22,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import  UserDialog from './dialog/UserDialog'
 
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
@@ -33,6 +34,9 @@ export default function ChassisAdmin() {
   const [motorcycleId, setMotorcycleId] = useState("");
   const [installmentNo,setinstallmentNo] = useState("");
   const[installmentMoney,setinstallmentMoney] = useState("");
+  const [openUserDialog, setOpenUserDialog] = useState(false);
+  const location = useLocation();
+  const { userFullName } = location.state || {};
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -170,6 +174,23 @@ export default function ChassisAdmin() {
     return <Navigate to="/admin/add-motorcycle" />;
   }
   
+  ///Open Dialog User
+
+
+  const handleUserDialog = () => {
+    setOpenUserDialog(true);
+  };
+
+  const handleCloseUserDialog = () => {
+    setOpenUserDialog(false);
+  };
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleUserDialog(); 
+    }
+  };
+
   return (
     <diV>
       <Row>
@@ -246,7 +267,29 @@ export default function ChassisAdmin() {
                         >
                           ยืนยัน
                         </Button>
-                        <Dialog open={open} onClose={handleClose}>
+                       
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component="div"
+            count={items.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage="จำนวนแถวต่อหน้า:"
+            labelDisplayedRows={({ from, to, count }) =>
+              `${from}-${to} จากทั้งหมด ${count}`
+            }
+          />
+        </Paper>
+      )}
+       <Dialog open={open} onClose={handleClose}>
                           <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
                           <DialogContent>
                             <DialogContentText>
@@ -254,11 +297,11 @@ export default function ChassisAdmin() {
                             </DialogContentText>
                             <TextField
                               id="UserId"
-                              label="ไอดี"
-                              variant="outlined"
-                              fullWidth
-                              required
-                              onChange={(e) => setUserId(e.target.value)}
+                            label="User Full Name"
+        variant="outlined"
+        fullWidth
+        value={userFullName || ''}
+                              onKeyPress={handleEnterKeyPress}
                             ></TextField>
                               <TextField
                               id="installmentNo"
@@ -284,27 +327,8 @@ export default function ChassisAdmin() {
                             <Button onClick={handleClose}>ยกเลิก</Button>
                           </DialogActions>
                         </Dialog>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="จำนวนแถวต่อหน้า:"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} จากทั้งหมด ${count}`
-            }
-          />
-        </Paper>
-      )}
+
+                        <UserDialog open={openUserDialog} handleClose={handleCloseUserDialog} />
     </diV>
   );
 }
