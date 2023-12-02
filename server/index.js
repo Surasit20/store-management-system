@@ -89,7 +89,7 @@ app.use((req, res, next) => {
 
 
 var job = new CronJob(
-    '*/10 * * * * *',
+    '0 1 * * *',
     async function () {
 		await MailerService(app);
         console.log('You will see this message every second');

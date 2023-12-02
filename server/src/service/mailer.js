@@ -32,7 +32,7 @@ const nodemailer = require("nodemailer");
       let differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
       if(differentDays == 7)
       {
-        listInsallments.push(item)
+        //listInsallments.push(item)
       }  
       listInsallments.push(item)  
     }
@@ -50,34 +50,26 @@ const nodemailer = require("nodemailer");
     let temp = []
     let tempInsallments  = resulInsallments.filter(x => x.INSTALLMENTS_ID === item.INSTALLMENTS_ID);
     let tempMotorcycle  = resulMotorcycle.filter(x => x.MOTORCYCLE_ID === tempInsallments[0].MOTORCYCLE_ID);
-    let tempResulUser  = resulUser.filter(x => x.USER_ID === tempMotorcycle[0].USER_ID);
+    let tempResulUser  = resulUser.filter(x => x.USER_ID === tempMotorcycle[0].USER_ID && x.USER_ID !== null);
     temp = [item,tempResulUser[0]]
     dataResult.push(temp)
 
   })
 
-//   const joinedArray = listInsallments.map(item1 => ({
-//     ...item1,
-//     ...resulInsallments1.find(item2 => parseInt(item2.INSTALLMENTS_ID) == item1.INSTALLMENTS_ID)
-// }));
-
-
-//    let arr1 = listInsallments.map((item, i) =>Object.assign({}, item,  resulInsallments.find(item2 => parseInt(item2.INSTALLMENTS_ID) == 6).MOTORCYCLE_ID ))
-//  console.log(arr1[0].MOTORCYCLE_ID)
-
-
-
-  // let arr2 = arr1.map((item, i) =>
-  // Object.assign({}, item, resulMotorcycle[i]))
-
-  // let arr3 = arr2.map((item, i) =>
-  // Object.assign({}, item, resulUser[i]))
-
+  var _sendEmail = []
 
   dataResult.forEach(async (element) =>  {
+    var item = [];
     console.log(element[1].USER_EMAIL)
     console.log(element[0].MONTH_INSTALLMENTS_DATE)
-    
+    item['from'] = 'wesringoki@gmail.com'
+    item['to'] = element[1].USER_EMAIL
+    item['subject'] = "แจ้งการชำระค่างวด"
+    item['text'] = "งวดที่" + element[0].MONTH_INSTALLMENTS_DATE
+    item['html'] = `<b>งวดที่  ${element[0].MONTH_INSTALLMENTS_DATE}</b>`
+
+    var _sendEmail = await transporter.sendMail(_sendEmail);
+  });
     //    var _sendEmail = await transporter.sendMail({
     //   from: 'wesringoki@gmail.com', // sender address
     //   to: element[1].USER_EMAIL, // list of receivers
@@ -85,10 +77,6 @@ const nodemailer = require("nodemailer");
     //   text: "งวดที่" + element[0].MONTH_INSTALLMENTS_DATE, // plain text body
     //   html: "<b>Hello world?</b>", // html body
     // });
-  });
- 
-
-
   
   }
   catch(error){

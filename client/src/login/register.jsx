@@ -31,7 +31,33 @@ function Register() {
   console.log(location.pathname);
 
   const handleSubmit = async (event) => {
+
     event.preventDefault();
+
+    
+    if(Password != PasswordConfirm){
+      Swal.fire({
+        title: "ไม่สำเร็จ",
+        text: "รหัสผ่านไม่ตรงกัน",
+        icon: "error",
+        confirmButtonText: "หน้าปิ",
+      });
+      
+      return ;
+    }
+
+       
+    if(setCodeNumber != 13){
+      Swal.fire({
+        title: "ไม่สำเร็จ",
+        text: "เลขบัตรประชาชนไม่ถูกต้อง",
+        icon: "error",
+        confirmButtonText: "หน้าปิ",
+      });
+      
+      return ;
+    }
+
     let data = {
       USER_FULLNAME: FullName,
       USER_BIRTHDAY: Brirtday,
@@ -95,7 +121,7 @@ function Register() {
       <div className="container-fluid bg-warning bg-gradient container-user">
         <form onSubmit={handleSubmit}>
           <div className="input-group flex-nowrap">
-            <span className="input-group-text" id="addon-wrapping">
+            <span className="input-group-text form-label" id="addon-wrapping" for="validationNamae">
               ชื่อ-นามสกุล
             </span>
             <input
@@ -104,6 +130,8 @@ function Register() {
               placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="ชื่อ-นามสกุล"
               aria-describedby="addon-wrapping"
+              id="validationNamae"
+              required
               onChange={(e) => setFullName(e.target.value)}
             />
           </div>
@@ -123,11 +151,12 @@ function Register() {
               เลขบัตรประจำตัวประชาชน
             </span>
             <input
-              type="text"
+              type="number"
               className="form-control"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="เลขบัตรประจำตัวประชาชน"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setCodeNumber(e.target.value)}
             />
           </div>
@@ -137,11 +166,12 @@ function Register() {
               เบอร์โทรศัพท์
             </span>
             <input
-              type="text"
+              type="number"
               className="form-control"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="เบอร์โทรศัพท์"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setTell(e.target.value)}
             />
           </div>
@@ -156,6 +186,7 @@ function Register() {
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setOccupation(e.target.value)}
             />
           </div>
@@ -169,6 +200,7 @@ function Register() {
                 className="form-control"
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
+                required
                 aria-describedby="addon-wrapping"
                 onChange={(e) => setHouseNumber(e.target.value)}
               />
@@ -183,6 +215,7 @@ function Register() {
                 className="form-control"
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
+                required
                 aria-describedby="addon-wrapping"
                 onChange={(e) => setGroup(e.target.value)}
               />
@@ -198,6 +231,7 @@ function Register() {
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
                 aria-describedby="addon-wrapping"
+                required
                 onChange={(e) => setAlley(e.target.value)}
               />
             </div>
@@ -212,6 +246,7 @@ function Register() {
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
                 aria-describedby="addon-wrapping"
+                required
                 onChange={(e) => setRoad(e.target.value)}
               />
             </div>
@@ -226,6 +261,7 @@ function Register() {
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
                 aria-describedby="addon-wrapping"
+                required
                 onChange={(e) => setSubDistrict(e.target.value)}
               />
             </div>
@@ -240,6 +276,7 @@ function Register() {
                 //placeholder="กรอก ชื่อ-นามสกุล"
                 aria-label="อาชีพ"
                 aria-describedby="addon-wrapping"
+                required
                 onChange={(e) => setDistrict(e.target.value)}
               />
             </div>
@@ -255,6 +292,7 @@ function Register() {
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setProvince(e.target.value)}
             />
           </div>
@@ -264,11 +302,12 @@ function Register() {
               รหัสไปรษณีย์
             </span>
             <input
-              type="text"
+              type="number"
               className="form-control"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setPostalCode(e.target.value)}
             />
           </div>
@@ -278,11 +317,14 @@ function Register() {
               อีเมล
             </span>
             <input
-              type="text"
+              type="email"
               className="form-control"
+              id="email" 
+              name="email"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -297,6 +339,7 @@ function Register() {
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setUserName(e.target.value)}
             />
           </div>
@@ -311,6 +354,7 @@ function Register() {
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
@@ -325,6 +369,7 @@ function Register() {
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
               aria-describedby="addon-wrapping"
+              required
               onChange={(e) => setPasswordConfirm(e.target.value)}
             />
           </div>
