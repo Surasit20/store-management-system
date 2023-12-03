@@ -66,7 +66,7 @@ function Login() {
       .post("http://localhost:3001/api/v1/auth/login", data)
       .then((response) => {
 
-        console.log();
+        console.log(response.data);
         if (response.status == 200 && response.data.data.user.USER_CHECK == "admin") {
           localStorage.setItem("user", JSON.stringify(response.data));
           console.log(response.status);
