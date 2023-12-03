@@ -35,6 +35,7 @@ export default function ChassisAdmin() {
   const [installmentNo,setinstallmentNo] = useState("");
   const[installmentMoney,setinstallmentMoney] = useState("");
   const [openUserDialog, setOpenUserDialog] = useState(false);
+  const [Usercode, setUserCode] = useState("");
   const location = useLocation();
   const { userFullName } = location.state || {};
   const handleInputChange = (e) => {
@@ -65,10 +66,10 @@ export default function ChassisAdmin() {
   }, []);
 
   useEffect(() => {
-    if (installmentNo !== "") { // Ensure installmentNo is not empty
+    if (installmentNo !== "") { 
       const selectedMotorcycle = items.find((item) => item.MOTORCYCLE_ID === motorcycleId);
 
-      if (selectedMotorcycle) { // Ensure selectedMotorcycle exists
+      if (selectedMotorcycle) { 
         const installmentMoneyValue = parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) / parseFloat(installmentNo);
         setinstallmentMoney(installmentMoneyValue.toFixed(2));
       }
@@ -116,6 +117,7 @@ export default function ChassisAdmin() {
 
     var raw = JSON.stringify({
       USER_ID: UserId,
+      USER_CODE_NUMBER: Usercode,
       //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
 
@@ -133,7 +135,6 @@ export default function ChassisAdmin() {
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        // Close the dialog and perform any necessary actions
         handleClose();
       })
       .catch((error) => console.log("error", error));
@@ -185,11 +186,6 @@ export default function ChassisAdmin() {
     setOpenUserDialog(false);
   };
 
-  const handleEnterKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleUserDialog(); 
-    }
-  };
 
   return (
     <diV>
@@ -207,16 +203,6 @@ export default function ChassisAdmin() {
           </Col>
         </div>
         <div class="additem">
-          <Col>
-            <button
-              class="btn btn-success btn-add-motor"
-              onClick={() => {
-                setGotoAddMotorcycle(true);
-              }}
-            >
-              เพิ่มข้อมูล{" "}
-            </button>
-          </Col>
         </div>
       </Row>
       {loading ? (
@@ -296,12 +282,12 @@ export default function ChassisAdmin() {
                               กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
                             </DialogContentText>
                             <TextField
-                              id="UserId"
-                            label="User Full Name"
-        variant="outlined"
-        fullWidth
-        value={userFullName || ''}
-                              onKeyPress={handleEnterKeyPress}
+                              id="UserCode"
+                              label="เลขประจำตัวบัตรประชาชน"
+                              variant="outlined"
+                              fullWidth
+                              required
+                              onChange={(e) => setUserId(e.target.value)}
                             ></TextField>
                               <TextField
                               id="installmentNo"
@@ -327,8 +313,6 @@ export default function ChassisAdmin() {
                             <Button onClick={handleClose}>ยกเลิก</Button>
                           </DialogActions>
                         </Dialog>
-
-                        <UserDialog open={openUserDialog} handleClose={handleCloseUserDialog} />
     </diV>
   );
 }

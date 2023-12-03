@@ -14,7 +14,7 @@ import  ReceiptUser from './user/receipt_user';
 import  RepairUser from './user/repair_user';
 
 //admin
-import IndexAdmin from './admin/index_admin';
+import IndexAdmin from './admin/user/indexAdmin/index_admin';
 import ChassisAdmin from './admin/chassis_admin';
 import DailySummaryAdmin from './admin/daily_summary';
 import HomeAdmin from './admin/home_admin';

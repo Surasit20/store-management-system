@@ -21,6 +21,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "bootstrap-icons": "^1.10.5",
+    "cdbreact": "^1.5.18",
     "cloudinary": "^1.39.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
