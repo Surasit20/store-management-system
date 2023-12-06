@@ -157,8 +157,18 @@ function UpdateMotorcycle() {
     }
   };
 
+    //กลับหน้าก่อนหน้า
+    const [gotoListMotorcycle, setGotoListMotorcycle] = useState(false);
+    if (gotoListMotorcycle) {
+      return <Navigate to="/admin/motorcycle" />;
+    }
+
   return (
     <div>
+      <Button variant="contained" color="success" onClick={() => {
+            setGotoListMotorcycle(true);
+          }}
+        >กลับหน้าก่อนหน้า</Button>
       <div class="contrainer" > 
       <form onSubmit={handleSubmit}>
         <Row>
