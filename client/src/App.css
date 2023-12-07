@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=K2D:wght@500&display=swap');
 .App {
   text-align: center; 
 }
@@ -11,3 +12,7 @@
   width: 250px;
   margin: 10px;
 }
+
+* {
+  font-family: 'K2D', sans-serif;
+ }

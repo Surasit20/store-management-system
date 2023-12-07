@@ -11,7 +11,7 @@ function Register() {
   const navigate = useNavigate();
   const [FullName, setFullName] = useState("");
   const [Brirtday, setBrirtday] = useState(new Date());
-  const [CodeNumber, setCodeNumber] = useState();
+  const [CodeNumber, setCodeNumber] = useState("");
   const [Tell, setTell] = useState("");
   const [Occupation, setOccupation] = useState("");
   const [HouseNumber, setHouseNumber] = useState("");
@@ -32,7 +32,7 @@ function Register() {
   const [goToLogin, setGoToLogin] = React.useState(false);
 
   if (goToLogin) {
-    return <Navigate to="/home/login" />;
+    return <Navigate to="/login" />;
   }
 
   const handleSubmit = async (event) => {
@@ -51,8 +51,7 @@ function Register() {
       return ;
     }
 
-    console.log(setCodeNumber)
-    if(setCodeNumber.length != 13){
+    if(CodeNumber.length != 13){
       Swal.fire({
         title: "ไม่สำเร็จ",
         text: "เลขบัตรประชาชนไม่ถูกต้อง",
@@ -86,7 +85,7 @@ function Register() {
       .post("http://localhost:3001/api/v1/auth/register", data)
       .then((response) => {
         console.log(response);
-        if (response.status == 200) {
+        if (response.status == 201) {
           Swal.fire({
             title: "สมัครเสร็จเรียบร้อย",
             text: "สมัครเสร็จเรียบร้อย",
@@ -127,13 +126,13 @@ function Register() {
       </div>
       <div className="container-fluid bg-warning bg-gradient container-user">
         <form onSubmit={handleSubmit}>
-          <div className="input-group my-2">
-            <span className="input-group-text form-label" id="addon-wrapping" for="validationNamae">
+          <div className="input-group">
+            <span className="input-group-text form-label my-2" id="addon-wrapping" for="validationNamae">
               ชื่อ-นามสกุล
             </span>
             <input
               type="text"
-              className="form-control"
+              className="form-control my-2"
               placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="ชื่อ-นามสกุล"
               aria-describedby="addon-wrapping"
