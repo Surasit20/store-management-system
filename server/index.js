@@ -42,7 +42,7 @@ app.use((req, res, next) => {
 	//const err = new Error('Not Found');
 	//err.status = 404;
 	res.status(404).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
-	next(err);
+	next(res);
 });
 
 // // home page
