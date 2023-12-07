@@ -1,0 +1,8 @@
+.size {
+    width: 50 px; /* ความกว้างเท่ากับ 50% ของหน้าจอ */
+    height: 50vh; /* ความสูงเท่ากับ 50% ของหน้าจอ */
+    background-color: blue;
+  } 
+  .btn-cancle{
+    color: red;
+  }

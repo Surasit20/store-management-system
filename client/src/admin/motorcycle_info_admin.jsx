@@ -13,10 +13,7 @@ import TableRow from "@mui/material/TableRow";
 import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import DeleteDialog from "./dialog/deleteDialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import {
   faPlusCircle,
@@ -24,12 +21,14 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
+
 export default function MotorcycleInfoAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [motorcycleId, setMotorcycleId] = useState(null); 
   const [open, setOpen] = useState(false);
+  const [itemIdToDelete, setItemIdToDelete] = useState('');
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -122,6 +121,9 @@ export default function MotorcycleInfoAdmin() {
     return <Navigate to="/admin/add-motorcycle" />;
   }
 
+
+
+  //ลบรถจักรยานยนต์
   const handleOpen = (MOTORCYCLE_ID) => {
     setMotorcycleId(MOTORCYCLE_ID);
     setOpen(true);
@@ -131,11 +133,10 @@ export default function MotorcycleInfoAdmin() {
     setOpen(false);
   };
 
-  const handleDeleteConfirmation = () => {
-    handleClose();
-    if (motorcycleId !== null) {
-      MotorcycleDelete(motorcycleId);
-    }
+  const handleDeleteConfirmation = (itemId) => {
+    MotorcycleDelete(motorcycleId);
+    console.log(`Deleting item with ID: ${itemId}`);
+    setOpen(false);
   };
   return (
     <diV>
@@ -289,16 +290,13 @@ export default function MotorcycleInfoAdmin() {
         </Paper>
       )}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            คุณต้องการลบข้อมูลของรถจักรยานยนต์คันนี้ใช่หรือไม่?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>ยกเลิก</Button>
-          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
-        </DialogActions>
+      <DeleteDialog
+        open={open}
+        handleClose={handleClose}
+        handleDeleteConfirmation={handleDeleteConfirmation}
+        dialogContentText="คุณต้องการลบข้อมูลของรถจักรยานยนต์คันนี้ใช่หรือไม่?"
+        itemId={itemIdToDelete}
+      />
       </Dialog>
     </diV>
   );
