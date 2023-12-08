@@ -14,22 +14,32 @@
     }
     },
     "test": {
-    "url" : "postgres://postgres:password@localhost:5432/iLrn",
-    "username": "postgres",
-    "password": "password",
-    "database": "iLrn",
-    "host": "mysql_db",
-    "port": 5432,
-    "dialect": "postgres"
+      "database": "storemanagementsystem",
+      "username": "u8j5pc780wu4fh0iqycw",
+      "host": "aws.connect.psdb.cloud",
+      "password": "pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G",
+    "port": 3306,
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
     },
     "production": {
-    "url" : "postgres://postgres:password@localhost:5432/iLrn",
-    "username": "postgres",
-    "password": "password",
-    "database": "iLrn",
-    "host": "127.0.0.1",
-    "port": 5432,
-     "dialect": "postgres"
+      "database": "storemanagementsystem",
+      "username": "u8j5pc780wu4fh0iqycw",
+      "host": "aws.connect.psdb.cloud",
+      "password": "pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G",
+    "port": 3306,
+    "dialect": "mysql",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
     },
     "commande":{
       "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h aws.connect.psdb.cloud -u ulo5285i27cibaft4y3z -p 3306 -x pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G -e mysql -c ./config/config.migration.json"

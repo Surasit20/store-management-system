@@ -104,7 +104,7 @@ export default function UserInfoAdmin() {
     }
   };
   return (
-    <diV>
+    <div>
       <div class="search"></div>
       <form class="search-form">
         <input
@@ -237,6 +237,6 @@ export default function UserInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
-    </diV>
+    </div>
   );
 }
