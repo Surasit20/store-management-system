@@ -113,14 +113,14 @@ function CardCar(props) {
       setUser(dataUser.data.user);
     }
 
-    let data1 = await axios.get(`http://localhost:3001/api/v1/installments`);
+    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
 
     let data11 = data1.data.filter(
       (f) => f.MOTORCYCLE_ID == props.MOTORCYCLE_ID
     );
 
     let data2 = await axios.get(
-      `http://localhost:3001/api/v1/month-installments`
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
 
     let data22 = data2.data.filter(

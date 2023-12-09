@@ -42,7 +42,7 @@ const UserDialog = ({ open, handleClose }) => {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/api/v1/users", requestOptions)
+    fetch("https://back-end-store-management-system.onrender.com/api/v1/users", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoading(false); 
