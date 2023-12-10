@@ -113,20 +113,25 @@ function CardCar(props) {
       setUser(dataUser.data.user);
     }
 
-    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
+    let data1 = await axios.get(`http://localhost:3001/api/v1/installments`);
 
     let data11 = data1.data.filter(
       (f) => f.MOTORCYCLE_ID == props.MOTORCYCLE_ID
     );
 
     let data2 = await axios.get(
-      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
+      `http://localhost:3001/api/v1/month-installments`
     );
 
-    let data22 = data2.data.filter(
-      (f) => f.INSTALLMENTS_ID == data11[0].INSTALLMENTS_ID
-    );
-    setItems(data22);
+    if(data11.length > 0){
+      let data22 = data2.data.filter(
+        (f) => f.INSTALLMENTS_ID == data11[0].INSTALLMENTS_ID
+      );
+      setItems(data22);
+    }
+    else{
+      setItems([]);
+    }
   }, [props.MOTORCYCLE_ID]);
 
   const handleListItemClick = (value) => {

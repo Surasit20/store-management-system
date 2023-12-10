@@ -15,7 +15,7 @@ function HomeUser() {
       setUser(dataUser.data.user);
     }
     console.log(dataUser.data.user);
-    axios.get("https://back-end-store-management-system.onrender.com/api/v1/motorcycles").then((response) => {
+    axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
       var data = response.data.filter(
         (f) => f.USER_ID == dataUser.data.user.USER_ID
       );
@@ -45,6 +45,7 @@ function HomeUser() {
               MOTORCYCLE_REGISTRATION_NUMBER={i.MOTORCYCLE_REGISTRATION_NUMBER}
               MOTORCYCLE_ID={i.MOTORCYCLE_ID}
               IS_RECEIPT={false}
+              INSTALLMENTS_ID={null}
             ></CardCar>
           );
         })}

@@ -66,7 +66,7 @@ function PayUser() {
         INSTALLMENTS_STATUS: 0,
       };
       axios
-        .post("https://back-end-store-management-system.onrender.com/api/v1/month-installments", data)
+        .post("http://localhost:3001/api/v1/month-installments", data)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {
