@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-restricted-globals */
-import React, { Component } from "react";
 //import { Navigate } from 'react-router-dom';
 import "./home.css";
 import Login from "../login/login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import React, { Component, useEffect, useState } from "react";
+import axios from "axios";
+import CardCar from "../component/card_car";
+import ImageList from "@mui/material/ImageList";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -21,7 +23,19 @@ const router = createBrowserRouter([
   },
 ]);
 
+
 function Home() {
+  const [dataSoures, setdataSoures] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
+      var data = response.data.filter(
+        (f) => f.USER_ID == null
+      );
+      setdataSoures(data);
+    });
+  }, []);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-custom-grey ">
@@ -42,6 +56,34 @@ function Home() {
           </ul>
         </div>
       </nav>
+
+      <div>
+      <ImageList
+        style={{ overflow: "hidden" }}
+        sx={{ width: 1920, height: 1000 }}
+        cols={4}
+        rowHeight={164}
+      >
+        {dataSoures.map((i) => {
+          return (
+            <CardCar
+              key={i.MOTORCYCLE_ID}
+              MOTORCYCLE_BRAND={i.MOTORCYCLE_BRAND}
+              MOTORCYCLE_PRICE={i.MOTORCYCLE_PRICE}
+              MOTORCYCLE_IMAGE={i.MOTORCYCLE_IMAGE}
+              MOTORCYCLE_MODEL={i.MOTORCYCLE_MODEL}
+              MOTORCYCLE_COLOR={i.MOTORCYCLE_COLOR}
+              MOTORCYCLE_BUCKET_NUMBER={i.MOTORCYCLE_BUCKET_NUMBER}
+              MOTORCYCLE_REGISTRATION_NUMBER={i.MOTORCYCLE_REGISTRATION_NUMBER}
+              MOTORCYCLE_ID={i.MOTORCYCLE_ID}
+              IS_RECEIPT={false}
+              INSTALLMENTS_ID={null}
+            ></CardCar>
+          );
+        })}
+      </ImageList>
+    </div>
+
     </div>
   );
 }

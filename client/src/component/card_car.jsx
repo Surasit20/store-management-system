@@ -147,12 +147,12 @@ function CardCar(props) {
   };
 
   return (
-    <div>
+    <div className="my-2">
       <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
           <CardMedia
             component="img"
-            height="140"
+            height="250"
             image={
               props.MOTORCYCLE_IMAGE == null || props.MOTORCYCLE_IMAGE == ""
                 ? "https://scontent.fbkk4-1.fna.fbcdn.net/v/t1.6435-9/88149691_2597427603914262_9219278756928028672_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=ad2b24&_nc_eui2=AeGWgupA9yi37KS8nvtRbv3sf-w2S2N731B_7DZLY3vfUMPfB0rjzurpbUDGXvlejjLoHLzN4_BAcmoG5W9uAQjL&_nc_ohc=WgZQkavwRpEAX9zVeYH&_nc_ht=scontent.fbkk4-1.fna&oh=00_AfD-K3byocAah6dp4xxJxvTn46vZhT3Glvy_8IcqjKs6Qw&oe=64F9D2DA"

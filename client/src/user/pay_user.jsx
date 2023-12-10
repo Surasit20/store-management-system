@@ -52,17 +52,18 @@ function PayUser() {
   };
 
   const handleConfirm = async (event) => {
-    //let imageUrl = await uploadImage();
+    let imageUrl = await uploadImage();
     //moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-    setStep(2);
-    return;
-    if (true) {
+    // setStep(2);
+    // return;
+    if (imageUrl != null) {
+      console.log(imageUrl);
       let data = {
         MOTORCY_BUCKETNUMBER: bucketNumber,
         INSTALLMENTS_NO: docNo,
         MONTH_INSTALLMENTS_TIME: moment(date.getTime()).format("HH:mm"),
         MONTH_INSTALLMENTS_DATE: moment(new Date(), "yyyy-mm-dd HH:MM:ss"),
-        MONTH_INSTALLMENTS_IMAGE: "xxxxxx",
+        MONTH_INSTALLMENTS_IMAGE: imageUrl["url"],
         INSTALLMENTS_STATUS: 0,
       };
       axios
@@ -81,7 +82,7 @@ function PayUser() {
             title: "บัคไงครับ",
             text: "บัคไงครับ",
             icon: "error",
-            confirmButtonText: "หน้าปิ",
+            confirmButtonText: "ตกลง",
           });
         });
     }
@@ -113,6 +114,12 @@ function PayUser() {
     } catch (error) {
       console.log(error);
       //setLoading(false);
+      Swal.fire({
+        title: "บัคไงครับ",
+        text: "บัคไงครับ",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
     }
   };
 
@@ -125,7 +132,7 @@ function PayUser() {
   }
 
   return (
-    <div>
+    <div style={{height:'100vh'}}>
       {step == 0 ? (
         <div>
           <form onSubmit={handleSubmit}>
@@ -166,8 +173,6 @@ function PayUser() {
               <input
                 type="text"
                 class="form-control"
-                placeholder="Username"
-                aria-label="Username"
                 aria-describedby="basic-addon1"
                 onChange={(e) => setBucketNumber(e.target.value)}
               />

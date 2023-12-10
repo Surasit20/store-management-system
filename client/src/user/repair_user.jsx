@@ -157,9 +157,9 @@ function RepairUser() {
                   >
                     <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
                     <TableCell>{user.USER_FULLNAME}</TableCell>
-                    <TableCell>{row.REPAILDATA_WISE}</TableCell>
+                    <TableCell>{row[0].REPAILDATA_WISE}</TableCell>
                     <TableCell>
-                      {row.REPAILDATA_SATUS == 0 ? (
+                      {row[0].REPAILDATA_SATUS == 0 ? (
                         <p className="text-danger">อยู่ระหว่างการดำเนินงาน</p>
                       ) : (
                         <p className="text-success">เรียบร้อย</p>

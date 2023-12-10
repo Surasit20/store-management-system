@@ -49,7 +49,7 @@ function Login() {
             title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
             text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
             icon: "error",
-            confirmButtonText: "หน้าปิ",
+            confirmButtonText: "ตกลง",
           });
         }
       })
@@ -59,7 +59,7 @@ function Login() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };
@@ -84,7 +84,7 @@ function Login() {
             title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
             text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
             icon: "error",
-            confirmButtonText: "หน้าปิ",
+            confirmButtonText: "ตกลง",
           });
         }
       })
@@ -94,7 +94,7 @@ function Login() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };

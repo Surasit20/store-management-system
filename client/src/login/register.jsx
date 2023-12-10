@@ -45,7 +45,7 @@ function Register() {
         title: "ไม่สำเร็จ",
         text: "รหัสผ่านไม่ตรงกัน",
         icon: "error",
-        confirmButtonText: "หน้าปิ",
+        confirmButtonText: "ตกลง",
       });
       
       return ;
@@ -56,7 +56,7 @@ function Register() {
         title: "ไม่สำเร็จ",
         text: "เลขบัตรประชาชนไม่ถูกต้อง",
         icon: "error",
-        confirmButtonText: "หน้าปิ",
+        confirmButtonText: "ตกลง",
       });
       
       return ;
@@ -90,7 +90,7 @@ function Register() {
             title: "สมัครเสร็จเรียบร้อย",
             text: "สมัครเสร็จเรียบร้อย",
             icon: "success",
-            confirmButtonText: "หน้าปิ",
+            confirmButtonText: "ตกลง",
           }).finally(()=>{
             setGoToLogin(true);
           });
@@ -102,7 +102,7 @@ function Register() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };
