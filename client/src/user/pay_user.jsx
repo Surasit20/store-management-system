@@ -14,6 +14,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import moment from "moment";
 import "moment/locale/th";
+import Autocomplete from '@mui/material/Autocomplete';
+
 function PayUser() {
   moment.locale("th");
   const navigate = useNavigate();
@@ -26,12 +28,30 @@ function PayUser() {
   const [docNo, setdocNo] = useState("");
   const [user, setUser] = useState();
 
+  const [top100Films, setTop100Films] = useState([]);
+
+
+
   useEffect(() => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
     if (dataUser) {
       setUser(dataUser.data.user);
       setFullName(dataUser.data.user.USER_FULLNAME);
       setTell(dataUser.data.user.USER_TELL);
+
+      axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
+        var data = response.data.filter(
+          (f) => f.USER_ID == dataUser.data.user.USER_ID
+        );
+        var res = []
+        data.forEach(element => {
+
+          console.log(element.MOTORCYCLE_BUCKET_NUMBER)
+          res.push(element.MOTORCYCLE_BUCKET_NUMBER)
+          
+        });
+        setTop100Films(res)
+      });
     }
   }, []);
 
@@ -132,9 +152,9 @@ function PayUser() {
   }
 
   return (
-    <div style={{height:'100vh'}}>
+    <div style={{ height: '100vh' }}>
       {step == 0 ? (
-        <div>
+        <div className="container-sm">
           <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
@@ -166,16 +186,28 @@ function PayUser() {
               />
             </div>
 
-            <div className="input-group mb-3">
+            <div className="input-group mb-3 ">
               <span className="input-group-text" id="basic-addon1">
                 เลขตัวถัง
               </span>
-              <input
+              <Autocomplete
+                  value={bucketNumber}
+                  onChange={(event, newValue) => {
+                    setBucketNumber(newValue);
+                  }}
+                disablePortal
+                id="combo-box-demo"
+                options={top100Films}
+                sx={{ width: 300 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+              />
+
+              {/* <input
                 type="text"
                 class="form-control"
                 aria-describedby="basic-addon1"
                 onChange={(e) => setBucketNumber(e.target.value)}
-              />
+              /> */}
             </div>
             <button type="submit" className="btn btn-primary mb-3">
               ยืนยัน
@@ -192,24 +224,23 @@ function PayUser() {
           <p>เลขตัวถัง {bucketNumber}</p>
           <p>หลักฐานการโอนเงิน</p>
 
-          <div>
+          <div className="my-3">
             <Box
               component="img"
               sx={{
                 height: 300,
                 width: 300,
                 borderColor: "primary.main",
-                borderRadius: "50%",
-                border: 15,
+                borderRadius: "20%",
+                border: 4,
               }}
               src={image}
             />
 
-            <Button onClick={handleRemoceImage}>ล้างรูป</Button>
           </div>
           <div>
             <Button variant="contained" component="label">
-              Upload File
+              เลือกรูปภาพ
               <input
                 accept="image/*"
                 type="file"
@@ -217,9 +248,17 @@ function PayUser() {
                 onChange={handleChangeImage}
               />
             </Button>
-          </div>
 
-          <Button onClick={handleConfirm}>ยืนยัน</Button>
+            <span className="mx-2">
+            <Button variant="contained" onClick={handleRemoceImage} color="error">ล้างรูป</Button>
+
+            </span>
+          </div>
+            
+            <div className="my-2">
+            <Button variant="contained" color="success" onClick={handleConfirm}>ยืนยัน</Button>
+
+            </div>
         </div>
       ) : (
         <div>
