@@ -1,0 +1,82 @@
+.page{
+    width: 98vw; /* กว้างเท่ากับความกว้างของหน้าจอ */
+    height: 100vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.col1 {
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    height: 90vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.col2 {
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    border: 5px solid rgba(251, 182, 6, 1); /* ขอบหนา */
+    border-radius: 20px 20px 20px 20px ;
+    height: 95vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.img {
+    width: 100vw; /* กว้างเท่ากับความกว้างของหน้าจอ */
+    height: 80vh; /* สูงเท่ากับความสูงของหน้าจอ */
+    background-size: cover; /* ปรับขนาดรูปให้เต็มพื้นที่ */
+    background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+    background-repeat: no-repeat; /* ไม่ให้รูปภาพทำซ้ำ */
+    background-image: url('https://lh3.googleusercontent.com/pw/ABLVV86ZENqkljZZxvlAWOzpDNkn03XtawJuAUbr_TA7y4aUlSV2RgJm--Ck8FEziBFZVgaLN9dudclcHi0FvxQZKaQWnT1PtPmRUvvESKjjj_snVr1KFFxgur9EWJlhZ77t4XjRD5Kf6S7SKm1JfiKZuSfmtYy8ABrPCP091_-mo1Yp9s_QloZekIneOc_Tax38X8OQ4NpQmCjw9acogGoT2P4EOMFghS0Wmzq6FcfnGuvNMIy_vT2O-0Vmg47wLrGS-LysmvrKOcvjBQDx66UkRRPMXkCRXxqoNKTjbeQvy3tJN01AREGT_MGZR4Ip4HJE_-4Mg6fIWJ6SQVBUfLcpEKQRRMkvzhlrHRFxKRdsRX1_MWJU1YWqpIsoSWm_MiNlL0IDEtMnmurMu08rej1FmnCsPMOUsitlvueEVDiFH5vXC7M8b3PX8V5vraJWFiLbKKJFjDUAykZd7Q3mFHQh1hQsobMqtWmEbffEtS63zqubcs5tR721wtLtlepnzwunjsEoDhRRiF3o7YJe56D2v0lgUt4Qo3riKy_a6K-n2GquJUszBF6UYoCvg5vBoEgHU20Ht9hCew8Y20zddYdjCZupjnqt7YnoESIX1XbfZEyFnKrUkOxuEYsJP_7u5tFj1-BFpGz9PtcQi6ZoUHUh0_fnvn5ikcZO33ounJMapC2RgE4MeDZv90LBTtRL-dJ-kRffPYzMLudtcOAhNe6pzwvXhF2Ll7cJLoSiSOQPXTctI6gZcFLqpNiayjqRDXVx-Yd02SG7pR-xMgYQYKnThOnGYUmQ68dwiFr12FbilJ8Qr-WbfUCnhXGSoicRlMnt1vcivZuWS9zQ27R5xQQ3KSmeVQ7P6InTk48eosXtatPjn6eqkYrlXrQNToPc5RfyiY-uFhm_b7fnpyYQmFOeVKAFyQGmpzias5F3cfW3rYFHMacl41kt4J-kM9NaYkbxGh-AVQrRAN9DMl02fcF7oqFtYkmzBOghCEvIE4mXij4a6dMe=w913-h913-s-no-gm?authuser=0');
+}
+
+.rowtextfile{
+
+width: 50vw;
+background-size: cover; /* ปรับขนาดรูปให้เต็มพื้นที่ */
+background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+}
+.row1{
+
+    height:  50px
+}
+.container{
+    position:relative;
+    top:100px;
+  }
+  
+  .container h1, .container span{
+    font-family:"Pt Sans", helvetica, sans-serif;
+  }
+  
+  .container h1{
+    text-align:center;
+    color:#fff;
+    font-weight:100;
+    font-size:2em; 
+    margin-bottom:10px;
+  }
+  
+  .container h2{
+    font-family:"droid serif";
+    font-style:italic;
+    color:#d3b6ca; 
+    text-align:center;
+    font-size:1.2em;
+  }
+  
+  
+  form{
+    margin-top:25px;
+    display:inline-block;
+  }
+  
+  
+  .container span{
+      margin-bottom:22px; 
+      display:inline-block;
+  }
+  
+  .container span:last-child{
+     margin-bottom:-11px;
+  }
+  
+  input{
+    border:none;
+    outline:none;
+  }  
