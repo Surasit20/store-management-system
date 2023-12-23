@@ -29,8 +29,8 @@ function RepairUser() {
 
   useEffect(async () => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
-    let data1 = await axios.get(`http://localhost:3001/api/v1/repaildataes`);
-    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/repaildataes`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
     if (dataUser) {
       setUser(dataUser.data.user);
     }
@@ -60,7 +60,7 @@ function RepairUser() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -69,7 +69,7 @@ function RepairUser() {
   };
 
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -90,7 +90,7 @@ function RepairUser() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
