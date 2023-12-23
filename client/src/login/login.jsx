@@ -40,13 +40,21 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("http://localhost:3001/api/v1/auth/login", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
       .then((response) => {
         console.log(response);
-        if (response.status == 200) {
+        if (response.status == 200 && response.data.data.user.USER_CHECK != "admin") {
           localStorage.setItem("user", JSON.stringify(response.data));
           console.log(response.status);
           navigate("/user/home");
+        }
+        else{
+          Swal.fire({
+            title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+            text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+            icon: "error",
+            confirmButtonText: "ตกลง",
+          });
         }
       })
       .catch((err) => {
@@ -55,7 +63,7 @@ function Login() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };
@@ -67,7 +75,7 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("http://localhost:3001/api/v1/auth/login", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
       .then((response) => {
         console.log(response.data);
         if (
@@ -82,7 +90,7 @@ function Login() {
             title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
             text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
             icon: "error",
-            confirmButtonText: "หน้าปิ",
+            confirmButtonText: "ตกลง",
           });
         }
       })
@@ -92,7 +100,7 @@ function Login() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };

@@ -40,14 +40,14 @@ function PaymentCheckAdmin() {
    console.log(context)
    context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
    console.log(context)
-   let res = await axios.put(`http://localhost:3001/api/v1/month-installments/`+context.MONTH_INSTALLMENTS_ID,context);
+   let res = await axios.put(`https://back-end-store-management-system.onrender.com/api/v1/month-installments/`+context.MONTH_INSTALLMENTS_ID,context);
     if(res.status == 200){
       let data1 = await axios.get(
-        `http://localhost:3001/api/v1/month-installments`
+        `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
       );
-      let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+      let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
   
-      let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+      let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
   
       let arr3 = data1.data.map((item, i) =>
         Object.assign({}, item, data2.data[i], data3.data[i])
@@ -81,11 +81,11 @@ function PaymentCheckAdmin() {
     //   });
 
     let data1 = await axios.get(
-      `http://localhost:3001/api/v1/month-installments`
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
 
-    let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
     let arr3 = data1.data.map((item, i) =>
       Object.assign({}, item, data2.data[i], data3.data[i])
@@ -98,7 +98,7 @@ function PaymentCheckAdmin() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -107,7 +107,7 @@ function PaymentCheckAdmin() {
   };
 
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -128,7 +128,7 @@ function PaymentCheckAdmin() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())

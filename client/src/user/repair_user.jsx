@@ -29,8 +29,8 @@ function RepairUser() {
 
   useEffect(async () => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
-    let data1 = await axios.get(`http://localhost:3001/api/v1/repaildataes`);
-    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/repaildataes`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
     if (dataUser) {
       setUser(dataUser.data.user);
     }
@@ -38,18 +38,29 @@ function RepairUser() {
       (f) => f.USER_ID == dataUser.data.user.USER_ID
     );
 
-    let arr3 = data1.data.map((item, i) =>
-      Object.assign({}, item, data2Filter[i])
-    );
-
+    // let arr3 = data1.data.map((item, i) =>
+    //   Object.assign({}, item, data2Filter[i])
+    // );
+    
+    let arr3 = []
+    data2Filter.forEach(element => {
+      var test = []
+      test.push(element)
+      var moto = data1.data.filter(f=>f.MOTORCYCLE_ID == element.MOTORCYCLE_ID)
+      console.log(11111111111111);
+    
+      var motoWithRe  = test.map((item, i) =>Object.assign({}, item, moto));
+      console.log(motoWithRe);
+      arr3.push(motoWithRe[0])
+    });
     let arr4 = arr3.filter((f) => f.USER_ID != null);
-    console.log(arr4);
+    //console.log(arr4);
 
     setItems(arr4);
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -58,7 +69,7 @@ function RepairUser() {
   };
 
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -79,7 +90,7 @@ function RepairUser() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -146,9 +157,9 @@ function RepairUser() {
                   >
                     <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
                     <TableCell>{user.USER_FULLNAME}</TableCell>
-                    <TableCell>{row.REPAILDATA_WISE}</TableCell>
+                    <TableCell>{row[0].REPAILDATA_WISE}</TableCell>
                     <TableCell>
-                      {row.REPAILDATA_SATUS == 0 ? (
+                      {row[0].REPAILDATA_SATUS == 0 ? (
                         <p className="text-danger">อยู่ระหว่างการดำเนินงาน</p>
                       ) : (
                         <p className="text-success">เรียบร้อย</p>

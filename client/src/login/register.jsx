@@ -29,6 +29,11 @@ function Register() {
 
   const location = useLocation();
   console.log(location.pathname);
+  const [goToLogin, setGoToLogin] = React.useState(false);
+
+  if (goToLogin) {
+    return <Navigate to="/login" />;
+  }
 
   const handleSubmit = async (event) => {
 
@@ -40,19 +45,18 @@ function Register() {
         title: "ไม่สำเร็จ",
         text: "รหัสผ่านไม่ตรงกัน",
         icon: "error",
-        confirmButtonText: "หน้าปิ",
+        confirmButtonText: "ตกลง",
       });
       
       return ;
     }
 
-       
-    if(setCodeNumber != 13){
+    if(CodeNumber.length != 13){
       Swal.fire({
         title: "ไม่สำเร็จ",
         text: "เลขบัตรประชาชนไม่ถูกต้อง",
         icon: "error",
-        confirmButtonText: "หน้าปิ",
+        confirmButtonText: "ตกลง",
       });
       
       return ;
@@ -78,15 +82,17 @@ function Register() {
     };
     console.log(data);
     axios
-      .post("http://localhost:3001/api/v1/auth/register", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/register", data)
       .then((response) => {
         console.log(response);
-        if (response.status == 200) {
+        if (response.status == 201) {
           Swal.fire({
             title: "สมัครเสร็จเรียบร้อย",
             text: "สมัครเสร็จเรียบร้อย",
-            icon: "error",
-            confirmButtonText: "หน้าปิ",
+            icon: "success",
+            confirmButtonText: "ตกลง",
+          }).finally(()=>{
+            setGoToLogin(true);
           });
         }
       })
@@ -96,7 +102,7 @@ function Register() {
           title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
-          confirmButtonText: "หน้าปิ",
+          confirmButtonText: "ตกลง",
         });
       });
   };
@@ -120,13 +126,13 @@ function Register() {
       </div>
       <div className="container-fluid bg-warning bg-gradient container-user">
         <form onSubmit={handleSubmit}>
-          <div className="input-group flex-nowrap">
-            <span className="input-group-text form-label" id="addon-wrapping" for="validationNamae">
+          <div className="input-group">
+            <span className="input-group-text form-label my-2" id="addon-wrapping" for="validationNamae">
               ชื่อ-นามสกุล
             </span>
             <input
               type="text"
-              className="form-control"
+              className="form-control my-2"
               placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="ชื่อ-นามสกุล"
               aria-describedby="addon-wrapping"
@@ -136,7 +142,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               วัน/เดือน ปีเกิด
             </span>
@@ -146,7 +152,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               เลขบัตรประจำตัวประชาชน
             </span>
@@ -161,7 +167,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2 ">
             <span className="input-group-text" id="addon-wrapping">
               เบอร์โทรศัพท์
             </span>
@@ -176,7 +182,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               อาชีพ
             </span>
@@ -282,7 +288,7 @@ function Register() {
             </div>
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               จังหวัด
             </span>
@@ -297,7 +303,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               รหัสไปรษณีย์
             </span>
@@ -312,7 +318,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               อีเมล
             </span>
@@ -329,7 +335,7 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               ชื่อผู้ใช้งาน
             </span>
@@ -344,12 +350,12 @@ function Register() {
             />
           </div>
 
-          <div className="input-group flex-nowrap">
+          <div className="input-group my-2">
             <span className="input-group-text" id="addon-wrapping">
               รหัสผ่าน
             </span>
             <input
-              type="text"
+              type="password"
               className="form-control"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"
@@ -364,7 +370,7 @@ function Register() {
               ยืนยันรหัสผ่าน
             </span>
             <input
-              type="text"
+              type="password"
               className="form-control"
               //placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="อาชีพ"

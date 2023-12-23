@@ -39,10 +39,10 @@ app.use(require('./src/router'));
 
 app.use((req, res, next) => {
 	//logger.log('the url you are trying to reach is not hosted on our server', 'error');
-	const err = new Error('Not Found');
-	err.status = 404;
-	res.status(err.status).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
-	next(err);
+	//const err = new Error('Not Found');
+	//err.status = 404;
+	res.status(404).json({ type: 'error', message: 'the url you are trying to reach is not hosted on our server' });
+	next(res);
 });
 
 // // home page
