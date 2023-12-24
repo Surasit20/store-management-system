@@ -1,11 +1,19 @@
 import React, { Component, useState, useEffect } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { withRouter } from "react-router";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Grid, TextField, Box, Button, Badge } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faPencilSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import "./css/motorcycle_add.css";
+import Swal from "sweetalert2";
 
 function AddMotorcycle() {
   const [RegistrationNumber, setRegistrationNumber] = useState("");
@@ -19,6 +27,13 @@ function AddMotorcycle() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
+    if (!image) {
+      Swal.fire({
+        title: "กรูณาเลือกรูปภาพ",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    }
     event.preventDefault();
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -43,11 +58,15 @@ function AddMotorcycle() {
         redirect: "follow",
       };
 
-      fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles/", requestOptions)
+      fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
         .then((response) => response.text())
-        .then((result) => console.log(result))
+        .then((result) => {
+          Swal.fire("บันทึกข้อมูลสำเร็จ", );
+          console.log(result);
+          navigate("/admin/motorcycle");
+        })
         .catch((error) => console.log("error", error));
-        navigate("/admin/motorcycle");
+     
     }
   };
 
@@ -94,117 +113,187 @@ function AddMotorcycle() {
   }
   return (
     <div>
-       <Button variant="contained" color="success" onClick={() => {
-            setGotoListMotorcycle(true);
-          }}
-        >กลับหน้าก่อนหน้า</Button>
-      <div class="contrainer">
-        <form onSubmit={handleSubmit}>
-          <Row>
-            <div class="text-file">
-              <Col class="col1">
-                <p>กรอกข้อมูลรถจักรยานยนต์</p>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="RegistrationNumber"
-                    label="เลขทะเบียน"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setRegistrationNumber(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="BucketNumber"
-                    label="เลขตัวถัง"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setBucketNumber(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="Brand"
-                    label="ยี่ห้อ"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setBrand(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="Model"
-                    label="รุ่น"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setModel(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="Color"
-                    label="สี"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setColor(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="Price"
-                    label="ราคา"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setPrice(e.target.value)}
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="Balance"
-                    label="ยอดคงเหลือ"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={(e) => setBalance(e.target.value)}
-                  ></TextField>
-                </Grid>
-              </Col>
+      <form onSubmit={handleSubmit}>
+        <div className="header">
+          <h1>
+            <div
+              onClick={() => {
+                setGotoListMotorcycle(true);
+              }}
+            >
+              <i className="fa fa-arrow-left" aria-hidden="true">
+                {" "}
+                เพิ่มรถจักรยานยนต์
+              </i>
             </div>
-            <div class="image">
+          </h1>
+        </div>
+
+        <div className="container">
+          <div>
+            <div>
+              <Box class="box-img" component="img" src={image} />
+            </div>
+            <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
+            <Button variant="contained" component="label">
+              อัพโหลดรูปภาพ
+              <input
+                accept="image/*"
+                type="file"
+                hidden
+                onChange={handleChangeImage}
+              />
+            </Button>
+          </div>
+          <div>
+            <Row>
               <Col>
-                <div>
-                  <Box class="box-img" component="img" src={image} />
-                </div>
-                <div>
-                  <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
-                  <Button variant="contained" component="label">
-                    อัพโหลดรูปภาพ
-                    <input
-                      accept="image/*"
-                      type="file"
-                      hidden
-                      onChange={handleChangeImage}
-                    />
-                  </Button>
-                </div>
+                <p>เลขทะเบียน</p>
+
+                <input
+                  id="RegistrationNumber"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="RegistrationNumber"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setRegistrationNumber(e.target.value)}
+            ></TextField> */}
               </Col>
-            </div>
-          </Row>
+              <Col>
+                <p>เลขตัวถัง</p>
+                <input
+                  id="BucketNumber"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="BucketNumber"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setBucketNumber(e.target.value)}
+            ></TextField> */}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>ยี่ห้อ</p>
+                <input
+                  id="Brand"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="Brand"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setBrand(e.target.value)}
+            ></TextField> */}
+              </Col>
+              <Col>
+                <p>รุ่น</p>
+                <input
+                  id="Model"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="Model"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setModel(e.target.value)}
+            ></TextField> */}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>สี</p>
+                <input
+                  id="Color"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="Color"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setColor(e.target.value)}
+            ></TextField> */}
+              </Col>
+              <Col>
+                <p>ราคา</p>
+                <input
+                  id="Price"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="Price"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setPrice(e.target.value)}
+            ></TextField> */}
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>ยอดคงเหลือ</p>
+                <input
+                  id="Balance"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+                {/* <TextField
+              id="Balance"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setBalance(e.target.value)}
+            ></TextField> */}
+              </Col>
+              <Col></Col>
+            </Row>
+          </div>
+        </div>
+        <div className="save-button">
           <button
             type="submit"
             variant="contained"
-            class="btn btn-primary mb-3"
+            className="btn btn-success mb-3"
           >
             บันทึก
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

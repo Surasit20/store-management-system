@@ -39,7 +39,7 @@ function PayUser() {
       setFullName(dataUser.data.user.USER_FULLNAME);
       setTell(dataUser.data.user.USER_TELL);
 
-      axios.get("https://back-end-store-management-system.onrender.com/api/v1/motorcycles").then((response) => {
+      axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
         var data = response.data.filter(
           (f) => f.USER_ID == dataUser.data.user.USER_ID
         );
@@ -87,7 +87,7 @@ function PayUser() {
         INSTALLMENTS_STATUS: 0,
       };
       axios
-        .post("https://back-end-store-management-system.onrender.com/api/v1/month-installments", data)
+        .post("http://localhost:3001/api/v1/month-installments", data)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {

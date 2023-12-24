@@ -22,7 +22,7 @@
     background-size: cover; /* ปรับขนาดรูปให้เต็มพื้นที่ */
     background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
     background-repeat: no-repeat; /* ไม่ให้รูปภาพทำซ้ำ */
-    background-image: url('https://lh3.googleusercontent.com/pw/ABLVV86ZENqkljZZxvlAWOzpDNkn03XtawJuAUbr_TA7y4aUlSV2RgJm--Ck8FEziBFZVgaLN9dudclcHi0FvxQZKaQWnT1PtPmRUvvESKjjj_snVr1KFFxgur9EWJlhZ77t4XjRD5Kf6S7SKm1JfiKZuSfmtYy8ABrPCP091_-mo1Yp9s_QloZekIneOc_Tax38X8OQ4NpQmCjw9acogGoT2P4EOMFghS0Wmzq6FcfnGuvNMIy_vT2O-0Vmg47wLrGS-LysmvrKOcvjBQDx66UkRRPMXkCRXxqoNKTjbeQvy3tJN01AREGT_MGZR4Ip4HJE_-4Mg6fIWJ6SQVBUfLcpEKQRRMkvzhlrHRFxKRdsRX1_MWJU1YWqpIsoSWm_MiNlL0IDEtMnmurMu08rej1FmnCsPMOUsitlvueEVDiFH5vXC7M8b3PX8V5vraJWFiLbKKJFjDUAykZd7Q3mFHQh1hQsobMqtWmEbffEtS63zqubcs5tR721wtLtlepnzwunjsEoDhRRiF3o7YJe56D2v0lgUt4Qo3riKy_a6K-n2GquJUszBF6UYoCvg5vBoEgHU20Ht9hCew8Y20zddYdjCZupjnqt7YnoESIX1XbfZEyFnKrUkOxuEYsJP_7u5tFj1-BFpGz9PtcQi6ZoUHUh0_fnvn5ikcZO33ounJMapC2RgE4MeDZv90LBTtRL-dJ-kRffPYzMLudtcOAhNe6pzwvXhF2Ll7cJLoSiSOQPXTctI6gZcFLqpNiayjqRDXVx-Yd02SG7pR-xMgYQYKnThOnGYUmQ68dwiFr12FbilJ8Qr-WbfUCnhXGSoicRlMnt1vcivZuWS9zQ27R5xQQ3KSmeVQ7P6InTk48eosXtatPjn6eqkYrlXrQNToPc5RfyiY-uFhm_b7fnpyYQmFOeVKAFyQGmpzias5F3cfW3rYFHMacl41kt4J-kM9NaYkbxGh-AVQrRAN9DMl02fcF7oqFtYkmzBOghCEvIE4mXij4a6dMe=w913-h913-s-no-gm?authuser=0');
+    background-image: url('https://lh3.googleusercontent.com/pw/ABLVV86KbGZmlM51W0TjyQyx9kAUY97-tXzFIhPrkVe5NgOIx3gQwkSCPmB0gF_-pOJOMkWIGUyiHYX3VbTnF2G541H8W6bexyfb9JwpjDA6OFNibGtZA-edGUwQ7eUZfAJr51GeHc6kLa1Qh82FQ5jWi-zqYfbI2AucTRUYfMaPNjLmNRKilTbzEfIIu7sfz_U1ZhJ0Rv47e49bFQzefr1GW7uHnUlHl51cgoXw9LwpYWweqBNulgNb70x3_MJ9h6-iOh5HXdtyCI9FRPzxMnqjZR3-0bgVvqMAL7Ud5m9T3J8RQhATCG6hk05Yu4IOWYwdhZ4pvUewU1I7PFu-16elAbJCAN11n6zmOXFDEeKZtnhmyxY-k-9OcEN5raHunBWr7VG2NhZ_DYFIrOR-lh5neBBy3X0nXni6aTx1B6ljjlFKWx8LN85oGtpP5Vwc4QmiO3YwNY0kI4gzHUDVlu2i_tJ3SpC9LC02smxhyr5haOAqTOYlxoQ-k-MqZBjWEEJEoMXTmshF3dLSF07diJ3p2Gt4ryxwQKVCv-w65RhGA0_YrvrN11ZPjO-gOFezq667mSDvc13QwsrZWWIYESnbMOWDZuiTqkS4Zi9_06KoY5tAQ-yvdngdp4akfD7yqqxzckVQo-6qYfeU2maSffZ8b62vc6Yd0e_KZ3GdUPV9sImJazlbIGKyrR-flsccu9ZuSjU2Z9aefCbo0rAMqQfQ5h27cY9WQOvVKhck_bgA7vG8h7ryxcam6ET1oFqHgqlWKhwk1BaaDOICvARl7V5n3GKQjPK_KnWtFUVXOla1IIWgt7b29MNE22mlbvrUatE41ztdRXtwKGlG-N3sfZ6ZaKB0THbMeH_0lgU4NkqCrQ85NdrZZ8-ZVuiBPoonOKoNqrAcprQMDsxjNtj1Bf4o8UI-iINb7KTFqT0CDD-QUhBkyIEHHQaIQLLIbyYsghTyJVFZiT34-WSaqdHiYohNglaSVxSin_CqIyDNjM4BhBmoJ4Xf=w913-h913-s-no-gm?authuser=0');
 }
 
 .rowtextfile{
@@ -35,31 +35,23 @@ background-position: center; /* จัดตำแหน่งรูปภาพ
 
     height:  50px
 }
-.container{
-    position:relative;
-    top:100px;
-  }
-  
-  .container h1, .container span{
-    font-family:"Pt Sans", helvetica, sans-serif;
-  }
-  
-  .container h1{
-    text-align:center;
-    color:#fff;
-    font-weight:100;
-    font-size:2em; 
-    margin-bottom:10px;
-  }
-  
-  .container h2{
-    font-family:"droid serif";
-    font-style:italic;
-    color:#d3b6ca; 
-    text-align:center;
-    font-size:1.2em;
-  }
-  
+
+.grid {
+  display: grid;
+  height: 400px;
+  align-content: center;
+  grid-gap: 15px;
+  grid-template-columns: auto auto auto;
+  background-color: pink;
+  padding: 10px;
+}
+
+.grid > div {
+  background-color: red;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 40px;
+}
   
   form{
     margin-top:25px;
@@ -80,3 +72,12 @@ background-position: center; /* จัดตำแหน่งรูปภาพ
     border:none;
     outline:none;
   }  
+.buntton{
+  padding: 30px;
+}
+.buntton-login-user{
+  padding-right:10px;
+}
+.buntton-login-admin{
+  
+}
