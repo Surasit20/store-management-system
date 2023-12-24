@@ -121,6 +121,7 @@ export default function ChassisAdmin() {
       //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
 
+    console.log(raw)
     var requestOptions = {
       method: "PUT",
       headers: myHeaders,
@@ -188,7 +189,7 @@ export default function ChassisAdmin() {
 
 
   return (
-    <diV>
+    <div>
       <Row>
         <div class="search">
           <Col>
@@ -313,6 +314,6 @@ export default function ChassisAdmin() {
                             <Button onClick={handleClose}>ยกเลิก</Button>
                           </DialogActions>
                         </Dialog>
-    </diV>
+    </div>
   );
 }

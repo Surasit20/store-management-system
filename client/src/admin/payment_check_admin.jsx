@@ -87,13 +87,29 @@ function PaymentCheckAdmin() {
 
     let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
-    let arr3 = data1.data.map((item, i) =>
-      Object.assign({}, item, data2.data[i], data3.data[i])
-    );
+    let test = []
 
-    console.log(arr3);
+    if(data2.data != null && data2.data != []){
+      data2.data.forEach(element => 
+        {
+          let aa = data3.data.filter(f=>f.USER_ID == element.USER_ID)
 
-    setItems(arr3);
+          if(aa.length > 0){
+            console.log(aa)
+            console.log(element)
+            test.push(...element,...aa)
+          }
+        })
+    }
+
+
+    // let arr3 = data1.data.map((item, i) =>
+    //   Object.assign({}, item, data2.data[i], data3.data[i])
+    // );
+
+    console.log(test);
+
+    setItems(test);
     setLoading(false);
   }, []);
 
@@ -160,7 +176,7 @@ function PaymentCheckAdmin() {
 
 
   return (
-    <diV>
+    <div>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -277,7 +293,7 @@ function PaymentCheckAdmin() {
           />
         </Paper>
       )}
-    </diV>
+    </div>
   );
 }
 
