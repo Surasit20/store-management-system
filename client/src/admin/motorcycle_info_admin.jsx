@@ -20,6 +20,7 @@ import {
   faPencilSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import "./css/motorcycle_add.css"
 
 
 export default function MotorcycleInfoAdmin() {
@@ -140,8 +141,12 @@ export default function MotorcycleInfoAdmin() {
   };
   return (
     <diV>
-      <div class="search"></div>
-      <form class="search-form">
+      <div className="header">
+        <h1>
+        <strong>ข้อมูลรถจักรยานยนต์</strong>
+        </h1>
+      </div>
+      <form className="search-form">
         <input
           type="search"
           onChange={handleInputChange}

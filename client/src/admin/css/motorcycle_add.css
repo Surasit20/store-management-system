@@ -1,0 +1,85 @@
+.header{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 40px;
+  }
+  .container-textfile{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 50px;
+    background-color: rgb(255, 255, 255);
+    width: 780px;
+}
+.container {
+    display: flex;
+    flex-wrap: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
+  }
+  
+  .container > div {
+    flex: 0; /* ทำให้ div ทั้งสองขยายตามขนาดของ content และกระจายอย่างเท่ากันในแนวนอน */
+    margin-right: 0px; /* ระยะห่างระหว่าง div */
+  }
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* แบ่งเป็น 2 columns ที่มีขนาดเท่ากัน */
+    gap: 0px; /* ระยะห่างระหว่าง div */
+   
+  }
+.row{
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 20px;
+}
+.text-file{
+    background-color: white;
+    width: 50%;
+    border-radius: 20px;
+    margin-right: 50px;
+    
+}
+.col-img{
+    background-color: brown;
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    height: 50vh; /* สูงเท่ากับความสูงของหน้าจอ */
+    width: 20vw; /* เปลี่ยนเป็นค่าเปอร์เซ็นต์เพื่อให้ความกว้างขยับตามหน้าจอ */
+    
+}
+.col-textfile{
+    background-color: rgb(173, 86, 86);
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    height: 50vh; /* สูงเท่ากับความสูงของหน้าจอ */
+    width: 80vw; /* เปลี่ยนเป็นค่าเปอร์เซ็นต์เพื่อให้ความกว้างขยับตามหน้าจอ */
+    
+}
+.image{
+    width: 100%;
+    background-color: rgb(249, 22, 22);
+    border-radius:20px ;
+}
+.box-img{
+    margin-top: 20px;
+    height: 300px;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+.save-button {
+  display: flex;
+  justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+}
+.save-button button {
+  font-size: 16px; /* ปรับขนาดตัวอักษร */
+  padding: 15px 30px; /* ปรับขนาด padding เพื่อทำให้ปุ่มกว้างและสูงขึ้น */
+}
+.GridItemClassName {
+  width: fit-content; /* ปรับความกว้างของ Grid item ให้พอดีกับเนื้อหาภายใน */
+}
+
+.GridItemClassName TextField {
+  font-size: 14px; /* ปรับขนาด font ของ TextField */
+}

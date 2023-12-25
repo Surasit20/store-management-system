@@ -104,6 +104,11 @@ export default function UserInfoAdmin() {
   };
   return (
     <div class="con">
+       <div className="header">
+        <h1>
+        <strong>ข้อมูลสมาชิก</strong>
+        </h1>
+      </div>
       <div class="search"></div>
       <form class="search-form">
         <input
