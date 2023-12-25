@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { useLocation  } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
 import Paper from "@mui/material/Paper";
@@ -22,7 +22,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import  UserDialog from './dialog/UserDialog'
+import UserDialog from './dialog/UserDialog'
 
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
@@ -32,8 +32,8 @@ export default function ChassisAdmin() {
   //const [RegistrationNumber, setRegistrationNumber] = useState("");
   const [UserId, setUserId] = useState("");
   const [motorcycleId, setMotorcycleId] = useState("");
-  const [installmentNo,setinstallmentNo] = useState("");
-  const[installmentMoney,setinstallmentMoney] = useState("");
+  const [installmentNo, setinstallmentNo] = useState("");
+  const [installmentMoney, setinstallmentMoney] = useState("");
   const [openUserDialog, setOpenUserDialog] = useState(false);
   const [Usercode, setUserCode] = useState("");
   const location = useLocation();
@@ -66,10 +66,10 @@ export default function ChassisAdmin() {
   }, []);
 
   useEffect(() => {
-    if (installmentNo !== "") { 
+    if (installmentNo !== "") {
       const selectedMotorcycle = items.find((item) => item.MOTORCYCLE_ID === motorcycleId);
 
-      if (selectedMotorcycle) { 
+      if (selectedMotorcycle) {
         const installmentMoneyValue = parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) / parseFloat(installmentNo);
         setinstallmentMoney(installmentMoneyValue.toFixed(2));
       }
@@ -77,7 +77,7 @@ export default function ChassisAdmin() {
   }, [installmentNo, items, motorcycleId]);
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -85,7 +85,7 @@ export default function ChassisAdmin() {
       });
   };
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -130,7 +130,7 @@ export default function ChassisAdmin() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${motorcycleId}`,
+      `http://localhost:3001/api/v1/motorcycles/${motorcycleId}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -155,11 +155,11 @@ export default function ChassisAdmin() {
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/installments", requestOptions)
+    fetch("http://localhost:3001/api/v1/installments", requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-      window.location.reload();
+    window.location.reload();
   };
 
   const handleClickOpen = (MOTORCYCLE_ID) => {
@@ -175,7 +175,7 @@ export default function ChassisAdmin() {
   if (gotoAddMotorcycle) {
     return <Navigate to="/admin/add-motorcycle" />;
   }
-  
+
   ///Open Dialog User
 
 
@@ -254,7 +254,7 @@ export default function ChassisAdmin() {
                         >
                           ยืนยัน
                         </Button>
-                       
+
                       </TableCell>
                     </TableRow>
                   ))}
@@ -276,44 +276,45 @@ export default function ChassisAdmin() {
           />
         </Paper>
       )}
-       <Dialog open={open} onClose={handleClose}>
-                          <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
-                          <DialogContent>
-                            <DialogContentText>
-                              กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
-                            </DialogContentText>
-                            <TextField
-                              id="UserCode"
-                              label="เลขประจำตัวบัตรประชาชน"
-                              variant="outlined"
-                              fullWidth
-                              required
-                              onChange={(e) => setUserId(e.target.value)}
-                            ></TextField>
-                              <TextField
-                              id="installmentNo"
-                              label="จำนวนงวด"
-                              variant="outlined"
-                              fullWidth
-                              required
-                              onChange={(e) => setinstallmentNo(e.target.value)}
-                            ></TextField>
-                              <TextField
-                               id="installmentMoney"
-                               label="ราคางวดล้ะ"
-                               variant="outlined"
-                               fullWidth
-                               required
-                               value={installmentMoney} 
-                               InputProps={{
-                                 readOnly: true,}}
-                            ></TextField>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleSubmit}>แก้ไข</Button>
-                            <Button onClick={handleClose}>ยกเลิก</Button>
-                          </DialogActions>
-                        </Dialog>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
+          </DialogContentText>
+          <TextField
+            id="UserCode"
+            label="เลขประจำตัวบัตรประชาชน"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={(e) => setUserId(e.target.value)}
+          ></TextField>
+          <TextField
+            id="installmentNo"
+            label="จำนวนงวด"
+            variant="outlined"
+            fullWidth
+            required
+            onChange={(e) => setinstallmentNo(e.target.value)}
+          ></TextField>
+          <TextField
+            id="installmentMoney"
+            label="ราคางวดล้ะ"
+            variant="outlined"
+            fullWidth
+            required
+            value={installmentMoney}
+            InputProps={{
+              readOnly: true,
+            }}
+          ></TextField>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSubmit}>แก้ไข</Button>
+          <Button onClick={handleClose}>ยกเลิก</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

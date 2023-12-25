@@ -25,37 +25,72 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from "axios";
+import TextField from "@mui/material/TextField";
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
 function PaymentCheckAdmin() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-
+  const [open, setOpen] = React.useState(false);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
+  const now = new Date();
+  const day = now.getDay(); // returns a number representing the day of the week, starting with 0 for Sunday
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const [value, setValue] = React.useState(dayjs(now));
+  const [bill, setBill] = useState({
+    time: now.getTime,
+    data: now.getDate,
+    user: "",
+    number: "",
+    pay: 0,
+    totol: 0,
+  });
 
+  const handleDropDownChange = async (event, context) => {
+    console.log(context)
+    context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
+    console.log(context)
+    let res = await axios.put(`http://localhost:3001/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
+    if (res.status == 200) {
 
-  const handleDropDownChange = async(event , context) => {
-   console.log(context)
-   context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
-   console.log(context)
-   let res = await axios.put(`https://back-end-store-management-system.onrender.com/api/v1/month-installments/`+context.MONTH_INSTALLMENTS_ID,context);
-    if(res.status == 200){
-      let data1 = await axios.get(
-        `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
+      let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
       );
-      let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
-  
-      let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
-  
-      let arr3 = data1.data.map((item, i) =>
-        Object.assign({}, item, data2.data[i], data3.data[i])
-      );
-  
-      console.log(arr3);
-  
-      setItems(arr3);
+      let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+
+      let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+
+      let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
+      let test = []
+      console.log(data4.data)
+      if (data1.data != null && data1.data != []) {
+        data1.data.forEach(element => {
+          let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
+
+          let motorcycle = data2.data.filter(f => f.MOTORCYCLE_ID == installments.USER_ID)
+          let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
+
+          if (installments.length > 0) {
+            let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
+            test.push(returnedTarget)
+          }
+        })
+      }
+      // let arr3 = data1.data.map((item, i) =>
+      //   Object.assign({}, item, data2.data[i], data3.data[i])
+      // );
+
+      console.log(test);
+
+      setItems(test);
+      setLoading(false);
     }
   };
   useEffect(async () => {
@@ -80,26 +115,27 @@ function PaymentCheckAdmin() {
     //     setLoading(false);
     //   });
 
-    let data1 = await axios.get(
-      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
+    let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
     );
-    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
 
-    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
+    let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
 
+    let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
     let test = []
+    console.log(data4.data)
+    if (data1.data != null && data1.data != []) {
+      data1.data.forEach(element => {
+        let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
 
-    if(data2.data != null && data2.data != []){
-      data2.data.forEach(element => 
-        {
-          let aa = data3.data.filter(f=>f.USER_ID == element.USER_ID)
+        let motorcycle = data2.data.filter(f => f.MOTORCYCLE_ID == installments.USER_ID)
+        let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
 
-          if(aa.length > 0){
-            console.log(aa)
-            console.log(element)
-            test.push(...element,...aa)
-          }
-        })
+        if (installments.length > 0) {
+          let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
+          test.push(returnedTarget)
+        }
+      })
     }
 
 
@@ -113,29 +149,22 @@ function PaymentCheckAdmin() {
     setLoading(false);
   }, []);
 
-  const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
-      .then((res) => res.json())
-      .catch((error) => {
-        console.error("Error fetching motorcycles:", error);
-        return [];
-      });
-  };
 
-  const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
-      .then((res) => res.json())
-      .then((result) => {
-        return result.map((user) => ({
-          USER_ID: user.USER_ID,
-          USER_FULLNAME: user.USER_FULLNAME,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-        return [];
-      });
-  };
+
+  // const UserGet = () => {
+  //   return fetch("http://localhost:3001/api/v1/users")
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       return result.map((user) => ({
+  //         USER_ID: user.USER_ID,
+  //         USER_FULLNAME: user.USER_FULLNAME,
+  //       }));
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching users:", error);
+  //       return [];
+  //     });
+  // };
 
   const MotorcycleDelete = (MOTORCYCLE_ID) => {
     var requestOptions = {
@@ -144,7 +173,7 @@ function PaymentCheckAdmin() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -174,6 +203,9 @@ function PaymentCheckAdmin() {
     return <Navigate to="/admin/add-motorcycle" />;
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -211,7 +243,7 @@ function PaymentCheckAdmin() {
                   })
                   .map((row) => (
                     <TableRow
-                      key={row.MOTORCYCLE_ID}
+                      key={row.MONTH_INSTALLMENTS_ID}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
@@ -220,55 +252,55 @@ function PaymentCheckAdmin() {
                         <a href={row.MONTH_INSTALLMENTS_IMAGE}>ดูสลิปใบเสร็จ</a>
                       </TableCell>
                       <TableCell>
-                      {row.MONTH_INSTALLMENTS_STATUS == 1 
-                      ?       <Box sx={{ minWidth: 120 }}>                    
-                      <FormControl fullWidth >
-                        <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={row.MONTH_INSTALLMENTS_STATUS}
-                          label="เลือกสถาณะ"
-                          onChange={(e)=>handleDropDownChange(e,row)}
-                    
-                          >
-                          <MenuItem value={1}>รออนุมัติ</MenuItem>
-                          <MenuItem value={2}>ผ่าน</MenuItem>
-                          <MenuItem value={0}>ไม่ผ่าน</MenuItem>
-                                    
-                        </Select>
-                      </FormControl>
-                    </Box>
-                      
-                      
-                      :      <Box sx={{ minWidth: 120 }}>
-                    
-                      <FormControl fullWidth disabled>
-                        <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={row.MONTH_INSTALLMENTS_STATUS}
-                          label="เลือกสถาณะ"
-                          onChange={handleDropDownChange}
-                    
-                          >
-                          <MenuItem value={1}>รออนุมัติ</MenuItem>
-                          <MenuItem value={2}>ผ่าน</MenuItem>
-                          <MenuItem value={0}>ไม่ผ่าน</MenuItem>
-                                    
-                        </Select>
-                      </FormControl>
-                    </Box>
-                      }
+                        {row.MONTH_INSTALLMENTS_STATUS == 1
+                          ? <Box sx={{ minWidth: 120 }}>
+                            <FormControl fullWidth >
+                              <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={row.MONTH_INSTALLMENTS_STATUS}
+                                label="เลือกสถาณะ"
+                                onChange={(e) => handleDropDownChange(e, row)}
+
+                              >
+                                <MenuItem value={1}>รออนุมัติ</MenuItem>
+                                <MenuItem value={2}>ผ่าน</MenuItem>
+                                <MenuItem value={0}>ไม่ผ่าน</MenuItem>
+
+                              </Select>
+                            </FormControl>
+                          </Box>
+
+
+                          : <Box sx={{ minWidth: 120 }}>
+
+                            <FormControl fullWidth disabled>
+                              <InputLabel id="demo-simple-select-label">เลือกสถาณะ</InputLabel>
+                              <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={row.MONTH_INSTALLMENTS_STATUS}
+                                label="เลือกสถาณะ"
+                                onChange={handleDropDownChange}
+
+                              >
+                                <MenuItem value={1}>รออนุมัติ</MenuItem>
+                                <MenuItem value={2}>ผ่าน</MenuItem>
+                                <MenuItem value={0}>ไม่ผ่าน</MenuItem>
+
+                              </Select>
+                            </FormControl>
+                          </Box>
+                        }
 
 
                       </TableCell>
                       <TableCell>
                         <Button
                           type="button"
-                          className="btn btn-danger"
-                          onClick={() => MotorcycleDelete(row.MOTORCYCLE_ID)}
+                          className="btn btn-success"
+                          onClick={() => setOpen(true)}
                         >
                           ออกใบเสร็จ
                         </Button>
@@ -293,6 +325,66 @@ function PaymentCheckAdmin() {
           />
         </Paper>
       )}
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>ใบเสร็จ</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            กรอกข้อมูลการออกใบเสร็จ
+          </DialogContentText>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DateTimeField', 'DateTimeField']}>
+              <DateTimeField
+                label="วันที่และเวลา"
+                value={value}
+                onChange={(newValue) => setValue(newValue)}
+              />
+            </DemoContainer>
+          </LocalizationProvider>
+          <TextField
+            id="User"
+            label="ชื่อผู้ใช้"
+            variant="outlined"
+            fullWidth
+            required
+            value={bill.user}
+            onChange={(e) => setBill(e.target.value)}
+          ></TextField>
+          <TextField
+            id="์Number"
+            label="เลขตัวถัง"
+            variant="outlined"
+            fullWidth
+            required
+            value={bill.number}
+            onChange={(e) => setBill(e.target.value)}
+          ></TextField>
+          <TextField
+            id="Pay"
+            label="จำนวนเงินที่ต้องชำระ"
+            variant="outlined"
+            fullWidth
+            required
+            value={bill.pay}
+            onChange={(e) => setBill(e.target.value)}
+          ></TextField>
+          <TextField
+            id="Total"
+            label="จำนวนเงินทั้งสิ้น"
+            variant="outlined"
+            fullWidth
+            required
+            value={bill.pay}
+            InputProps={{
+              readOnly: true,
+            }}
+          ></TextField>
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={handleSubmit}>แก้ไข</Button>
+                            <Button onClick={handleClose}>ยกเลิก</Button> */}
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
