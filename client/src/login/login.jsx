@@ -13,6 +13,10 @@ import {
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import "./css/login.css";
+
 function Login() {
   const navigate = useNavigate();
 
@@ -36,17 +40,19 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
+      .post("http://localhost:3001/api/v1/auth/login", data)
       .then((response) => {
         console.log(response);
-        if (response.status == 200 && response.data.data.user.USER_CHECK != "admin") {
+        if (
+          response.status == 200 &&
+          response.data.data.user.USER_CHECK != "admin"
+        ) {
           localStorage.setItem("user", JSON.stringify(response.data));
           console.log(response.status);
           navigate("/user/home");
-        }
-        else{
+        } else {
           Swal.fire({
-            title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+            title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
             text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
             icon: "error",
             confirmButtonText: "ตกลง",
@@ -56,7 +62,7 @@ function Login() {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+          title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
           confirmButtonText: "ตกลง",
@@ -71,17 +77,19 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
+      .post("http://localhost:3001/api/v1/auth/login", data)
       .then((response) => {
-
         console.log(response.data);
-        if (response.status == 200 && response.data.data.user.USER_CHECK == "admin") {
+        if (
+          response.status == 200 &&
+          response.data.data.user.USER_CHECK == "admin"
+        ) {
           localStorage.setItem("user", JSON.stringify(response.data));
           console.log(response.status);
           setGotoIndexAdmin(true);
-        }else{
+        } else {
           Swal.fire({
-            title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+            title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
             text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
             icon: "error",
             confirmButtonText: "ตกลง",
@@ -91,7 +99,7 @@ function Login() {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
+          title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
           text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
           icon: "error",
           confirmButtonText: "ตกลง",
@@ -100,101 +108,133 @@ function Login() {
   };
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg bg-custom-grey ">
-        <div className="container-fluid row">
-          <div className="col-6">
-            <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
-              <li className="nav-item me-3 me-lg-0">
-                <a
-                  className="nav-link text-back"
-                  onClick={() => setIsAdmin(false)}
-                >
-                  {IsAdmin ? (
-                    <p> เข้าสู่ระบบสำหรับผู้ใช้ </p>
-                  ) : (
-                    <strong>
-                      <p> เข้าสู่ระบบสำหรับผู้ใช้ </p>
-                    </strong>
-                  )}
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div className="col-6">
-            <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
-              <li className="nav-item me-3 me-lg-0">
-                <a
-                  className="nav-link text-back"
-                  onClick={() => setIsAdmin(true)}
-                >
-                  {IsAdmin ? (
-                    <strong>
-                      <p>เข้าสู่ระบบสำหรับแอดมิน</p>
-                    </strong>
-                  ) : (
-                    <p>เข้าสู่ระบบสำหรับแอดมิน</p>
-                  )}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+    <div class="page">
+      <Row>
+        <Col className="col1">
+          <div class="img"></div>
+        </Col>
 
-      <form onSubmit={handleSubmit}>
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1">
-            ชื่อผู้ใช้
-          </span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Username"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <form className="row g-3">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">
-              รหัสผ่าน
-            </span>
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Password"
-              aria-label="Password"
-              aria-describedby="basic-addon1"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div></div>
-        </form>
-        
-        {IsAdmin ? (
-          <div>
-            <button
-              onClick={handleSubmitAdmin}
-            >
-              ไปจ้า
-            </button>
-          </div>
-        ) : (
-          <div className="">
-            <button type="submit" className="btn btn-primary mb-3">
-              เข้าสู่ระบบ
-            </button>
+        <Col className="col2">
+          <div class="rowtextfile">
+            <Row>
+              <div className="container-fluid row row1">
+                <div className="col-6">
+                  <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
+                    <li className="nav-item me-3 me-lg-0">
+                      <a
+                        className="nav-link text-back"
+                        onClick={() => setIsAdmin(false)}
+                      >
+                        {IsAdmin ? (
+                          <p> เข้าสู่ระบบสำหรับผู้ใช้ </p>
+                        ) : (
+                          <strong>
+                            <p> เข้าสู่ระบบสำหรับผู้ใช้ </p>
+                          </strong>
+                        )}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="col-6">
+                  <ul className="navbar-nav d-flex flex-row me-1 justify-content-center">
+                    <li className="nav-item me-3 me-lg-0">
+                      <a
+                        className="nav-link text-back"
+                        onClick={() => setIsAdmin(true)}
+                      >
+                        {IsAdmin ? (
+                          <strong>
+                            <p>เข้าสู่ระบบสำหรับแอดมิน</p>
+                          </strong>
+                        ) : (
+                          <p>เข้าสู่ระบบสำหรับแอดมิน</p>
+                        )}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Row>
+            <Row>
+              <form onSubmit={handleSubmit}>
+                <div class="fields">
+                  <span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Username"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </span>
+                  <br />
+                  <span>
+                    <input
+                      type="password"
+                      class="form-control"
+                      placeholder="Password"
+                      aria-label="Password"
+                      aria-describedby="basic-addon1"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </span>
+                </div>
+                {IsAdmin ? (
+                  <div  className="buntton">
+                    <Row>
+                    <div className="buntton-login-admin">
+                      <button  type="submit" className="btn btn-primary" onClick={handleSubmitAdmin}>เข้าสู่ระบบ</button>
+                    </div>
 
-            <a href="/register">
-              <button type="button" className="btn btn-dark" hr>
-                สมัครสมาชิก
-              </button>
-            </a>
+                    </Row>
+                    
+                    
+                  </div>
+                ) : (
+                  <div className="buntton">
+                    <Row>
+
+                      <Col>
+                      <div className="buntton-login-user">
+                    <button type="submit" className="btn btn-primary">
+                      เข้าสู่ระบบ
+                    </button>
+
+                    </div>
+
+                      </Col>
+
+                      <Col>
+                      <div  className="buntton-register">
+                      <a href="/register">
+                      <button type="button" className="btn btn-dark" >
+                        สมัครสมาชิก
+                      </button>
+                    </a>
+
+                      </div>
+                      
+                      </Col>
+
+                    </Row>
+                   
+                    
+                     
+                      
+
+                     
+                    
+
+                   
+                  </div>
+                )}
+              </form>
+            </Row>
           </div>
-        )}
-      </form>
+        </Col>
+      </Row>
     </div>
   );
 }

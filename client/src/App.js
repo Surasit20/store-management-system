@@ -10,7 +10,7 @@ function App(){
 
     <div className='App'>
        <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
+            {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
                 <div className="container-fluid">
                 <div className="navbar-collapse justify-content-center">
                 <a className="navbar-brand" href='/'>
@@ -20,7 +20,7 @@ function App(){
                     </a>
                  </div> 
                 </div>
-            </nav>
+            </nav> */}
         </div>
 
         <div id="detail">

@@ -51,7 +51,7 @@ export default function UserInfoAdmin() {
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/users", requestOptions)
+    fetch("http://localhost:3001/api/v1/users", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoading(false);
@@ -65,7 +65,7 @@ export default function UserInfoAdmin() {
       method: "DELETE",
       redirect: "follow",
     };
-    fetch(`https://back-end-store-management-system.onrender.com/api/v1/users/${USER_ID}`, requestOptions)
+    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
@@ -104,6 +104,11 @@ export default function UserInfoAdmin() {
   };
   return (
     <div class="con">
+       <div className="header">
+        <h1>
+        <strong>ข้อมูลสมาชิก</strong>
+        </h1>
+      </div>
       <div class="search"></div>
       <form class="search-form">
         <input

@@ -20,6 +20,7 @@ import {
   faPencilSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import "./css/motorcycle_add.css"
 
 
 export default function MotorcycleInfoAdmin() {
@@ -58,7 +59,7 @@ export default function MotorcycleInfoAdmin() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -67,7 +68,7 @@ export default function MotorcycleInfoAdmin() {
   };
 
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -89,7 +90,7 @@ export default function MotorcycleInfoAdmin() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -140,8 +141,12 @@ export default function MotorcycleInfoAdmin() {
   };
   return (
     <diV>
-      <div class="search"></div>
-      <form class="search-form">
+      <div className="header">
+        <h1>
+        <strong>ข้อมูลรถจักรยานยนต์</strong>
+        </h1>
+      </div>
+      <form className="search-form">
         <input
           type="search"
           onChange={handleInputChange}

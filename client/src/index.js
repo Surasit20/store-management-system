@@ -135,7 +135,9 @@ const router = createBrowserRouter([
 },
 ]);
 
+const exactValue = true; // กำหนดค่าตัวแปร exactValue ที่เป็น boolean
+
 ReactDOM.render(
-  <RouterProvider router={router} />,
+  <RouterProvider router={router}/>, // แปลงค่า boolean เป็น string โดยใช้ exactValue.toString()
   document.getElementById('root')
 );

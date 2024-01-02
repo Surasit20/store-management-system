@@ -1,0 +1,83 @@
+.page{
+    width: 98vw; /* กว้างเท่ากับความกว้างของหน้าจอ */
+    height: 100vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.col1 {
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    height: 90vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.col2 {
+    display: flex;
+    justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวตั้ง */
+    border: 5px solid rgba(251, 182, 6, 1); /* ขอบหนา */
+    border-radius: 20px 20px 20px 20px ;
+    height: 95vh; /* สูงเท่ากับความสูงของหน้าจอ */
+}
+.img {
+    width: 100vw; /* กว้างเท่ากับความกว้างของหน้าจอ */
+    height: 80vh; /* สูงเท่ากับความสูงของหน้าจอ */
+    background-size: cover; /* ปรับขนาดรูปให้เต็มพื้นที่ */
+    background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+    background-repeat: no-repeat; /* ไม่ให้รูปภาพทำซ้ำ */
+    background-image: url('https://lh3.googleusercontent.com/pw/ABLVV86KbGZmlM51W0TjyQyx9kAUY97-tXzFIhPrkVe5NgOIx3gQwkSCPmB0gF_-pOJOMkWIGUyiHYX3VbTnF2G541H8W6bexyfb9JwpjDA6OFNibGtZA-edGUwQ7eUZfAJr51GeHc6kLa1Qh82FQ5jWi-zqYfbI2AucTRUYfMaPNjLmNRKilTbzEfIIu7sfz_U1ZhJ0Rv47e49bFQzefr1GW7uHnUlHl51cgoXw9LwpYWweqBNulgNb70x3_MJ9h6-iOh5HXdtyCI9FRPzxMnqjZR3-0bgVvqMAL7Ud5m9T3J8RQhATCG6hk05Yu4IOWYwdhZ4pvUewU1I7PFu-16elAbJCAN11n6zmOXFDEeKZtnhmyxY-k-9OcEN5raHunBWr7VG2NhZ_DYFIrOR-lh5neBBy3X0nXni6aTx1B6ljjlFKWx8LN85oGtpP5Vwc4QmiO3YwNY0kI4gzHUDVlu2i_tJ3SpC9LC02smxhyr5haOAqTOYlxoQ-k-MqZBjWEEJEoMXTmshF3dLSF07diJ3p2Gt4ryxwQKVCv-w65RhGA0_YrvrN11ZPjO-gOFezq667mSDvc13QwsrZWWIYESnbMOWDZuiTqkS4Zi9_06KoY5tAQ-yvdngdp4akfD7yqqxzckVQo-6qYfeU2maSffZ8b62vc6Yd0e_KZ3GdUPV9sImJazlbIGKyrR-flsccu9ZuSjU2Z9aefCbo0rAMqQfQ5h27cY9WQOvVKhck_bgA7vG8h7ryxcam6ET1oFqHgqlWKhwk1BaaDOICvARl7V5n3GKQjPK_KnWtFUVXOla1IIWgt7b29MNE22mlbvrUatE41ztdRXtwKGlG-N3sfZ6ZaKB0THbMeH_0lgU4NkqCrQ85NdrZZ8-ZVuiBPoonOKoNqrAcprQMDsxjNtj1Bf4o8UI-iINb7KTFqT0CDD-QUhBkyIEHHQaIQLLIbyYsghTyJVFZiT34-WSaqdHiYohNglaSVxSin_CqIyDNjM4BhBmoJ4Xf=w913-h913-s-no-gm?authuser=0');
+}
+
+.rowtextfile{
+
+width: 50vw;
+background-size: cover; /* ปรับขนาดรูปให้เต็มพื้นที่ */
+background-position: center; /* จัดตำแหน่งรูปภาพให้ตรงกลาง */
+}
+.row1{
+
+    height:  50px
+}
+
+.grid {
+  display: grid;
+  height: 400px;
+  align-content: center;
+  grid-gap: 15px;
+  grid-template-columns: auto auto auto;
+  background-color: pink;
+  padding: 10px;
+}
+
+.grid > div {
+  background-color: red;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 40px;
+}
+  
+  form{
+    margin-top:25px;
+    display:inline-block;
+  }
+  
+  
+  .container span{
+      margin-bottom:22px; 
+      display:inline-block;
+  }
+  
+  .container span:last-child{
+     margin-bottom:-11px;
+  }
+  
+  input{
+    border:none;
+    outline:none;
+  }  
+.buntton{
+  padding: 30px;
+}
+.buntton-login-user{
+  padding-right:10px;
+}
+.buntton-login-admin{
+  
+}

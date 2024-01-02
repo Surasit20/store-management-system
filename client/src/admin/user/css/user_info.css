@@ -1,3 +1,7 @@
+.header{
+  padding-top: 30px;
+  padding-left: 20px;
+}
 .header-t-user{
     border-color: rgb(0, 0, 0);
     border: 0px;
@@ -18,3 +22,4 @@
     padding: 10px 0;
     vertical-align: middle;
   }
+
