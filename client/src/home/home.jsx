@@ -37,7 +37,7 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="container-fluid">
       <nav className="navbar navbar-expand-lg bg-custom-grey ">
         <div className="container-fluid">
           <ul className="navbar-nav d-flex flex-row me-1">
@@ -60,7 +60,7 @@ function Home() {
       <div>
       <ImageList
         style={{ overflow: "hidden" }}
-        sx={{ width: 1920, height: 1000 }}
+        sx={{height: 1000 }}
         cols={4}
         rowHeight={164}
       >
