@@ -58,16 +58,16 @@ function PaymentCheckAdmin() {
     console.log(context)
     context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
     console.log(context)
-    let res = await axios.put(`http://localhost:3001/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
+    let res = await axios.put(`https://back-end-store-management-system.onrender.com/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
     if (res.status == 200) {
 
-      let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
+      let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/month-installments`
       );
-      let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+      let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
 
-      let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+      let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
-      let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
+      let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
       let test = []
       console.log(data4.data)
       if (data1.data != null && data1.data != []) {
@@ -115,13 +115,13 @@ function PaymentCheckAdmin() {
     //     setLoading(false);
     //   });
 
-    let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
+    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
 
-    let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
-    let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
+    let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
     let test = []
     console.log(data4.data)
     if (data1.data != null && data1.data != []) {
@@ -152,7 +152,7 @@ function PaymentCheckAdmin() {
 
 
   // const UserGet = () => {
-  //   return fetch("http://localhost:3001/api/v1/users")
+  //   return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
   //     .then((res) => res.json())
   //     .then((result) => {
   //       return result.map((user) => ({
@@ -173,7 +173,7 @@ function PaymentCheckAdmin() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
