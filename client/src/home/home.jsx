@@ -37,7 +37,7 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="container-fluid">
       <nav className="navbar navbar-expand-lg bg-custom-grey ">
         <div className="container-fluid">
           <ul className="navbar-nav d-flex flex-row me-1">
@@ -59,10 +59,10 @@ function Home() {
 
       <div>
       <ImageList
+        variant="masonry"
         style={{ overflow: "hidden" }}
-        sx={{ width: 1920, height: 1000 }}
-        cols={4}
         rowHeight={164}
+        cols={4}
       >
         {dataSoures.map((i) => {
           return (
