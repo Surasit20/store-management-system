@@ -33,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "MOTORCYCLE_ID",
+        name: "INSTALLMENTS_MOTORCYCLE_ID_IDX",
         using: "BTREE",
         fields: [
           { name: "MOTORCYCLE_ID" },

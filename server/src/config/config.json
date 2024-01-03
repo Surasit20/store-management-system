@@ -1,9 +1,9 @@
 {
     "development": {
       "database": "storemanagementsystem",
-      "username": "u8j5pc780wu4fh0iqycw",
+      "username": "qkbupt7z056ohzc8o01k",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G",
+      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -15,9 +15,9 @@
     },
     "test": {
       "database": "storemanagementsystem",
-      "username": "u8j5pc780wu4fh0iqycw",
+      "username": "qkbupt7z056ohzc8o01k",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G",
+      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -29,9 +29,9 @@
     },
     "production": {
       "database": "storemanagementsystem",
-      "username": "u8j5pc780wu4fh0iqycw",
+      "username": "qkbupt7z056ohzc8o01k",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G",
+      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -42,6 +42,6 @@
     }
     },
     "commande":{
-      "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h aws.connect.psdb.cloud -u ulo5285i27cibaft4y3z -p 3306 -x pscale_pw_yVakwiNo5w1K1VnD2BuOlmcc397mh6cSCrj1iam3Q1G -e mysql -c ./config/config.migration.json"
+      "migration" : "npx sequelize-auto -o ./models -d storemanagementsystem -h aws.connect.psdb.cloud -u qkbupt7z056ohzc8o01k -p 3306 -x pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB -e mysql -c ./config/config.migration.json"
     }
   }
