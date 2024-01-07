@@ -59,10 +59,10 @@ function Home() {
 
       <div>
       <ImageList
+        variant="masonry"
         style={{ overflow: "hidden" }}
-        sx={{height: 1000 }}
-        cols={4}
         rowHeight={164}
+        cols={4}
       >
         {dataSoures.map((i) => {
           return (

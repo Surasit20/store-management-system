@@ -41,17 +41,15 @@ function RepairUser() {
     // let arr3 = data1.data.map((item, i) =>
     //   Object.assign({}, item, data2Filter[i])
     // );
-    
     let arr3 = []
     data2Filter.forEach(element => {
-      var test = []
-      test.push(element)
-      var moto = data1.data.filter(f=>f.MOTORCYCLE_ID == element.MOTORCYCLE_ID)
-      console.log(11111111111111);
-    
-      var motoWithRe  = test.map((item, i) =>Object.assign({}, item, moto));
-      console.log(motoWithRe);
-      arr3.push(motoWithRe[0])
+      let moto = data1.data.filter(f=>f.MOTORCYCLE_ID == element.MOTORCYCLE_ID)
+
+      if(moto != [] && moto.length > 0){
+        let motoWithRe = Object.assign(element,moto[0]);
+        console.log(moto);
+        arr3.push(motoWithRe)
+      }
     });
     let arr4 = arr3.filter((f) => f.USER_ID != null);
     //console.log(arr4);
@@ -157,9 +155,9 @@ function RepairUser() {
                   >
                     <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
                     <TableCell>{user.USER_FULLNAME}</TableCell>
-                    <TableCell>{row[0].REPAILDATA_WISE}</TableCell>
+                    <TableCell>{row.REPAILDATA_WISE}</TableCell>
                     <TableCell>
-                      {row[0].REPAILDATA_SATUS == 0 ? (
+                      {row.REPAILDATA_SATUS == 0 ? (
                         <p className="text-danger">อยู่ระหว่างการดำเนินงาน</p>
                       ) : (
                         <p className="text-success">เรียบร้อย</p>

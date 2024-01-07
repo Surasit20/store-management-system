@@ -23,7 +23,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import UserDialog from './dialog/UserDialog'
-
+import Swal from "sweetalert2";
+import axios from "axios";
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -115,9 +116,25 @@ export default function ChassisAdmin() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
+    let data1 = await axios.get(`http://localhost:3001/api/v1/users`
+    );
+    
+    var user = data1.data.filter(f=>f.USER_CODE_NUMBER == Usercode)
+    console.log("หดหกด")
+    console.log(user)
+    if(user == null || user == [] || user.length == 0){
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: "ไม่พบผู้ใช้งาน",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+        
+      });
+      setOpen(false);
+      return
+    }
     var raw = JSON.stringify({
-      USER_ID: UserId,
-      USER_CODE_NUMBER: Usercode,
+      USER_ID: user[0].USER_ID,
       //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
 
@@ -238,7 +255,7 @@ export default function ChassisAdmin() {
                   })
                   .map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row.MOTORCYCLE_BUCKET_NUMBER}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
@@ -288,7 +305,7 @@ export default function ChassisAdmin() {
             variant="outlined"
             fullWidth
             required
-            onChange={(e) => setUserId(e.target.value)}
+            onChange={(e) => setUserCode(e.target.value)}
           ></TextField>
           <TextField
             id="installmentNo"

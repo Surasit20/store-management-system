@@ -111,7 +111,7 @@ function Login() {
     <div class="page">
       <Row>
         <Col className="col1">
-          <div class="img"></div>
+          <img src="/images/home.jpg" className="image-home"></img>
         </Col>
 
         <Col className="col2">

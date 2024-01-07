@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     INSTALLMENTS_ID: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    MONTH_INSTALLMENTS_COMMENT: {
+      type: DataTypes.STRING(400),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -17,3 +17,8 @@
 *{
   font-family: 'K2D', 'Font Awesome 5 Free','sans-serif' !important;
  }
+
+ .image-home{
+  border-radius: 50%;
+  width: 800px;
+ }

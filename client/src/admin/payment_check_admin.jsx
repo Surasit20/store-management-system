@@ -31,12 +31,16 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
+import Swal from "sweetalert2";
 function PaymentCheckAdmin() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [open, setOpen] = React.useState(false);
+  const [contextData, setContextData] = useState();
+  const [statusBefore, setStatusBefore] = useState(0);
+  const [statusAfter, setStatusAfter] = useState(0);
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
@@ -54,72 +58,64 @@ function PaymentCheckAdmin() {
     totol: 0,
   });
 
+  const handleOpenDialog = async (context) => {
+    setStatusBefore(context.MONTH_INSTALLMENTS_STATUS)
+    setStatusAfter(context.MONTH_INSTALLMENTS_STATUS);
+    console.log(context)
+    setContextData(context);
+
+      setOpen(true)
+    
+
+  };
+
   const handleDropDownChange = async (event, context) => {
+    setStatusBefore(context.MONTH_INSTALLMENTS_STATUS)
+    setStatusAfter(parseInt(event.target.value));
     console.log(context)
-    context.MONTH_INSTALLMENTS_STATUS = parseInt(event.target.value);
-    console.log(context)
-    let res = await axios.put(`https://back-end-store-management-system.onrender.com/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
-    if (res.status == 200) {
 
-      let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/month-installments`
-      );
-      let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+    setContextData(context);
+    if(statusAfter != 1 ){
+      setOpen(true)
 
-      let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
-
-      let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
-      let test = []
-      console.log(data4.data)
-      if (data1.data != null && data1.data != []) {
-        data1.data.forEach(element => {
-          let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
-
-          let motorcycle = data2.data.filter(f => f.MOTORCYCLE_ID == installments.USER_ID)
-          let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
-
-          if (installments.length > 0) {
-            let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
-            test.push(returnedTarget)
-          }
-        })
-      }
-      // let arr3 = data1.data.map((item, i) =>
-      //   Object.assign({}, item, data2.data[i], data3.data[i])
-      // );
-
-      console.log(test);
-
-      setItems(test);
-      setLoading(false);
     }
+    // let res = await axios.put(`http://localhost:3001/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
+    // if (res.status == 200) {
+
+    //   let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
+    //   );
+    //   let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+
+    //   let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+
+    //   let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
+    //   let test = []
+    //   console.log(data4.data)
+    //   if (data1.data != null && data1.data != []) {
+    //     data1.data.forEach(element => {
+    //       let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
+  
+    //       let motorcycle = data2.data.filter(f => f.USER_ID == installments.USER_ID)
+    //       let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
+      
+    //       if (installments.length > 0) {
+    //         let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
+    //         test.push(returnedTarget)
+    //       }
+    //     })
+    //   }
+
+      //setItems(test);
+      //setLoading(false);
+    //}
   };
   useEffect(async () => {
-    // Promise.all([MotorcycleGet(), UserGet()])
-    //   .then(([motorcycles, users]) => {
-    //     const filteredItems = motorcycles.filter(
-    //       (item) => item.USER_ID !== null
-    //     );
-    //     setItems(
-    //       filteredItems.map((item) => {
-    //         const user = users.find((u) => u.USER_ID === item.USER_ID);
-    //         return {
-    //           ...item,
-    //           USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
-    //         };
-    //       })
-    //     );
-    //     setLoading(false);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching data:", error);
-    //     setLoading(false);
-    //   });
 
     let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
 
-    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
     let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
     let test = []
@@ -128,9 +124,9 @@ function PaymentCheckAdmin() {
       data1.data.forEach(element => {
         let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
 
-        let motorcycle = data2.data.filter(f => f.MOTORCYCLE_ID == installments.USER_ID)
+        let motorcycle = data2.data.filter(f => f.USER_ID == installments.USER_ID)
         let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
-
+    
         if (installments.length > 0) {
           let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
           test.push(returnedTarget)
@@ -143,54 +139,21 @@ function PaymentCheckAdmin() {
     //   Object.assign({}, item, data2.data[i], data3.data[i])
     // );
 
-    console.log(test);
+
 
     setItems(test);
     setLoading(false);
   }, []);
 
 
-
-  // const UserGet = () => {
-  //   return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       return result.map((user) => ({
-  //         USER_ID: user.USER_ID,
-  //         USER_FULLNAME: user.USER_FULLNAME,
-  //       }));
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching users:", error);
-  //       return [];
-  //     });
-  // };
-
-  const MotorcycleDelete = (MOTORCYCLE_ID) => {
-    var requestOptions = {
-      method: "DELETE",
-      redirect: "follow",
-    };
-
-    fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-    window.location.reload();
-  };
-
-  const MotorcycleUpdate = (MOTORCYCLE_ID) => {
-    window.location = "/admin/update-motorcycle/" + MOTORCYCLE_ID;
-  };
-
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+  };
+  const handleUpdateComment = (args) => {
+    contextData.COMMENT = args;
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -205,6 +168,24 @@ function PaymentCheckAdmin() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleSubmit = async() => {
+    console.log(contextData)
+    contextData.MONTH_INSTALLMENTS_STATUS = statusAfter;
+    setStatusBefore(contextData.MONTH_INSTALLMENTS_STATUS)
+    let res = await axios.put(`http://localhost:3001/api/v1/month-installments/` + contextData.MONTH_INSTALLMENTS_ID, contextData);
+
+    if(res.status == 200){
+      window.location.reload(); 
+    }
+    else{
+      Swal.fire({
+        title: "เกิดข้อผิดพลาด",
+        text: res.data,
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    }
   };
 
   return (
@@ -300,9 +281,10 @@ function PaymentCheckAdmin() {
                         <Button
                           type="button"
                           className="btn btn-success"
-                          onClick={() => setOpen(true)}
+                          disabled = {row.MONTH_INSTALLMENTS_STATUS == 1}
+                          onClick={() => handleOpenDialog(row)}
                         >
-                          ออกใบเสร็จ
+                          ดูใบเสร็จ
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -326,65 +308,88 @@ function PaymentCheckAdmin() {
         </Paper>
       )}
 
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ใบเสร็จ</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            กรอกข้อมูลการออกใบเสร็จ
-          </DialogContentText>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DateTimeField', 'DateTimeField']}>
-              <DateTimeField
-                label="วันที่และเวลา"
-                value={value}
-                onChange={(newValue) => setValue(newValue)}
-              />
-            </DemoContainer>
-          </LocalizationProvider>
-          <TextField
-            id="User"
-            label="ชื่อผู้ใช้"
-            variant="outlined"
-            fullWidth
-            required
-            value={bill.user}
-            onChange={(e) => setBill(e.target.value)}
-          ></TextField>
-          <TextField
-            id="์Number"
-            label="เลขตัวถัง"
-            variant="outlined"
-            fullWidth
-            required
-            value={bill.number}
-            onChange={(e) => setBill(e.target.value)}
-          ></TextField>
-          <TextField
-            id="Pay"
-            label="จำนวนเงินที่ต้องชำระ"
-            variant="outlined"
-            fullWidth
-            required
-            value={bill.pay}
-            onChange={(e) => setBill(e.target.value)}
-          ></TextField>
-          <TextField
-            id="Total"
-            label="จำนวนเงินทั้งสิ้น"
-            variant="outlined"
-            fullWidth
-            required
-            value={bill.pay}
-            InputProps={{
-              readOnly: true,
-            }}
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-          {/* <Button onClick={handleSubmit}>แก้ไข</Button>
-                            <Button onClick={handleClose}>ยกเลิก</Button> */}
-        </DialogActions>
-      </Dialog>
+
+<Dialog open={open} onClose={handleClose}>
+<DialogTitle>ใบเสร็จ</DialogTitle>
+<DialogContent>
+  <DialogContentText>
+    กรอกข้อมูลการออกใบเสร็จ
+  </DialogContentText>
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <DemoContainer components={['DateTimeField', 'DateTimeField']}>
+      <DateTimeField
+        label="วันที่และเวลา"
+        value={value}
+        onChange={(newValue) => setValue(newValue)}
+        disabled = {true}
+
+      />
+    </DemoContainer>
+  </LocalizationProvider>
+  <TextField
+    id="User"
+    label="ชื่อผู้ใช้"
+    variant="outlined"
+    fullWidth
+    required
+    value={contextData?.USER_FULLNAME ?? ""}
+    InputProps={{
+      readOnly: true,
+    }}
+  ></TextField>
+
+  <TextField
+    id="์Number"
+    label="เลขตัวถัง"
+    variant="outlined"
+    fullWidth
+    required
+    value={contextData?.MOTORCYCLE_BUCKET_NUMBER ?? ""}
+    InputProps={{
+      readOnly: true,
+    }}
+  ></TextField>
+
+
+  <TextField
+    id="Pay"
+    label="จำนวนเงินที่ต้องชำระ"
+    variant="outlined"
+    fullWidth
+    required
+    value={contextData?.INSTALLMENTS_MONEY  ?? ""}
+    InputProps={{
+      readOnly: true,
+    }}
+  ></TextField>
+  <TextField
+    id="Total"
+    label="จำนวนเงินทั้งสิ้น"
+    variant="outlined"
+    fullWidth
+    required
+    value={contextData?.INSTALLMENTS_MONEY ?? ""}
+    InputProps={{
+      readOnly: true,
+    }}
+  ></TextField>
+
+<TextField
+    id="Comment"
+    label="หมายเหตุ"
+    variant="outlined"
+    fullWidth
+    onChange={(e) => handleUpdateComment(e.target.value)}
+  ></TextField>
+</DialogContent>
+<DialogActions>
+<Button onClick={handleClose}>ออก</Button> 
+  {statusBefore == 1 ?      <Button onClick={handleSubmit}>ยืนยัน</Button> :      <Button  disabled={true} onClick={handleSubmit}>ยืนยัน</Button>}
+
+</DialogActions>
+</Dialog>
+
+     
     </div>
   );
 }
