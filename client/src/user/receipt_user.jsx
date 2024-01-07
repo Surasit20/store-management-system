@@ -43,6 +43,7 @@ function ReceiptUser() {
                   i.MOTORCYCLE_REGISTRATION_NUMBER
                 }
                 MOTORCYCLE_ID={i.MOTORCYCLE_ID}
+                
                 IS_RECEIPT={true}
               ></CardCar>
             );
