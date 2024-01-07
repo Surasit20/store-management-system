@@ -25,7 +25,7 @@ export default function UserUpdateAdmin() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/api/v1/users/" + USER_ID, requestOptions)
+    fetch("https://back-end-store-management-system.onrender.com/api/v1/users/" + USER_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result["status"] == "ok") {
@@ -75,7 +75,7 @@ export default function UserUpdateAdmin() {
       redirect: "follow",
     };
 
-    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
+    fetch(`https://back-end-store-management-system.onrender.com/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));

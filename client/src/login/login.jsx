@@ -40,7 +40,7 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("http://localhost:3001/api/v1/auth/login", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
       .then((response) => {
         console.log(response);
         if (
@@ -77,7 +77,7 @@ function Login() {
     event.preventDefault();
     localStorage.setItem("user", null);
     axios
-      .post("http://localhost:3001/api/v1/auth/login", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/login", data)
       .then((response) => {
         console.log(response.data);
         if (

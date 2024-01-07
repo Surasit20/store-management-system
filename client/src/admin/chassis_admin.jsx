@@ -78,7 +78,7 @@ export default function ChassisAdmin() {
   }, [installmentNo, items, motorcycleId]);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -86,7 +86,7 @@ export default function ChassisAdmin() {
       });
   };
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -147,7 +147,7 @@ export default function ChassisAdmin() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${motorcycleId}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${motorcycleId}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -172,7 +172,7 @@ export default function ChassisAdmin() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/api/v1/installments", requestOptions)
+    fetch("https://back-end-store-management-system.onrender.com/api/v1/installments", requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
