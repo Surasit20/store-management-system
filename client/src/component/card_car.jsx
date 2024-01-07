@@ -276,6 +276,7 @@ function CardCar(props) {
                           <React.Fragment>
                             {/* <ComponentToPrint ref={componentRef} /> */}
                             <button
+                            disabled={row.MONTH_INSTALLMENTS_STATUS != 2}
                               onClick={
                                 () => {
                                   setOpen1(true);
