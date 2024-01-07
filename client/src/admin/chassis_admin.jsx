@@ -116,7 +116,7 @@ export default function ChassisAdmin() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    let data1 = await axios.get(`http://localhost:3001/api/v1/users`
+    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`
     );
     
     var user = data1.data.filter(f=>f.USER_CODE_NUMBER == Usercode)
