@@ -96,7 +96,13 @@ export default function UserUpdateAdmin() {
   const [PostalCode, setPostalCode] = useState("");
 
   return (
-    <div>
+    <diV>
+          <div className="header">
+    <h1>
+    <strong>ข้อมูลสมาชิก</strong>
+    </h1>
+  </div>
+   
       <form onSubmit={handleSubmit}>
         <Grid item xs={10} sm={6}>
           <TextField
@@ -273,6 +279,6 @@ export default function UserUpdateAdmin() {
           บันทึก
         </button>
       </form>
-    </div>
+    </diV>
   );
 }
