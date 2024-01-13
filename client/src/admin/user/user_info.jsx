@@ -103,7 +103,7 @@ export default function UserInfoAdmin() {
     }
   };
   return (
-    <div class="con">
+    <diV class="con">
        <div className="header">
         <h1>
         <strong>ข้อมูลสมาชิก</strong>
@@ -241,6 +241,6 @@ export default function UserInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </diV>
   );
 }
