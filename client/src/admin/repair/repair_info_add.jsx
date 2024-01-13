@@ -76,7 +76,7 @@ function RepairAddAdmin() {;
           redirect: "follow",
         };
   
-        fetch("https://back-end-store-management-system.onrender.com/api/v1/repaildataes", requestOptions)
+        fetch("http://localhost:3001/api/v1/repaildataes", requestOptions)
           .then((response) => response.text())
           .then((result) => {
             console.log(result);
@@ -93,7 +93,7 @@ function RepairAddAdmin() {;
   };
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .then((result) => {
         const motorcycles = result;
@@ -117,14 +117,14 @@ function RepairAddAdmin() {;
     console.log(context)
     context.REPAILDATA_SATUS = parseInt(event.target.value);
     console.log(context)
-    let res = await axios.put(`https://back-end-store-management-system.onrender.com/api/v1/repaildataes/`+context.REPAILDATA_ID,context);
+    let res = await axios.put(`http://localhost:3001/api/v1/repaildataes/`+context.REPAILDATA_ID,context);
      if(res.status == 200){
        let data1 = await axios.get(
-         `https://back-end-store-management-system.onrender.com/api/v1/repaildataes`
+         `http://localhost:3001/api/v1/repaildataes`
        );
-       let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+       let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
    
-       let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
+       let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
    
        let arr3 = data1.data.map((item, i) =>
          Object.assign({}, item, data2.data[i], data3.data[i])
@@ -136,7 +136,7 @@ function RepairAddAdmin() {;
      }
    };
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({

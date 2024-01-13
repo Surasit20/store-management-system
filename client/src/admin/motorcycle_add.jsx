@@ -58,7 +58,7 @@ function AddMotorcycle() {
         redirect: "follow",
       };
 
-      fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles/", requestOptions)
+      fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
           Swal.fire("บันทึกข้อมูลสำเร็จ", );
