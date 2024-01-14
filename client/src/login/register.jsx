@@ -82,7 +82,7 @@ function Register() {
     };
     console.log(data);
     axios
-      .post("http://localhost:3001/api/v1/auth/register", data)
+      .post("https://back-end-store-management-system.onrender.com/api/v1/auth/register", data)
       .then((response) => {
         console.log(response);
         if (response.status == 201) {

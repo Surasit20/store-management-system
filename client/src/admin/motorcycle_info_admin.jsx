@@ -59,7 +59,7 @@ export default function MotorcycleInfoAdmin() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -68,7 +68,7 @@ export default function MotorcycleInfoAdmin() {
   };
 
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -90,7 +90,7 @@ export default function MotorcycleInfoAdmin() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
