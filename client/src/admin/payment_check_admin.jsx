@@ -111,13 +111,13 @@ function PaymentCheckAdmin() {
   };
   useEffect(async () => {
 
-    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/month-installments`
+    let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
     );
     let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
     let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
 
-    let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
+    let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
     let test = []
     console.log(data4.data)
     if (data1.data != null && data1.data != []) {
@@ -153,7 +153,10 @@ function PaymentCheckAdmin() {
     setPage(newPage);
   };
   const handleUpdateComment = (args) => {
-    contextData.COMMENT = args;
+    contextData.MONTH_INSTALLMENTS_COMMENT = args;
+
+    console.log(args)
+    console.log(contextData)
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -230,7 +233,7 @@ function PaymentCheckAdmin() {
                       <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
                       <TableCell>{row.USER_FULLNAME}</TableCell>
                       <TableCell>
-                        <a href={row.MONTH_INSTALLMENTS_IMAGE}>ดูสลิปใบเสร็จ</a>
+                        <a target="_blank" href={row.MONTH_INSTALLMENTS_IMAGE}>ดูสลิปใบเสร็จ</a>
                       </TableCell>
                       <TableCell>
                         {row.MONTH_INSTALLMENTS_STATUS == 1
@@ -373,14 +376,20 @@ function PaymentCheckAdmin() {
       readOnly: true,
     }}
   ></TextField>
-
+{statusAfter == 0 ? 
 <TextField
     id="Comment"
     label="หมายเหตุ"
     variant="outlined"
     fullWidth
+    required
+    defaultValue={contextData?.MONTH_INSTALLMENTS_COMMENT ?? ""}
     onChange={(e) => handleUpdateComment(e.target.value)}
-  ></TextField>
+    InputProps={{
+      readOnly: statusBefore != 1? true:false,
+    }}
+  ></TextField>: <div></div>}
+
 </DialogContent>
 <DialogActions>
 <Button onClick={handleClose}>ออก</Button> 

@@ -25,7 +25,7 @@ export default function UserUpdateAdmin() {
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/users/" + USER_ID, requestOptions)
+    fetch("http://localhost:3001/api/v1/users/" + USER_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result["status"] == "ok") {
@@ -75,7 +75,7 @@ export default function UserUpdateAdmin() {
       redirect: "follow",
     };
 
-    fetch(`https://back-end-store-management-system.onrender.com/api/v1/users/${USER_ID}`, requestOptions)
+    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
@@ -95,8 +95,28 @@ export default function UserUpdateAdmin() {
   const [Province, setProvince] = useState("");
   const [PostalCode, setPostalCode] = useState("");
 
+    //กลับหน้าก่อนหน้า
+    const [gotoListUser, setGotoListUser] = useState(false);
+    if (gotoListUser) {
+      return <Navigate to="/admin/user-info" />;
+    }
   return (
-    <div>
+    <diV>
+               <div className="header">
+        <h1>
+          <div
+            onClick={() => {
+              setGotoListUser(true);
+            }}
+          >
+            <i className="fa fa-arrow-left" aria-hidden="true">
+              {" "}
+              แก้ไขข้อมูลสมาชิก
+            </i>
+          </div>
+        </h1>
+      </div>
+   
       <form onSubmit={handleSubmit}>
         <Grid item xs={10} sm={6}>
           <TextField
@@ -273,6 +293,6 @@ export default function UserUpdateAdmin() {
           บันทึก
         </button>
       </form>
-    </div>
+    </diV>
   );
 }

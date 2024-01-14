@@ -53,7 +53,7 @@ const ComponentToPrint = React.forwardRef((props, ref) => (
   <div ref={ref} style={{ height: "300px" }}>
     <div className="row">
       <div className="col">
-        <p>เลขที่ {props.data.MONTH_INSTALLMENTS_DATE}</p>
+        <p>เลขที่ {props.data.MONTH_INSTALLMENTS_ID}</p>
       </div>
       <div className="col">
         <p>วันที่ {props.data.MONTH_INSTALLMENTS_DATE}</p>
@@ -63,9 +63,10 @@ const ComponentToPrint = React.forwardRef((props, ref) => (
       </div>
     </div>
 
-    <p>ชื่อ-นามสกุล {props.user.USER_FULLNAME}</p>
-    <p>เบอร์โทรศัพท์ {props.user.USER_TELL}</p>
-    <p>เลขตัวถัง {props.id}</p>
+    <p className="mx-2">ชื่อ-นามสกุล {props.user.USER_FULLNAME}</p>
+    <p className="mx-2">เบอร์โทรศัพท์ {props.user.USER_TELL}</p>
+    <p className="mx-2">เลขตัวถัง {props.id}</p>
+    <p className="mx-2">ค่างวด {props.data.MONTH_INSTALLMENTS_MONEY} บาท</p>
   </div>
 ));
 
@@ -113,14 +114,14 @@ function CardCar(props) {
       setUser(dataUser.data.user);
     }
 
-    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
+    let data1 = await axios.get(`http://localhost:3001/api/v1/installments`);
 
     let data11 = data1.data.filter(
       (f) => f.MOTORCYCLE_ID == props.MOTORCYCLE_ID
     );
 
     let data2 = await axios.get(
-      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
+      `http://localhost:3001/api/v1/month-installments`
     );
 
     if(data11.length > 0){
@@ -234,6 +235,7 @@ function CardCar(props) {
                     <TableCell>ค่างวด</TableCell>
                     <TableCell>สถานะ</TableCell>
                     <TableCell>ใบเสร็จ</TableCell>
+                    <TableCell>หมายเหตุ</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -264,9 +266,9 @@ function CardCar(props) {
                         <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
                         <TableCell>
                           {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
-                            <p className="text-secondary">เกินกำหนดชำระ</p>
+                            <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
                           ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
-                            <p className="text-danger">ค้างชำระ</p>
+                            <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
                           ) : (
                             <p className="text-success">ชำระเงินแล้ว</p>
                           )}
@@ -289,6 +291,7 @@ function CardCar(props) {
                             </button>
                           </React.Fragment>
                         </TableCell>
+                        <TableCell>{row.MONTH_INSTALLMENTS_COMMENT}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
@@ -331,7 +334,7 @@ function CardCar(props) {
                   id={props.MOTORCYCLE_BUCKET_NUMBER}
                 />
                 <button onClick={() => exportComponentAsJPEG(componentRef)}>
-                  ดาว์โหลดใบเสร็จ
+                ดาวน์โหลดใบเสร็จ
                 </button>
               </React.Fragment>
               <DialogActions>

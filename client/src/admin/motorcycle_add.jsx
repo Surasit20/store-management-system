@@ -29,7 +29,7 @@ function AddMotorcycle() {
   const handleSubmit = async (event) => {
     if (!image) {
       Swal.fire({
-        title: "กรูณาเลือกรูปภาพ",
+        title: "กรุณาเลือกรูปภาพ",
         icon: "error",
         confirmButtonText: "ตกลง",
       });
@@ -58,15 +58,13 @@ function AddMotorcycle() {
         redirect: "follow",
       };
 
-      fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles/", requestOptions)
+      fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
-          Swal.fire("บันทึกข้อมูลสำเร็จ", );
           console.log(result);
           navigate("/admin/motorcycle");
         })
         .catch((error) => console.log("error", error));
-     
     }
   };
 
@@ -113,38 +111,42 @@ function AddMotorcycle() {
   }
   return (
     <div>
+      <div className="header">
+        <h1>
+          <div
+            onClick={() => {
+              setGotoListMotorcycle(true);
+            }}
+          >
+            <i className="fa fa-arrow-left" aria-hidden="true">
+              {" "}
+              เพิ่มรถจักรยานยนต์
+            </i>
+          </div>
+        </h1>
+      </div>
       <form onSubmit={handleSubmit}>
-        <div className="header">
-          <h1>
-            <div
-              onClick={() => {
-                setGotoListMotorcycle(true);
-              }}
-            >
-              <i className="fa fa-arrow-left" aria-hidden="true">
-                {" "}
-                เพิ่มรถจักรยานยนต์
-              </i>
-            </div>
-          </h1>
-        </div>
-
         <div className="container">
-          <div>
+          <div className="container-img">
             <div>
               <Box class="box-img" component="img" src={image} />
             </div>
-            <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
-            <Button variant="contained" component="label">
-              อัพโหลดรูปภาพ
-              <input
-                accept="image/*"
-                type="file"
-                hidden
-                onChange={handleChangeImage}
-              />
-            </Button>
+            <div>
+              <div>
+                <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
+                <Button variant="contained" component="label">
+                  อัพโหลดรูปภาพ
+                  <input
+                    accept="image/*"
+                    type="file"
+                    hidden
+                    onChange={handleChangeImage}
+                  />
+                </Button>
+              </div>
+            </div>
           </div>
+
           <div>
             <Row>
               <Col>
@@ -158,13 +160,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                 />
-                {/* <TextField
-              id="RegistrationNumber"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setRegistrationNumber(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>เลขตัวถัง</p>
@@ -174,15 +169,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBucketNumber(e.target.value)}
                 />
-                {/* <TextField
-              id="BucketNumber"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBucketNumber(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -194,15 +182,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBrand(e.target.value)}
                 />
-                {/* <TextField
-              id="Brand"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBrand(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>รุ่น</p>
@@ -212,15 +193,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setModel(e.target.value)}
                 />
-                {/* <TextField
-              id="Model"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setModel(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -232,15 +206,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setColor(e.target.value)}
                 />
-                {/* <TextField
-              id="Color"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setColor(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>ราคา</p>
@@ -250,15 +217,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
-                {/* <TextField
-              id="Price"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setPrice(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -270,15 +230,8 @@ function AddMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBalance(e.target.value)}
                 />
-                {/* <TextField
-              id="Balance"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBalance(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col></Col>
             </Row>

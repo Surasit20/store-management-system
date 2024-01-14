@@ -8,6 +8,7 @@ import { Navigate } from "react-router-dom";
 import { Grid, TextField, Button, Box } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import Swal from "sweetalert2";
 
 function UpdateMotorcycle() {
   const { MOTORCYCLE_ID } = useParams();
@@ -29,7 +30,7 @@ function UpdateMotorcycle() {
     };
 
     fetch(
-      "https://back-end-store-management-system.onrender.com/api/v1/motorcycles/" + MOTORCYCLE_ID,
+      "http://localhost:3001/api/v1/motorcycles/" + MOTORCYCLE_ID,
       requestOptions
     )
       .then((response) => response.json())
@@ -52,38 +53,13 @@ function UpdateMotorcycle() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (imageNew != null) {
-      console.log("case1");
-      var resUploadImage = await uploadImage();
-      if (!resUploadImage.error) {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        var raw = JSON.stringify({
-          MOTORCYCLE_BALANCE: Balance,
-          MOTORCYCLE_PRICE: Price,
-          MOTORCYCLE_BRAND: Brand,
-          MOTORCYCLE_MODEL: Model,
-          MOTORCYCLE_COLOR: Color,
-          MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
-          MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
-          MOTORCYCLE_IMAGE: resUploadImage["secure_url"],
-        });
-
-        var requestOptions = {
-          method: "PUT",
-          headers: myHeaders,
-          body: raw,
-          redirect: "follow",
-        };
-
-        fetch(
-          `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
-          requestOptions
-        )
-          .then((response) => response.text())
-          .then((result) => console.log(result))
-          .catch((error) => console.log("error", error));
-      }
+    if (imageNew != null || imageNew != undefined) {
+      Swal.fire({
+        title: "กรุณาเลือกรูปภาพ",
+        icon: "error",
+        confirmButtonText: "ตกลง",
+      });
+    
     } else {
       console.log("case2");
       var myHeaders = new Headers();
@@ -107,7 +83,7 @@ function UpdateMotorcycle() {
       };
 
       fetch(
-        `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+        `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
         requestOptions
       )
         .then((response) => response.text())
@@ -129,10 +105,6 @@ function UpdateMotorcycle() {
   };
 
   const uploadImage = async () => {
-    //setLoading(true);
-
-    //formData.append("cloud_name", process.env.REACT_APP_CLOUDINARY_CLOUD_NAME);
-    //formData.append("folder", "Cloudinary-React");
     try {
       const responseBlob = await fetch(imageNew);
       const blob = await responseBlob.blob();
@@ -164,132 +136,158 @@ function UpdateMotorcycle() {
     }
 
   return (
-    <div>
-      <Button variant="contained" color="success" onClick={() => {
-            setGotoListMotorcycle(true);
-          }}
-        >กลับหน้าก่อนหน้า</Button>
-      <div class="contrainer" > 
-      <form onSubmit={handleSubmit}>
-        <Row>
-        <div class="text-file">
-        <Col  class="col1">
-          <Grid item xs={12} sm={6}>
-          <TextField
-            id="RegistrationNumber"
-            label="เลขทะเบียน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setRegistrationNumber(e.target.value)}
-            value={RegistrationNumber}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="BucketNumber"
-            label="เลขตัวถัง"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBucketNumber(e.target.value)}
-            value={BucketNumber}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Brand"
-            label="ยี่ห้อ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBrand(e.target.value)}
-            value={Brand}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Model"
-            label="รุ่น"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setModel(e.target.value)}
-            value={Model}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Color"
-            label="สี"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setColor(e.target.value)}
-            value={Color}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Price"
-            label="ราคา"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setPrice(e.target.value)}
-            value={Price}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Balance"
-            label="ยอดคงเหลือ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBalance(e.target.value)}
-            value={Balance}
-          ></TextField>
-        </Grid>
-        </Col>
+<div>
+      <div className="header">
+        <h1>
+          <div
+            onClick={() => {
+              setGotoListMotorcycle(true);
+            }}
+          >
+            <i className="fa fa-arrow-left" aria-hidden="true">
+              {" "}
+              แก้ไขข้อมูลรถจักรยานยนต์
+            </i>
           </div>
-          
-         
-<div class="image">
-<Col>
-          <div>
-          <Box
-          class="box-img"
-            component="img"
-            src={imageNew ?? imageOld}
-          /> 
-        <div>
-        </div>
-        <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
-          <Button variant="contained" component="label">
-            อัพโหลดรูปภาพ
-            <input
-              accept="image/*"
-              type="file"
-              hidden
-              onChange={handleChangeImage}
-            />
-          </Button>
-        </div>
-          </Col>
-</div>
-          
-        </Row>
-       
-      
-
-        <button type="submit" variant="contained" class="btn btn-primary mb-3">
-          แก้ไข
-        </button>
-      </form>
+        </h1>
       </div>
-      
+      <form onSubmit={handleSubmit}>
+        <div className="container">
+          <div className="container-img">
+            <div>
+            <div>
+          <Box
+           class="box-img"
+             component="img"
+             src={imageNew ?? imageOld}
+           /> </div>
+            </div>
+            <div>
+              <div>
+                <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
+                <Button variant="contained" component="label">
+                  อัพโหลดรูปภาพ
+                  <input
+                    accept="image/*"
+                    type="file"
+                    hidden
+                    onChange={handleChangeImage}
+                  />
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <Row>
+              <Col>
+                <p>เลขทะเบียน</p>
+
+                <input
+                  id="RegistrationNumber"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  value={RegistrationNumber}
+                />
+              </Col>
+              <Col>
+                <p>เลขตัวถัง</p>
+                <input
+                  id="BucketNumber"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setBucketNumber(e.target.value)}
+                  value={BucketNumber}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>ยี่ห้อ</p>
+                <input
+                  id="Brand"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setBrand(e.target.value)}
+                  value={Brand}
+                />
+              </Col>
+              <Col>
+                <p>รุ่น</p>
+                <input
+                  id="Model"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setModel(e.target.value)}
+                  value={Model}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>สี</p>
+                <input
+                  id="Color"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setColor(e.target.value)}
+                  value={Color}
+                />
+              </Col>
+              <Col>
+                <p>ราคา</p>
+                <input
+                  id="Price"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setPrice(e.target.value)}
+                  value={Price}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>ยอดคงเหลือ</p>
+                <input
+                  id="Balance"
+                  type="text"
+                  class="form-control"
+                  required
+                  aria-describedby="basic-addon1"
+                  onChange={(e) => setBalance(e.target.value)}
+                  value={Balance}
+                />
+              </Col>
+              <Col></Col>
+            </Row>
+          </div>
+        </div>
+        <div className="save-button">
+          <button
+            type="submit"
+            variant="contained"
+            className="btn btn-success mb-3"
+          >
+            บันทึก
+          </button>
+        </div>
+      </form>
     </div>
+
+
   );
 }
 export default UpdateMotorcycle;

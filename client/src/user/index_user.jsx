@@ -40,11 +40,13 @@ function IndexUser() {
   const childRef = useRef(null);
 
   const handleChange = (event) => {
-
+    console.log(11111111111111)
+    console.log(event.target.value)
     if(event.target.value == 1){
       navigate("/login");
       setMenu("")
-    }else{
+    }
+    else if(event.target.value == 0) {
       setMenu("")
       childRef.current.childFunction1();;
     }
@@ -58,7 +60,7 @@ function IndexUser() {
     }
     console.log("tttttttttttttttttttttttttt");
     console.log(user);
-    // axios.get("https://back-end-store-management-system.onrender.com/api/v1/motorcycles").then((response) => {
+    // axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
     //   var data = response.data.filter(
     //     (f) => f.USER_ID == dataUser.data.user.USER_ID
     //   );

@@ -103,7 +103,7 @@ export default function RepairInfoAdmin() {
     setSearch(e.target.value);
   };
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .then((result) => {
         return result.map((motorcycle) => ({
@@ -121,7 +121,7 @@ export default function RepairInfoAdmin() {
   };
 
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -137,7 +137,7 @@ export default function RepairInfoAdmin() {
   };
 
   const RepairGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/repaildataes")
+    return fetch("http://localhost:3001/api/v1/repaildataes")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching repaildataes:", error);
@@ -155,7 +155,7 @@ export default function RepairInfoAdmin() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/repaildataes/${REPAILDATA_ID}`,
+      `http://localhost:3001/api/v1/repaildataes/${REPAILDATA_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -194,14 +194,14 @@ export default function RepairInfoAdmin() {
     context.REPAILDATA_SATUS = parseInt(event.target.value);
     console.log(context);
     let res = await axios.put(
-      `https://back-end-store-management-system.onrender.com/api/v1/repaildataes/` + context.REPAILDATA_ID,
+      `http://localhost:3001/api/v1/repaildataes/` + context.REPAILDATA_ID,
       context
     );
     if (res.status == 200) {
-      let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/repaildataes`);
-      let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+      let data1 = await axios.get(`http://localhost:3001/api/v1/repaildataes`);
+      let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
 
-      let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
+      let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
 
       let arr3 = data1.data.map((item, i) =>
         Object.assign({}, item, data2.data[i], data3.data[i])
@@ -214,7 +214,11 @@ export default function RepairInfoAdmin() {
   };
   return (
     <div>
-      <div class="search"></div>
+          <div className="header">
+        <h1>
+        <strong>ข้อมูลสมาชิก</strong>
+        </h1>
+      </div>
       <form class="search-form">
         <input
           type="search"
@@ -379,6 +383,7 @@ export default function RepairInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
+      
     </div>
   );
 }

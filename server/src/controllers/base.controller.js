@@ -258,7 +258,9 @@ class BaseController {
 		let result;
 		try {
 			result = await req.app.get('db')[modelName].update(
-				{ MONTH_INSTALLMENTS_STATUS: req.body.MONTH_INSTALLMENTS_STATUS},
+				{ MONTH_INSTALLMENTS_STATUS: req.body.MONTH_INSTALLMENTS_STATUS,
+				  MONTH_INSTALLMENTS_COMMENT:req.body.MONTH_INSTALLMENTS_COMMENT 	
+				},
 				{where: {MONTH_INSTALLMENTS_ID : reqParam}}
 				).then(
 					updatedRecored => Promise.resolve(updatedRecored),

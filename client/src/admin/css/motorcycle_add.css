@@ -1,14 +1,19 @@
-.header{
+/* .header{
     padding-top: 20px;
     padding-left: 20px;
     padding-bottom: 40px;
-  }
+  } */
   .container-textfile{
     padding-top: 20px;
     padding-bottom: 20px;
     padding-right: 50px;
     background-color: rgb(255, 255, 255);
     width: 780px;
+}
+.container-img{
+  display: flex;
+  justify-content: center; /* จัดเนื้อหาตรงกลางตามแนวนอน */
+  align-items: center; /* จัดเนื้อหาตรงกลางตามแนวดิ่ง */
 }
 .container {
     display: flex;
