@@ -198,11 +198,11 @@ export default function OverdueAdmin() {
     try {
 
       const installmentResponse = await fetch(
-        `http://localhost:3001/api/v1/installments/${installmentId}`
+        `https://back-end-store-management-system.onrender.com/api/v1/installments/${installmentId}`
       );
       const installmentData = await installmentResponse.json();
       const monthResponse = await fetch(
-        `http://localhost:3001/api/v1/month-installments?INSTALLMENTS_ID=${installmentId}`
+        `https://back-end-store-management-system.onrender.com/api/v1/month-installments?INSTALLMENTS_ID=${installmentId}`
       );
       const monthData = await monthResponse.json();
 
