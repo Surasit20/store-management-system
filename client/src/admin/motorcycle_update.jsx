@@ -146,7 +146,7 @@ function UpdateMotorcycle() {
           >
             <i className="fa fa-arrow-left" aria-hidden="true">
               {" "}
-              เพิ่มรถจักรยานยนต์
+              แก้ไขข้อมูลรถจักรยานยนต์
             </i>
           </div>
         </h1>
@@ -201,7 +201,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBucketNumber(e.target.value)}
                   value={BucketNumber}
                 />
               </Col>
@@ -215,7 +215,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBrand(e.target.value)}
                   value={Brand}
                 />
               </Col>
@@ -227,7 +227,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setModel(e.target.value)}
                   value={Model}
                 />
               </Col>
@@ -241,7 +241,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setColor(e.target.value)}
                   value={Color}
                 />
               </Col>
@@ -253,7 +253,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setPrice(e.target.value)}
                   value={Price}
                 />
               </Col>
@@ -267,7 +267,7 @@ function UpdateMotorcycle() {
                   class="form-control"
                   required
                   aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                  onChange={(e) => setBalance(e.target.value)}
                   value={Balance}
                 />
               </Col>

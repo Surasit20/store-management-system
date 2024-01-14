@@ -95,13 +95,27 @@ export default function UserUpdateAdmin() {
   const [Province, setProvince] = useState("");
   const [PostalCode, setPostalCode] = useState("");
 
+    //กลับหน้าก่อนหน้า
+    const [gotoListUser, setGotoListUser] = useState(false);
+    if (gotoListUser) {
+      return <Navigate to="/admin/user-info" />;
+    }
   return (
     <diV>
-          <div className="header">
-    <h1>
-    <strong>ข้อมูลสมาชิก</strong>
-    </h1>
-  </div>
+               <div className="header">
+        <h1>
+          <div
+            onClick={() => {
+              setGotoListUser(true);
+            }}
+          >
+            <i className="fa fa-arrow-left" aria-hidden="true">
+              {" "}
+              แก้ไขข้อมูลสมาชิก
+            </i>
+          </div>
+        </h1>
+      </div>
    
       <form onSubmit={handleSubmit}>
         <Grid item xs={10} sm={6}>

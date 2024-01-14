@@ -160,13 +160,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                 />
-                {/* <TextField
-              id="RegistrationNumber"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setRegistrationNumber(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>เลขตัวถัง</p>
@@ -178,13 +171,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBucketNumber(e.target.value)}
                 />
-                {/* <TextField
-              id="BucketNumber"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBucketNumber(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -198,13 +184,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBrand(e.target.value)}
                 />
-                {/* <TextField
-              id="Brand"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBrand(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>รุ่น</p>
@@ -216,13 +195,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setModel(e.target.value)}
                 />
-                {/* <TextField
-              id="Model"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setModel(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -236,13 +208,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setColor(e.target.value)}
                 />
-                {/* <TextField
-              id="Color"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setColor(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col>
                 <p>ราคา</p>
@@ -254,13 +219,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setPrice(e.target.value)}
                 />
-                {/* <TextField
-              id="Price"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setPrice(e.target.value)}
-            ></TextField> */}
               </Col>
             </Row>
             <Row>
@@ -274,13 +232,6 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBalance(e.target.value)}
                 />
-                {/* <TextField
-              id="Balance"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setBalance(e.target.value)}
-            ></TextField> */}
               </Col>
               <Col></Col>
             </Row>

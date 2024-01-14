@@ -24,7 +24,7 @@ export default function OverdueAdmin() {
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [installmentId, setInstallmentId] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // เพิ่ม state นี้เพื่อควบคุมการแสดง/ซ่อน Dialog
+  const [isDialogOpen, setIsDialogOpen] = useState(false); 
   const [selectedItem, setSelectedItem] = useState(null);
   const [status, setStatus] = useState("");
   const [time, setTime] = useState("");
@@ -42,7 +42,7 @@ export default function OverdueAdmin() {
           MotorcycleGet(),
           UserGet(),
           InstallmentGet(),
-          MonthGet()
+          MonthGet(),
         ]);
 
         console.log("motorcycles:", motorcycles);
@@ -59,6 +59,7 @@ export default function OverdueAdmin() {
           return {
             ...item,
             USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
+            USER_CODE_NUMBER: user ? user.USER_CODE_NUMBER : "N/A",
             USER_TELL: user ? user.USER_TELL : "N/A",
           };
         });
@@ -79,11 +80,6 @@ export default function OverdueAdmin() {
             };
           }
         );
-
-        // const months = await Promise.all(
-        //   repaildataes.map((item) => MonthGet(item.INSTALLMENTS_ID))
-        // );
-
         setItems(repaildataesWithBothData);
         setLoading(false);
       } catch (error) {
@@ -122,6 +118,7 @@ export default function OverdueAdmin() {
       .then((result) => {
         return result.map((user) => ({
           USER_ID: user.USER_ID,
+          USER_CODE_NUMBER: user.USER_CODE_NUMBER,
           USER_FULLNAME: user.USER_FULLNAME,
           USER_TELL: user.USER_TELL,
         }));
@@ -183,20 +180,36 @@ export default function OverdueAdmin() {
       InstallmentDelete(installmentId);
     }
   };
-  const openDialog = (INSTALLMENTS_ID) => {
-    setSelectedItem(INSTALLMENTS_ID); // กำหนดข้อมูลรายการที่ต้องการแสดง
-    setIsDialogOpen(true); // เปิด Dialog
+  const openDialog = async (INSTALLMENTS_ID) => {
+    try {
+      const monthData = await MonthGet(INSTALLMENTS_ID);
+      console.log("Month Data:", monthData);
+      setSelectedItem(monthData);
+      setIsDialogOpen(true);
+    } catch (error) {
+      console.error("Error fetching month data:", error);
+    }
   };
-  const MonthGet = () => {
-    return fetch("http://localhost:3001/api/v1/month-installments")
-      .then((res) => res.json())
-      .catch((error) => {
-        console.error("ไม่มี", error);
-        return [];
-      });
+  const MonthGet = async (installmentId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/month-installments/${installmentId}`
+      );
+      const result = await response.json();
+      console.log("Month Data from API:", result);
+      return result;
+    } catch (error) {
+      console.error("Error fetching month installments:", error);
+      return [];
+    }
   };
   return (
     <div>
+      <div className="header">
+        <h1>
+          <strong>ข้อมูลยอดค้างชำระ</strong>
+        </h1>
+      </div>
       <Row>
         <div class="search">
           <Col>
@@ -220,9 +233,10 @@ export default function OverdueAdmin() {
               <TableHead>
                 <TableRow>
                   <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
-                  <TableCell>ชื่อ - นามสกุด</TableCell>
+                  <TableCell>ชื่อ - นามสกุล</TableCell>
+                  <TableCell>เลขทะเบียน</TableCell>
                   <TableCell>เบอร์โทร</TableCell>
-                  <TableCell>แก้ไขข้อมูล</TableCell>
+                  <TableCell>ยอดค้างชำระ</TableCell>
                   <TableCell>ลบข้อมูล</TableCell>
                 </TableRow>
               </TableHead>
@@ -242,15 +256,17 @@ export default function OverdueAdmin() {
                       key={row.name}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
+                      <TableCell>{row.USER_CODE_NUMBER}</TableCell>
                       <TableCell>{row.USER_FULLNAME}</TableCell>
                       <TableCell>
                         {row.MOTORCYCLE_REGISTRATION_NUMBER}
                       </TableCell>
+                      <TableCell>{row.USER_TELL}</TableCell>
                       <TableCell>
                         <Button
                           type="button"
                           class="btn btn-warning"
-                          onClick={() => openDialog(row.INSTALLMENTS_ID)} // เรียกใช้งานฟังก์ชัน openDialog และส่งข้อมูลรายการที่ต้องการแสดง
+                          onClick={() => openDialog(row.INSTALLMENTS_ID)}
                         >
                           รายละเอียด
                         </Button>
@@ -297,59 +313,46 @@ export default function OverdueAdmin() {
         </DialogActions>
       </Dialog>
       <OverdueAdminDialog
-        open={isDialogOpen} // รับค่า open เพื่อควบคุมการแสดง/ซ่อน Dialog
-        onClose={() => setIsDialogOpen(false)} // สร้างฟังก์ชันปิด Dialog
-        item={selectedItem} // ส่งข้อมูลรายการที่ต้องการแสดงเข้าไปยัง OverdueAdminDialog
+        open={isDialogOpen} 
+        onClose={() => setIsDialogOpen(false)} 
+        item={selectedItem} 
       />
     </div>
   );
   function OverdueAdminDialog({ open, onClose, item }) {
     return (
       <Dialog open={open} onClose={onClose}>
-      <DialogTitle>รายละเอียด</DialogTitle>
-      <DialogContent>
-        {item && (
-          <>
-            <TableHead>
-                <TableRow>
-                  <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
-                  <TableCell>ชื่อ - นามสกุด</TableCell>
-                  <TableCell>เบอร์โทร</TableCell>
-                  <TableCell>แก้ไขข้อมูล</TableCell>
-                  <TableCell>ลบข้อมูล</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    // return (
-                    //   search.trim() === "" ||
-                    //   row.USER_FULLNAME.toLowerCase().includes(
-                    //     search.toLowerCase()
-                    //   )
-                    // );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>
-                        {row.MONTH_INSTALLMENTS_MONEY}
-                      </TableCell>
-                      <TableCell>
-                      </TableCell>
+        <DialogTitle>รายละเอียดค่างวด</DialogTitle>
+        <DialogContent>
+          {Array.isArray(item) && item.length > 0 ? (
+            <>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>งวดที่</TableCell>
+                    <TableCell>ค่างวด</TableCell>
+                    <TableCell>สถานะ</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {item.map((row) => (
+                    <TableRow key={row.MONTH_INSTALLMENTS_ID}>
+                      <TableCell>{row.MONTH_INSTALLMENTS_ID}</TableCell>
+                      <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                      <TableCell>{row.MONTH_INSTALLMENTS_STATUS}</TableCell>
                     </TableRow>
                   ))}
-              </TableBody>
-          </>
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>ปิด</Button>
-      </DialogActions>
-    </Dialog>
+                </TableBody>
+              </Table>
+            </>
+          ) : (
+            <p>ไม่มีข้อมูลค่างวด</p>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>ปิด</Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

@@ -1,5 +1,4 @@
 import React, { Component, useEffect, useState } from "react";
-import "../css/motorcycle_info.css";
 import "../css_admin.css";
 import "./css/user_info.css";
 import { Form, InputGroup } from "react-bootstrap";
@@ -109,7 +108,6 @@ export default function UserInfoAdmin() {
         <strong>ข้อมูลสมาชิก</strong>
         </h1>
       </div>
-      <div class="search"></div>
       <form class="search-form">
         <input
           type="search"

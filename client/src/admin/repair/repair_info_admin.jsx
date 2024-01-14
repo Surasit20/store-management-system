@@ -214,7 +214,11 @@ export default function RepairInfoAdmin() {
   };
   return (
     <div>
-      <div class="search"></div>
+          <div className="header">
+        <h1>
+        <strong>ข้อมูลสมาชิก</strong>
+        </h1>
+      </div>
       <form class="search-form">
         <input
           type="search"
@@ -379,6 +383,7 @@ export default function RepairInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
+      
     </div>
   );
 }
