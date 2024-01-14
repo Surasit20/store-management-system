@@ -25,7 +25,7 @@ export default function OverdueAdmin() {
   const [open, setOpen] = useState(false);
   const [installmentId, setInstallmentId] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false); 
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState([]);
   const [status, setStatus] = useState("");
   const [time, setTime] = useState("");
   const [Date, setDate] = useState("");
@@ -184,7 +184,11 @@ export default function OverdueAdmin() {
     try {
       const data = await MonthGet(INSTALLMENTS_ID);
       console.log("Data:", data);
-      setSelectedItem(data);
+      if(data == null || data.MONTH_INSTALLMENTS == null){
+        data=[]
+      }
+      console.log("xxxxxx:", data.MONTH_INSTALLMENTS);
+      setSelectedItem(data.MONTH_INSTALLMENTS);
       setIsDialogOpen(true);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -200,10 +204,13 @@ export default function OverdueAdmin() {
         `http://localhost:3001/api/v1/month-installments?INSTALLMENTS_ID=${installmentId}`
       );
       
+
       const monthData = await monthResponse.json();
+
+      let monthDataFiler = monthData.filter(f=>f.INSTALLMENTS_ID == installmentId)
       const result = {
         INSTALLMENTS: installmentData,
-        MONTH_INSTALLMENTS: monthData,
+        MONTH_INSTALLMENTS: monthDataFiler,
       };
   
       console.log("Data from API:", result);
@@ -331,22 +338,34 @@ export default function OverdueAdmin() {
   );
   function OverdueAdminDialog({ open, onClose, item }) {
     return (
-      <Dialog open={open} onClose={onClose}>
+      <Dialog open={open} onClose={onClose} >
+
         <DialogTitle>รายละเอียดค่างวด</DialogTitle>
         <DialogContent>
+                <TableCell>งวดที่         </TableCell>
+                  <TableCell>ค่างวด      </TableCell>
+                  <TableCell>สถานะ      </TableCell>
 
         <TableBody>
-                {items
-                  .map((row) => (
+                 {item
+                  .map((row,index) => (
                     <TableRow
                       key={row.name}
                     >
-                 <TableCell>{row.MONTH_INSTALLMENTS_ID}</TableCell>
+                 <TableCell>{index+1}</TableCell>
                       <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_STATUS}</TableCell>
+                      <TableCell>
+                      {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
+                            <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
+                          ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
+                            <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
+                          ) : (
+                            <p className="text-success">ชำระเงินแล้ว</p>
+                          )}
+                      </TableCell>
                     </TableRow>
-                  ))}
-              </TableBody>
+                  ))} 
+              </TableBody> 
 
           {/* {Array.isArray(item) && item.length > 0 ? (
             <>
