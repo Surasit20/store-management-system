@@ -182,25 +182,35 @@ export default function OverdueAdmin() {
   };
   const openDialog = async (INSTALLMENTS_ID) => {
     try {
-      const monthData = await MonthGet(INSTALLMENTS_ID);
-      console.log("Month Data:", monthData);
-      setSelectedItem(monthData);
+      const data = await MonthGet(INSTALLMENTS_ID);
+      console.log("Data:", data);
+      setSelectedItem(data);
       setIsDialogOpen(true);
     } catch (error) {
-      console.error("Error fetching month data:", error);
+      console.error("Error fetching data:", error);
     }
   };
   const MonthGet = async (installmentId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/v1/month-installments/${installmentId}`
+      const installmentResponse = await fetch(
+        `http://localhost:3001/api/v1/installments/${installmentId}`
       );
-      const result = await response.json();
-      console.log("Month Data from API:", result);
+      const installmentData = await installmentResponse.json();
+      const monthResponse = await fetch(
+        `http://localhost:3001/api/v1/month-installments?INSTALLMENTS_ID=${installmentId}`
+      );
+      
+      const monthData = await monthResponse.json();
+      const result = {
+        INSTALLMENTS: installmentData,
+        MONTH_INSTALLMENTS: monthData,
+      };
+  
+      console.log("Data from API:", result);
       return result;
     } catch (error) {
-      console.error("Error fetching month installments:", error);
-      return [];
+      console.error("Error fetching data:", error);
+      return null;
     }
   };
   return (
@@ -324,7 +334,21 @@ export default function OverdueAdmin() {
       <Dialog open={open} onClose={onClose}>
         <DialogTitle>รายละเอียดค่างวด</DialogTitle>
         <DialogContent>
-          {Array.isArray(item) && item.length > 0 ? (
+
+        <TableBody>
+                {items
+                  .map((row) => (
+                    <TableRow
+                      key={row.name}
+                    >
+                 <TableCell>{row.MONTH_INSTALLMENTS_ID}</TableCell>
+                      <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                      <TableCell>{row.MONTH_INSTALLMENTS_STATUS}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+
+          {/* {Array.isArray(item) && item.length > 0 ? (
             <>
               <Table>
                 <TableHead>
@@ -347,7 +371,7 @@ export default function OverdueAdmin() {
             </>
           ) : (
             <p>ไม่มีข้อมูลค่างวด</p>
-          )}
+          )} */}
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>ปิด</Button>
