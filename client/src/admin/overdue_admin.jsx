@@ -92,7 +92,7 @@ export default function OverdueAdmin() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("http://localhost:3001/api/v1/motorcycles")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
       .then((res) => res.json())
       .then((result) => {
         const motorcycles = result;
@@ -113,7 +113,7 @@ export default function OverdueAdmin() {
       });
   };
   const UserGet = () => {
-    return fetch("http://localhost:3001/api/v1/users")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -129,7 +129,7 @@ export default function OverdueAdmin() {
       });
   };
   const InstallmentGet = () => {
-    return fetch("http://localhost:3001/api/v1/installments")
+    return fetch("https://back-end-store-management-system.onrender.com/api/v1/installments")
       .then((res) => res.json())
       .catch((error) => {
         console.error("ไม่มี", error);
@@ -143,7 +143,7 @@ export default function OverdueAdmin() {
     };
 
     fetch(
-      `http://localhost:3001/api/v1/installments/${INSTALLMENTS_ID}`,
+      `https://back-end-store-management-system.onrender.com/api/v1/installments/${INSTALLMENTS_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -196,6 +196,7 @@ export default function OverdueAdmin() {
   };
   const MonthGet = async (installmentId) => {
     try {
+
       const installmentResponse = await fetch(
         `http://localhost:3001/api/v1/installments/${installmentId}`
       );
@@ -203,8 +204,6 @@ export default function OverdueAdmin() {
       const monthResponse = await fetch(
         `http://localhost:3001/api/v1/month-installments?INSTALLMENTS_ID=${installmentId}`
       );
-      
-
       const monthData = await monthResponse.json();
 
       let monthDataFiler = monthData.filter(f=>f.INSTALLMENTS_ID == installmentId)

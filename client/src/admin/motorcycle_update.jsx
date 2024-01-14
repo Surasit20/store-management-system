@@ -30,7 +30,7 @@ function UpdateMotorcycle() {
     };
 
     fetch(
-      "http://localhost:3001/api/v1/motorcycles/" + MOTORCYCLE_ID,
+      "https://back-end-store-management-system.onrender.com/api/v1/motorcycles/" + MOTORCYCLE_ID,
       requestOptions
     )
       .then((response) => response.json())
@@ -83,7 +83,7 @@ function UpdateMotorcycle() {
       };
 
       fetch(
-        `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+        `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
         requestOptions
       )
         .then((response) => response.text())
