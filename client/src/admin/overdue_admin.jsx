@@ -17,7 +17,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import Swal from "sweetalert2";
+import axios from "axios";
 export default function OverdueAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -174,6 +175,21 @@ export default function OverdueAdmin() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleSendNotification = async() => {
+    Swal.fire({
+      title: "สำเร็จ",
+      text: "ส่งแจ้งเตือนสำเร็จ",
+      icon: "success",
+      confirmButtonText: "ตกลง",
+    })
+
+    let res = await axios.get(`http://localhost:3001/api/v1/service/notification`);
+
+
+  };
+
+
   const handleDeleteConfirmation = () => {
     handleClose();
     if (installmentId !== null) {
@@ -221,11 +237,19 @@ export default function OverdueAdmin() {
   };
   return (
     <div>
-      <div className="header">
+     <div className="row">
+     <div className="header col">
         <h1>
           <strong>ข้อมูลยอดค้างชำระ</strong>
         </h1>
+
       </div>
+
+      <div className="col header">
+        <button onClick={handleSendNotification} className="btn btn-success">ส่งแจ้งเตือนยอดชำระเงินไปหาอีเมลล์ผู้ใช้งาน</button>
+    </div>
+     </div>
+ 
       <Row>
         <div class="search">
           <Col>
