@@ -19,9 +19,7 @@
 }
 .additem{
     width: 100px;
-    padding-top: 20px;
-    padding-left: 5px;
-    padding-bottom: 20px;
+    text-align: right;
 }
 .btn-add-motor{
   width: 150px;
@@ -140,5 +138,20 @@
 .d{
   margin-top: 10px;
 }
-
-
+.header-with-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline; /* Align items at the baseline */
+}
+.header-with-button.with-underline {
+  border-bottom: 2px solid green; /* Adjust the color and thickness as needed */
+  padding-bottom: 5px; /* Optional: Add some padding for better visual appearance */
+}
+.header.with-underline:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%; /* Set the underline width to 100% of the header width */
+  border-bottom: 2px solid green; /* Adjust the color and thickness as needed */
+}

@@ -69,7 +69,7 @@ const Sidebar = () => {
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>
-      <div className="container-fluid bg-warning bg-gradient container-user">
+      <div className="container-fluid bg-gradient container-user">
          <Outlet />
        </div>
     </div>

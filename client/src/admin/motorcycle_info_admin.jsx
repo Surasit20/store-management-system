@@ -141,19 +141,12 @@ export default function MotorcycleInfoAdmin() {
   };
   return (
     <diV>
+      <div className="header-with-button with-underline">
       <div className="header">
         <h1>
         <strong>ข้อมูลรถจักรยานยนต์</strong>
         </h1>
       </div>
-      <form className="search-form">
-        <input
-          type="search"
-          onChange={handleInputChange}
-          placeholder="ค้นหา"
-          class="search-input"
-        />
-      </form>
       <div class="additem">
         <button
           class="btn btn-success btn-add-motor"
@@ -164,6 +157,18 @@ export default function MotorcycleInfoAdmin() {
           <FontAwesomeIcon icon={faPlusCircle} className="mr-1" /> เพิ่มข้อมูล
         </button>
       </div>
+
+      </div>
+     
+      <form className="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+
       <div class="header-t">
         <div>
           <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
