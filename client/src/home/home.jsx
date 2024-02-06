@@ -59,7 +59,7 @@ function Home() {
 
       <div>
       <ImageList
-        variant="masonry"
+
         style={{ overflow: "hidden" }}
         rowHeight={164}
         cols={4}
