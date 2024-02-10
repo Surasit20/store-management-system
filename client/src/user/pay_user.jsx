@@ -46,9 +46,9 @@ function PayUser() {
         var res = []
         data.forEach(element => {
 
-          console.log(element.MOTORCYCLE_BUCKET_NUMBER)
-          res.push(element.MOTORCYCLE_BUCKET_NUMBER)
-          
+          console.log(element.MOTORCYCLE_REGISTRATION_NUMBER)
+          res.push(element.MOTORCYCLE_REGISTRATION_NUMBER)
+
         });
         setTop100Films(res)
       });
@@ -76,10 +76,10 @@ function PayUser() {
     //moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     // setStep(2);
     // return;
-    if (imageUrl != null ) {
+    if (imageUrl != null) {
       console.log(imageUrl);
       let data = {
-        MOTORCY_BUCKETNUMBER: bucketNumber,
+        MOTORCYCLE_REGISTRATION_NUMBER: bucketNumber,
         INSTALLMENTS_NO: docNo,
         MONTH_INSTALLMENTS_TIME: moment(date.getTime()).format("HH:mm"),
         MONTH_INSTALLMENTS_DATE: moment(new Date(), "yyyy-mm-dd HH:MM:ss"),
@@ -115,7 +115,7 @@ function PayUser() {
     //formData.append("folder", "Cloudinary-React");
     try {
 
-      if(image == null || image == undefined){
+      if (image == null || image == undefined) {
         Swal.fire({
           title: "กรุณาเพิ่มรูปภาพ",
           text: "กรุณาเพิ่มรูปภาพ",
@@ -165,7 +165,7 @@ function PayUser() {
   return (
     <div style={{ height: '100vh' }}>
       {step == 0 ? (
-        <div className="container-sm">
+        <div className="container-lg d-flex justify-content-center">
           <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
@@ -182,7 +182,7 @@ function PayUser() {
               />
             </div>
 
-            <div className="input-group mb-3">
+            {/* <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
                 เบอร์โทรศัพท์
               </span>
@@ -195,17 +195,17 @@ function PayUser() {
                 value={tell.toString()}
                 disabled={true}
               />
-            </div>
+            </div> */}
 
             <div className="input-group mb-3 ">
               <span className="input-group-text" id="basic-addon1">
-                เลขตัวถัง
+                เลขทะเบียนรถ
               </span>
               <Autocomplete
-                  value={bucketNumber}
-                  onChange={(event, newValue) => {
-                    setBucketNumber(newValue);
-                  }}
+                value={bucketNumber}
+                onChange={(event, newValue) => {
+                  setBucketNumber(newValue);
+                }}
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
@@ -220,57 +220,121 @@ function PayUser() {
                 onChange={(e) => setBucketNumber(e.target.value)}
               /> */}
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
-              ยืนยัน
-            </button>
+
+            <div className="input-group mb-3">
+              <span className="input-group-text" id="basic-addon1">
+                จำนวนเงิน
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+                value={tell.toString()}
+                disabled={true}
+              />
+            </div>
+            <p>ช่องทางชำระเงิน: ธนาคารออมสิน เลขบัญชี 02159631457 ชื่อบัญชี นายองอาจ นิ้วเนย</p>
+            <p className="text-danger">                             **บัญชีธนาคารของผู้ดูแลระบบ</p>
+
+            <div className="my-4 d-flex justify-content-center">
+              <img src="/images/qrCode.png" style={{ width: "200px" }} className="d-flex justify-content-center"></img>
+
+            </div>
+
+            <div className=" d-flex justify-content-center">
+
+              <button type="submit" className="btn btn-success mb-3 btn-lg">
+                ยืนยัน
+              </button>
+            </div>
+            <img>
+            </img>
+
           </form>
         </div>
       ) : step == 1 ? (
-        <div>
-          <p>เลขใบเสร็จ {docNo}</p>
-          <p>วันที่ {moment(date.getTime()).format("D-MMMM-yyyy")} </p>
-          <p>เวลา {moment(date.getTime()).format("HH:mm")} น.</p>
-          <p>ชื่อ-นามสกุล {fullName}</p>
-          <p>เบอร์โทรศัพท์ {tell}</p>
-          <p>เลขตัวถัง {bucketNumber}</p>
-          <p>หลักฐานการโอนเงิน</p>
 
-          <div className="my-3">
-            <Box
-              component="img"
-              sx={{
-                height: 300,
-                width: 300,
-                borderColor: "primary.main",
-                borderRadius: "20%",
-                border: 4,
-              }}
-              src={image}
-            />
+        <div className="d-flex justify-content-start mx-5 my-3">
 
-          </div>
-          <div>
-            <Button variant="contained" component="label">
-              เลือกรูปภาพ
-              <input
-                accept="image/*"
-                type="file"
-                hidden
-                onChange={handleChangeImage}
-              />
-            </Button>
 
-            <span className="mx-2">
-            <Button variant="contained" onClick={handleRemoceImage} color="error">ล้างรูป</Button>
-
-            </span>
-          </div>
-            
-            <div className="my-2">
-            <Button variant="contained" color="success" onClick={handleConfirm}>ยืนยัน</Button>
+          <div >
+            <h2>ชำระค่างวด</h2>
+            <div>
+              <p>เลขใบเสร็จ {docNo}</p>
 
             </div>
+
+            <div>
+              <p>วันที่ {moment(date.getTime()).format("D-MMMM-yyyy")} </p>
+
+            </div>
+
+            <div>
+              <p>เวลา {moment(date.getTime()).format("HH:mm")} น.</p>
+
+            </div>
+
+            <div>
+              <p>ชื่อ-นามสกุล {fullName}</p>
+
+            </div>
+
+            <div>
+              <p>เบอร์โทรศัพท์ {tell}</p>
+
+            </div>
+
+
+            <div>
+              <p>ทะเบียนรถ {bucketNumber}</p>
+
+            </div>
+
+            <div>
+              <p>หลักฐานการโอนเงิน</p>
+
+            </div>
+
+            <div className="my-3">
+              <Box
+                component="img"
+                sx={{
+                  height: 200,
+                  width: 200,
+                  borderColor: "primary.main",
+                  borderRadius: "20%",
+                  border: 4,
+                }}
+                src={image}
+              />
+
+            </div>
+            <div>
+              <Button variant="contained" component="label">
+                เลือกรูปภาพ
+                <input
+                  accept="image/*"
+                  type="file"
+                  hidden
+                  onChange={handleChangeImage}
+                />
+              </Button>
+
+              <span className="mx-2">
+              <Button variant="contained" color="success" onClick={handleConfirm}>ยืนยัน</Button>
+
+
+              </span>
+            </div>
+
+            <div className="my-2">
+
+            </div>
+          </div>
         </div>
+
       ) : (
         <div>
           <div className="bg-secondary">

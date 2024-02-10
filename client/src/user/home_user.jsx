@@ -1,7 +1,8 @@
 import React, { Component, useEffect, useState } from "react";
 import axios from "axios";
 import "./css_user.css";
-import CardCar from "../component/card_car";
+import CardCar1 from "../component/card_car_1";
+import CardCar2 from "../component/card_car_2";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
@@ -26,15 +27,10 @@ function HomeUser() {
 
   return (
     <div>
-      <ImageList
-        style={{ overflow: "hidden" }}
-        sx={{ width: 1920, height: 1000 }}
-        cols={4}
-        rowHeight={164}
-      >
+
         {dataSoures.map((i) => {
           return (
-            <CardCar
+            <CardCar1
               key={i.MOTORCYCLE_ID}
               MOTORCYCLE_BRAND={i.MOTORCYCLE_BRAND}
               MOTORCYCLE_PRICE={i.MOTORCYCLE_PRICE}
@@ -46,10 +42,30 @@ function HomeUser() {
               MOTORCYCLE_ID={i.MOTORCYCLE_ID}
               IS_RECEIPT={false}
               INSTALLMENTS_ID={null}
-            ></CardCar>
+            ></CardCar1>
           );
         })}
-      </ImageList>
+
+
+
+{dataSoures.map((i) => {
+          return (
+            <CardCar1
+              key={i.MOTORCYCLE_ID}
+              MOTORCYCLE_BRAND={i.MOTORCYCLE_BRAND}
+              MOTORCYCLE_PRICE={i.MOTORCYCLE_PRICE}
+              MOTORCYCLE_IMAGE={i.MOTORCYCLE_IMAGE}
+              MOTORCYCLE_MODEL={i.MOTORCYCLE_MODEL}
+              MOTORCYCLE_COLOR={i.MOTORCYCLE_COLOR}
+              MOTORCYCLE_BUCKET_NUMBER={i.MOTORCYCLE_BUCKET_NUMBER}
+              MOTORCYCLE_REGISTRATION_NUMBER={i.MOTORCYCLE_REGISTRATION_NUMBER}
+              MOTORCYCLE_ID={i.MOTORCYCLE_ID}
+              IS_RECEIPT={false}
+              INSTALLMENTS_ID={null}
+            ></CardCar1>
+          );
+        })}
+
     </div>
   );
 }
