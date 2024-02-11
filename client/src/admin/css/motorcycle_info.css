@@ -10,7 +10,6 @@
     display: grid;
     grid-template-columns: 50px auto 70px auto;
     grid-gap: 50px;
-    padding: 10px;
   }
   .items {
   padding: 20px;
@@ -20,6 +19,7 @@
 .additem{
     width: 100px;
     text-align: right;
+    margin-right: 50px;
 }
 .btn-add-motor{
   width: 150px;
@@ -27,12 +27,14 @@
 .search-form {
   left: 50%;
   width: 100%;
+  margin-right: 0%;
   height: 40px;
-  border-radius: 40px;
-  box-shadow: 0 6px 8px rgba(12, 8, 8, 0.15);
+  margin-left: 0%;
   transform: translate(0%, 0%);
-  background: #fff;
+  border-radius: 10px;
+  background: #ffffff;
   transition: all 0.3s ease;
+  border: 2px solid #ccc; 
 
   &.focus {
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
@@ -94,14 +96,20 @@
 }
 .header-t{
   border-color: rgb(0, 0, 0);
+  justify-content: center;
   border: 0px;
   height: 50px;
-  background-color: #ffffff;
-  margin-bottom: 5px;
+  width: 98%;
+  margin-bottom: 20px;
+  margin-top: 20px;
   border-radius: 10px;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 .table-row {
   text-align: left; 
+  height: 60px;
+  background-color:#d4ffff;
   
 }
 .table-row td,
@@ -141,17 +149,34 @@
 .header-with-button {
   display: flex;
   justify-content: space-between;
-  align-items: baseline; /* Align items at the baseline */
+  align-items: baseline;
 }
 .header-with-button.with-underline {
-  border-bottom: 2px solid green; /* Adjust the color and thickness as needed */
-  padding-bottom: 5px; /* Optional: Add some padding for better visual appearance */
+  border-bottom: 2px solid #d0dadb; 
+  padding-bottom: 5px; 
 }
 .header.with-underline:after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 100%; /* Set the underline width to 100% of the header width */
-  border-bottom: 2px solid green; /* Adjust the color and thickness as needed */
+  width: 100%;
+  border-bottom: 2px solid #d0dadb; 
+}
+.Contrianer{
+  height: 74vh;
+  margin-top: 10px;
+  background-color: rgb(255, 255, 255);
+  padding-top: 1px;
+  border-radius: 10px;
+}
+.text-color{
+  color:#1ba7e1;
+}
+.Contrainer-data{
+  width: 98%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 1%;
+  margin-right: 1%;
 }

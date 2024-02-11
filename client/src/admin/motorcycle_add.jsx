@@ -1,19 +1,14 @@
 import React, { Component, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { withRouter } from "react-router";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Grid, TextField, Box, Button, Badge } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlusCircle,
-  faPencilSquare,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
 import "./css/motorcycle_add.css";
+import "./css/motorcycle_info.css";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave  ,  faPlusCircle,} from "@fortawesome/free-solid-svg-icons";
 
 function AddMotorcycle() {
   const [RegistrationNumber, setRegistrationNumber] = useState("");
@@ -27,17 +22,28 @@ function AddMotorcycle() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
+  
     if (!image) {
       Swal.fire({
         title: "กรุณาเลือกรูปภาพ",
         icon: "error",
         confirmButtonText: "ตกลง",
       });
+      return;
     }
-    event.preventDefault();
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
+  
+    const allMotorcycles = await fetchAllMotorcycles();
+    const registrationExists = allMotorcycles.some(motorcycle => motorcycle.MOTORCYCLE_REGISTRATION_NUMBER === RegistrationNumber);
+  
+    if (registrationExists) {
+      Swal.fire({
+        title: "เลขทะเบียนรถจักรยานยนต์มีอยู่ในระบบแล้ว",
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      });
+      return; 
+    }
     var resUploadImage = await uploadImage();
     if (!resUploadImage.error) {
       var raw = JSON.stringify({
@@ -50,24 +56,32 @@ function AddMotorcycle() {
         MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
         MOTORCYCLE_IMAGE: resUploadImage["secure_url"],
       });
-
+  
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+  
       var requestOptions = {
         method: "POST",
         headers: myHeaders,
         body: raw,
         redirect: "follow",
       };
-
+  
       fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
           console.log(result);
-          navigate("/admin/motorcycle");
+          navigate("/admin/chassis");
         })
         .catch((error) => console.log("error", error));
     }
   };
-
+  
+  const fetchAllMotorcycles = async () => {
+    const response = await fetch("http://localhost:3001/api/v1/motorcycles/");
+    const data = await response.json();
+    return data;
+  };
   const handleChangeImage = (event) => {
     const newImage = event.target.files[0];
     if (newImage) {
@@ -100,7 +114,6 @@ function AddMotorcycle() {
       return res;
     } catch (error) {
       console.log(error);
-      //setLoading(false);
     }
   };
 
@@ -110,144 +123,169 @@ function AddMotorcycle() {
     return <Navigate to="/admin/motorcycle" />;
   }
   return (
+  
     <div>
-      <div className="header">
-        <h1>
-          <div
-            onClick={() => {
-              setGotoListMotorcycle(true);
-            }}
-          >
-            <i className="fa fa-arrow-left" aria-hidden="true">
-              {" "}
-              เพิ่มรถจักรยานยนต์
-            </i>
-          </div>
-        </h1>
+      <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 style={{ color: "#2196f3" }}>
+            <div
+              onClick={() => {
+                setGotoListMotorcycle(true);
+              }}
+            >
+              <i className="fa fa-arrow-left" aria-hidden="true">
+                {" "}
+                เพิ่มรถจักรยานยนต์
+              </i>
+            </div>
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+
+        <button
+          style={{
+            backgroundColor: "#19C788",
+            border: 0,
+            borderRadius: "20px",
+            width: "150px",
+            height: "50px",
+          }}
+        >
+          <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+          <span style={{ color: "white" }}>บันทึก</span>
+        </button>
+        </form>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="container">
-          <div className="container-img">
+      <div class="Contrainer-form">
+      <p style={{ color: "#2196f3"  , fontSize : '25px' , marginLeft : '20px' ,paddingTop : '10px' , fontWeight: 'bold'}}>
+           
+                ข้อมูลจักรยานยนต์
+
+          </p>
+
+          <div className="container">
             <div>
-              <Box class="box-img" component="img" src={image} />
-            </div>
-            <div>
-              <div>
-                <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
-                <Button variant="contained" component="label">
-                  อัพโหลดรูปภาพ
-                  <input
-                    accept="image/*"
-                    type="file"
-                    hidden
-                    onChange={handleChangeImage}
-                  />
-                </Button>
+            <Row>
+                <Col>
+                <div>
+                <Box style={{width : '300px' , height : '300px' , marginTop : '10px'}} component="img" src={image} />
               </div>
+                </Col>
+
+              </Row>
+              <Row>
+              <Col>
+              <div style={{display: 'flex' ,justifyContent: 'center' ,alignItems: 'center' }}>
+                  <Button style={{ backgroundColor: '#ffffff', border: '1px solid #1ba7e1', borderRadius: '10px', width: '120px', height: '50px' ,marginRight : '10px' }}onClick={handleRemoceImage}><span style={{ color: '#1ba7e1', marginBottom : '2px' }}> ยกเลิกรูปภาพ</span></Button>
+                  <Button  style={{ backgroundColor: '#ffffff', border: '1px solid #1ba7e1', borderRadius: '10px', width: '120px', height: '50px'}} component="label">
+                  <FontAwesomeIcon icon={faPlusCircle} className="mr-2" style={{ color: '#1ba7e1' }}/> <span style={{ color: '#1ba7e1', marginBottom : '2px' }}>เพิ่มรูปภาพ</span>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      hidden
+                      onChange={handleChangeImage}
+                    />
+                  </Button>
+                </div>
+                </Col>
+              </Row>
+              </div>
+            <div>
+              <Row>
+                <Col style={{ width : '200px'}}>
+                  <p style={{color :'#6c6c6c' , width : '200px'}}>เลขทะเบียน</p>
+
+                  <TextField
+                    id="RegistrationNumber"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setRegistrationNumber(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+                <Col>
+                  <p style={{color :'#6c6c6c'}}>เลขตัวถัง</p>
+                  <TextField
+                    id="BucketNumber"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setBucketNumber(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <p style={{color :'#6c6c6c'}}>ยี่ห้อ</p>
+                  <TextField
+                    id="Brand"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setBrand(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+                <Col>
+                  <p style={{color :'#6c6c6c'}}>รุ่น</p>
+                  <TextField
+                    id="Model"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setModel(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <p style={{color :'#6c6c6c'}}>สี</p>
+                  <TextField
+                    id="Color"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setColor(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+                <Col>
+                  <p style={{color :'#858585'}}>ราคา</p>
+                  <TextField
+                    id="Price"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    onChange={(e) => setPrice(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <p style={{color :'#858585'}}>ยอดคงเหลือ</p>
+                  <TextField
+                    id="Balance"
+                    type="text"
+                    required
+                    aria-describedby="basic-addon1"
+                    value={'0'} // กำหนดค่าให้เป็น balance ที่ได้จาก state
+                    onChange={(e) => setBalance(e.target.value)}
+                    sx = {{width : '400px' , height : '10px' , paddingBottom : '50px'}}
+                    readOnly
+                  />
+                </Col>
+                <Col></Col>
+              </Row>
             </div>
           </div>
-
-          <div>
-            <Row>
-              <Col>
-                <p>เลขทะเบียน</p>
-
-                <input
-                  id="RegistrationNumber"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setRegistrationNumber(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <p>เลขตัวถัง</p>
-                <input
-                  id="BucketNumber"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setBucketNumber(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p>ยี่ห้อ</p>
-                <input
-                  id="Brand"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setBrand(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <p>รุ่น</p>
-                <input
-                  id="Model"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setModel(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p>สี</p>
-                <input
-                  id="Color"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setColor(e.target.value)}
-                />
-              </Col>
-              <Col>
-                <p>ราคา</p>
-                <input
-                  id="Price"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p>ยอดคงเหลือ</p>
-                <input
-                  id="Balance"
-                  type="text"
-                  class="form-control"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setBalance(e.target.value)}
-                />
-              </Col>
-              <Col></Col>
-            </Row>
-          </div>
-        </div>
-        <div className="save-button">
-          <button
-            type="submit"
-            variant="contained"
-            className="btn btn-success mb-3"
-          >
-            บันทึก
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
+
+
   );
 }
 export default AddMotorcycle;

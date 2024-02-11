@@ -13,8 +13,8 @@ import "./index_admin.css"
 
 const Sidebar = () => {
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
-      <CDBSidebar textColor="#fff" backgroundColor="#333">
+    <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial', backgroundColor: '#dfedf0'  }}>
+      <CDBSidebar textColor="#2196f3" backgroundColor="#fff">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" style={{ marginLeft: '10px' }}></i>}>
           <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
             ร้านรถจักรยานยนต์มือ 2  
@@ -25,35 +25,35 @@ const Sidebar = () => {
           <CDBSidebarMenu>
 
             <NavLink exact to="/admin/motorcycle" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-motorcycle" style={{ color: 'gray' }}>ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/user/user-info" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-users">ข้อมูลสมาชิก</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-users" style={{ color: 'gray' }}>ข้อมูลสมาชิก</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/repair/repair-info" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon ="fa-solid fa-screwdriver">ข้อมูลการส่งซ่อม</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon ="fa-solid fa-screwdriver" style={{ color: 'gray' }}>ข้อมูลการส่งซ่อม</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/overdue" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-file-invoice-dollar">ข้อมูลยอดค้างชำระ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-file-invoice-dollar" style={{ color: 'gray' }}>ข้อมูลยอดค้างชำระ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/payment-check" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-envelope-open-text">ตรวจสอบการชำระ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-envelope-open-text" style={{ color: 'gray' }}>ตรวจสอบการชำระ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/chassis" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-user-check">อนุมัติ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-user-check" style={{ color: 'gray' }}>อนุมัติ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/daily-summary"  activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-calendar-day">ยอดประจำวัน</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-calendar-day" style={{ color: 'gray' }}>ยอดประจำวัน</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/"  activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="exclamation-circle">ออกจากระบบ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="exclamation-circle" style={{ color: 'gray' }} >ออกจากระบบ</CDBSidebarMenuItem>
             </NavLink>
 
           </CDBSidebarMenu>

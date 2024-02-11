@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import "../repair/css/repair_info.css";
+import "../css/motorcycle_info.css";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -27,6 +28,7 @@ import {
   faPencilSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { FaSpinner } from "react-icons/fa";
 
 export default function RepairInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -39,7 +41,7 @@ export default function RepairInfoAdmin() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [gotoAddAddRepair, setGotoAddRepair] = useState(false);
-  const [repairId, setRepairId] = useState(null); 
+  const [repairId, setRepairId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +62,7 @@ export default function RepairInfoAdmin() {
           );
           const user = users.find(
             (u) => u.USER_ID === (motorcycle ? motorcycle.USER_ID : null)
-          ); 
+          );
           return {
             ...item,
             USER_FULLNAME: user ? user.USER_FULLNAME : "N/A",
@@ -127,7 +129,7 @@ export default function RepairInfoAdmin() {
         return result.map((user) => ({
           USER_ID: user.USER_ID,
           USER_FULLNAME: user.USER_FULLNAME,
-          USER_TELL : user.USER_TELL
+          USER_TELL: user.USER_TELL,
         }));
       })
       .catch((error) => {
@@ -214,11 +216,33 @@ export default function RepairInfoAdmin() {
   };
   return (
     <div>
-          <div className="header">
-        <h1>
-        <strong>ข้อมูลสมาชิก</strong>
-        </h1>
+      <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 class="text-color">
+            <strong>ข้อมูลการส่งซ่อม</strong>
+          </h1>
+        </div>
+        <button
+          style={{
+            backgroundColor: "#1ba7e1",
+            border: 0,
+            borderRadius: "20px",
+            width: "150px",
+            height: "50px",
+          }}
+          onClick={() => {
+            setGotoAddRepair(true);
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faPlusCircle}
+            className="mr-1"
+            style={{ color: "white" }}
+          />{" "}
+          <span style={{ color: "white" }}>เพิ่มข้อมูล</span>
+        </button>
       </div>
+
       <form class="search-form">
         <input
           type="search"
@@ -227,110 +251,165 @@ export default function RepairInfoAdmin() {
           class="search-input"
         />
       </form>
-      <div class="additem">
-        <button
-          class="btn btn-success btn-add-motor"
-          onClick={() => {
-            setGotoAddRepair(true);
-          }}
-        >
-          <FontAwesomeIcon icon={faPlusCircle} className="mr-1" /> เพิ่มข้อมูล
-        </button>
-      </div>
-      <div class="header-t-user">
-        <div>
-          <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow class="table-row">
-                  <TableCell class="t-name" style={{ padding: "10px" }}> ชื่อลูกค้า </TableCell>
-                  <TableCell class="t-code" style={{ padding: "10px" }}> เบอร์โทร</TableCell>
-                  <TableCell class="t-rig">เลขทะเบียน</TableCell>
-                  <TableCell class="t-edit">เปลี่ยนสถานะ</TableCell>
-                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
-                </TableRow>
-              </TableHead>
-            </Table>
-          </TableContainer>
-        </div>
-      </div>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    return (
-                      search.trim() === "" ||
-                      row.USER_FULLNAME.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      )
-                    );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{
-                        "&:last-child td, &:last-child th": {
-                          border: 0,
-                        },
-                      }}
+      <div className="Contrianer">
+        <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                    <TableCell
+                      class="t-name"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
                     >
-                      <TableCell  class="t-name"  >{row.USER_FULLNAME}</TableCell>
-                      <TableCell  class="t-code" >{row.USER_TELL}</TableCell>
-                      <TableCell  class="t-rig" >{row.MOTORCYCLE_REGISTRATION_NUMBER}</TableCell>
-                      <TableCell  class="t-edit" >
-                        {row.REPAILDATA_SATUS == 0 ? (
-                          <Box sx={{ Width: 50 }}>
-                            <FormControl fullWidth>
-                              <InputLabel id="demo-simple-select-label">
-                                เลือกสถานะ
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={row.REPAILDATA_SATUS}
-                                label="เลือกสถาณะ"
-                                onChange={(e) => handleDropDownChange(e, row)}
-                              >
-                                <MenuItem value={0}>
-                                  อยู่ระหว่างการดำเนินงาน
-                                </MenuItem>
-                                <MenuItem value={1}>เรียบร้อย</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </Box>
-                        ) : (
-                          <Box sx={{ Width: 50 }}>
-                            <FormControl fullWidth disabled>
-                              <InputLabel id="demo-simple-select-label">
-                                เลือกสถาณะ
-                              </InputLabel>
-                              <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={row.REPAILDATA_SATUS}
-                                label="เลือกสถาณะ"
-                                onChange={handleDropDownChange}
-                              >
-                                <MenuItem value={0}>
-                                  อยู่ระหว่างการดำเนินงาน
-                                </MenuItem>
-                                <MenuItem value={1}>เรียบร้อย</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </Box>
-                        )}
-                      </TableCell>
-                      {/* <TableCell>
+                      ชื่อลูกค้า
+                    </TableCell>
+                    <TableCell
+                      class="t-code"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เบอร์โทร
+                    </TableCell>
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell
+                      class="t-edit"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เปลี่ยนสถานะ
+                    </TableCell>
+                    <TableCell
+                      class="t-delete"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      ลบข้อมูล
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="spinner-container">
+            <FaSpinner
+              className="spinner"
+              style={{ fontSize: "90px", color: "#82b1ff" }}
+            />
+          </div>
+        ) : (
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableBody>
+                  {items
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .filter((row) => {
+                      return (
+                        search.trim() === "" ||
+                        row.USER_FULLNAME.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        )
+                      );
+                    })
+                    .map((row) => (
+                      <TableRow
+                        key={row.name}
+                        sx={{
+                          "&:last-child td, &:last-child th": {
+                            border: 0,
+                          },
+                        }}
+                      >
+                        <TableCell
+                          class="t-name"
+                          style={{
+                            verticalAlign: "middle",
+                            padding: "10px",
+                            color: "#858585",
+                          }}
+                        >
+                          {row.USER_FULLNAME}
+                        </TableCell>
+                        <TableCell
+                          class="t-code"
+                          style={{
+                            verticalAlign: "middle",
+                            padding: "10px",
+                            color: "#858585",
+                          }}
+                        >
+                          {row.USER_TELL}
+                        </TableCell>
+                        <TableCell
+                          class="t-rig"
+                          style={{
+                            verticalAlign: "middle",
+                            padding: "10px",
+                            color: "#858585",
+                          }}
+                        >
+                          {row.MOTORCYCLE_REGISTRATION_NUMBER}
+                        </TableCell>
+                        <TableCell
+                          class="t-edit"
+                          style={{
+                            verticalAlign: "middle",
+                            padding: "10px",
+                            color: "#858585",
+                          }}
+                        >
+                          {row.REPAILDATA_SATUS == 0 ? (
+                            <Box sx={{ Width: 50 }}>
+                              <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">
+                                  เลือกสถานะ
+                                </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={row.REPAILDATA_SATUS}
+                                  label="เลือกสถาณะ"
+                                  onChange={(e) => handleDropDownChange(e, row)}
+                                >
+                                  <MenuItem value={0}>
+                                    อยู่ระหว่างการดำเนินงาน
+                                  </MenuItem>
+                                  <MenuItem value={1}>เรียบร้อย</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                          ) : (
+                            <Box sx={{ Width: 50 }}>
+                              <FormControl fullWidth disabled>
+                                <InputLabel id="demo-simple-select-label">
+                                  เลือกสถาณะ
+                                </InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={row.REPAILDATA_SATUS}
+                                  label="เลือกสถาณะ"
+                                  onChange={handleDropDownChange}
+                                >
+                                  <MenuItem value={0}>
+                                    อยู่ระหว่างการดำเนินงาน
+                                  </MenuItem>
+                                  <MenuItem value={1}>เรียบร้อย</MenuItem>
+                                </Select>
+                              </FormControl>
+                            </Box>
+                          )}
+                        </TableCell>
+                        {/* <TableCell>
                         <Button
                           type="button"
                           class="btn btn-danger"
@@ -339,39 +418,48 @@ export default function RepairInfoAdmin() {
                           รายละเอียด
                         </Button>
                       </TableCell> */}
-                      <TableCell
-                        class="t-delete"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
-                      >
-                        <Button
-                          type="button"
-                          class="btn btn-outline-danger btn-delete"
-                          onClick={() => handleOpen(row.REPAILDATA_ID)}
+                        <TableCell
+                          class="t-delete"
+                          style={{
+                            verticalAlign: "middle",
+                            padding: "10px",
+                            color: "#858585",
+                          }}
                         >
-                          <FontAwesomeIcon icon={faTrash} class="icon-delete" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="จำนวนแถวต่อหน้า:"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} จากทั้งหมด ${count}`
-            }
-          />
-        </Paper>
-      )}
-       <Dialog open={open} onClose={handleClose}>
+                          <Button
+                            type="button"
+                            class="btn btn-outline-danger btn-delete"
+                            onClick={() => handleOpen(row.REPAILDATA_ID)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              class="icon-delete"
+                            />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={items.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="จำนวนแถวต่อหน้า:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}-${to} จากทั้งหมด ${count}`
+              }
+            />
+          </Paper>
+        )}
+      </div>
+
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -383,7 +471,6 @@ export default function RepairInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
-      
     </div>
   );
 }

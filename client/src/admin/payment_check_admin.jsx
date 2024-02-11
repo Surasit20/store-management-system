@@ -31,6 +31,7 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
+import { FaSpinner } from "react-icons/fa";
 import Swal from "sweetalert2";
 function PaymentCheckAdmin() {
   const [search, setSearch] = useState("");
@@ -79,35 +80,6 @@ function PaymentCheckAdmin() {
       setOpen(true)
 
     }
-    // let res = await axios.put(`http://localhost:3001/api/v1/month-installments/` + context.MONTH_INSTALLMENTS_ID, context);
-    // if (res.status == 200) {
-
-    //   let data1 = await axios.get(`http://localhost:3001/api/v1/month-installments`
-    //   );
-    //   let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
-
-    //   let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
-
-    //   let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
-    //   let test = []
-    //   console.log(data4.data)
-    //   if (data1.data != null && data1.data != []) {
-    //     data1.data.forEach(element => {
-    //       let installments = data4.data.filter(f => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID)
-  
-    //       let motorcycle = data2.data.filter(f => f.USER_ID == installments.USER_ID)
-    //       let user = data3.data.filter(f => f.MOTORCYCLE_ID == motorcycle.MOTORCYCLE_ID)
-      
-    //       if (installments.length > 0) {
-    //         let returnedTarget = Object.assign(element, ...installments, ...motorcycle, ...user);
-    //         test.push(returnedTarget)
-    //       }
-    //     })
-    //   }
-
-      //setItems(test);
-      //setLoading(false);
-    //}
   };
   useEffect(async () => {
 
@@ -193,22 +165,54 @@ function PaymentCheckAdmin() {
 
   return (
     <div>
-      {loading ? (
-        <p>Loading...</p>
+           <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 class="text-color">
+            <strong>ตรวจสอบการชำระ</strong>
+          </h1>
+        </div>
+      </div>
+
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+
+      <div className="Contrianer">
+      <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                  <TableCell class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>เลขตัวถัง</TableCell>
+                  <TableCell class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>ชื่อ-นามสกุล</TableCell>
+                  <TableCell class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>หลักฐาน</TableCell>
+                  <TableCell class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>สถานะ</TableCell>
+                  <TableCell class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>ใบเสร็จ</TableCell>
+                </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+        
+        {loading ? (
+        <div className="spinner-container">
+          <FaSpinner
+            className="spinner"
+            style={{ fontSize: "90px", color: "#82b1ff" }}
+          />
+        </div>
       ) : (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>เลขตัวถัง</TableCell>
-                  <TableCell>ชื่อ-นามสกุล</TableCell>
-                  <TableCell>หลักฐาน</TableCell>
-                  <TableCell>สถานะ</TableCell>
-                  <TableCell>ใบเสร็จ</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+            <TableBody>
                 {items
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .filter((row) => {
@@ -310,8 +314,7 @@ function PaymentCheckAdmin() {
           />
         </Paper>
       )}
-
-
+      </div>
 <Dialog open={open} onClose={handleClose}>
 <DialogTitle>ใบเสร็จ</DialogTitle>
 <DialogContent>

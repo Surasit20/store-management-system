@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import "../css_admin.css";
 import "./css/user_info.css";
+import "../css/motorcycle_info.css";
 import { Form, InputGroup } from "react-bootstrap";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -25,6 +26,7 @@ import {
   faPencilSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { FaSpinner } from 'react-icons/fa';
 
 export default function UserInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -104,7 +106,7 @@ export default function UserInfoAdmin() {
   return (
     <diV class="con">
        <div className="header">
-        <h1>
+        <h1 class ="text-color">
         <strong>ข้อมูลสมาชิก</strong>
         </h1>
       </div>
@@ -116,19 +118,17 @@ export default function UserInfoAdmin() {
           class="search-input"
         />
       </form>
-      <div class="header-t-user">
+       <div className="Contrianer">
+       <div class="header-t">
         <div>
           <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow class="table-row">
-                  <TableCell class="t-code" style={{ padding: "10px" }}>
-                    เลขประจำตัวบัตรประชาชน
-                  </TableCell>
-                  <TableCell class="t-name">ชื่อ-นามสกุล</TableCell>
-                  <TableCell class="t-bukget">เบอร์โทร</TableCell>
-                  <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>
-                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
+                  <TableCell class="t-name" style={{ padding: "10px", color: "#1ba7e1" }}>ชื่อ-นามสกุล</TableCell>
+                  <TableCell class="t-bukget" style={{ padding: "10px", color: "#1ba7e1" }}>เบอร์โทร</TableCell>
+                  <TableCell class="t-edit" style={{ padding: "10px", color: "#1ba7e1" }}>แก้ไขข้อมูล</TableCell>
+                  <TableCell class="t-delete" style={{ padding: "10px", color: "#1ba7e1" }}>ลบข้อมูล</TableCell>
                 </TableRow>
               </TableHead>
             </Table>
@@ -137,8 +137,12 @@ export default function UserInfoAdmin() {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+         <div className="spinner-container" >
+         <FaSpinner className="spinner" style={{ fontSize: '90px' , color : '#82b1ff' }}/>
+     
+       </div>
       ) : (
+        
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -163,26 +167,32 @@ export default function UserInfoAdmin() {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell
-                        class="t-code"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
-                      >
-                        {row.USER_CODE_NUMBER}
-                      </TableCell>
-                      <TableCell
                         class="t-name"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         {row.USER_FULLNAME}
                       </TableCell>
                       <TableCell
                         class="t-bukget"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         {row.USER_TELL}
                       </TableCell>
                       <TableCell
                         class="t-edit"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         <Button
                           type="button"
@@ -197,7 +207,11 @@ export default function UserInfoAdmin() {
                       </TableCell>
                       <TableCell
                         class="t-delete"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         <Button
                           type="button"
@@ -227,6 +241,9 @@ export default function UserInfoAdmin() {
           />
         </Paper>
       )}
+
+       </div>
+      
        <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
