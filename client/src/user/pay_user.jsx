@@ -27,31 +27,44 @@ function PayUser() {
   const [image, setImage] = useState();
   const [docNo, setdocNo] = useState("");
   const [user, setUser] = useState();
-
+  const [money, setMoney] = useState(0);
   const [top100Films, setTop100Films] = useState([]);
+  const [dict, setDict] = useState({});
 
 
-
-  useEffect(() => {
+  useEffect(async () => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
     if (dataUser) {
       setUser(dataUser.data.user);
       setFullName(dataUser.data.user.USER_FULLNAME);
       setTell(dataUser.data.user.USER_TELL);
 
-      axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
-        var data = response.data.filter(
-          (f) => f.USER_ID == dataUser.data.user.USER_ID
-        );
-        var res = []
-        data.forEach(element => {
+      let installments = await axios.get("http://localhost:3001/api/v1/installments");
+      let response = await axios.get("http://localhost:3001/api/v1/motorcycles");
 
-          console.log(element.MOTORCYCLE_REGISTRATION_NUMBER)
-          res.push(element.MOTORCYCLE_REGISTRATION_NUMBER)
+      var data = response.data.filter(
+        (f) => f.USER_ID == dataUser.data.user.USER_ID
+      );
+      var res = []
+      data.forEach(element => {
 
-        });
-        setTop100Films(res)
+
+        res.push(element.MOTORCYCLE_REGISTRATION_NUMBER)
+
+        let installment = installments.data.filter(f=>f.MOTORCYCLE_ID == element.MOTORCYCLE_ID)
+        
+        if(installment != null && installment.length >0)
+        {
+          let dictV = {}
+          dictV[element.MOTORCYCLE_REGISTRATION_NUMBER] = installment[0].INSTALLMENTS_MONEY;
+          console.log(element)
+          let dict1 = {...dict,...dictV}
+          setDict(dict1)
+        }
       });
+
+ 
+      setTop100Films(res)
     }
   }, []);
 
@@ -204,7 +217,15 @@ function PayUser() {
               <Autocomplete
                 value={bucketNumber}
                 onChange={(event, newValue) => {
+                  setMoney(0);
                   setBucketNumber(newValue);
+                  let value = dict[newValue];
+
+                  if(value != undefined || value != null){
+                    setMoney(value);
+
+                  }
+
                 }}
                 disablePortal
                 id="combo-box-demo"
@@ -221,7 +242,10 @@ function PayUser() {
               /> */}
             </div>
 
-            <div className="input-group mb-3">
+            {
+              money != 0 
+              ? 
+              <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
                 จำนวนเงิน
               </span>
@@ -231,10 +255,13 @@ function PayUser() {
                 placeholder="Username"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
-                value={tell.toString()}
+                value={money.toString()}
                 disabled={true}
               />
             </div>
+              :<div></div>
+            }
+  
             <p>ช่องทางชำระเงิน: ธนาคารออมสิน เลขบัญชี 02159631457 ชื่อบัญชี นายองอาจ นิ้วเนย</p>
             <p className="text-danger">                             **บัญชีธนาคารของผู้ดูแลระบบ</p>
 

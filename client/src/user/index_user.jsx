@@ -110,7 +110,7 @@ const SidebarUser = () => {
             </NavLink>
 
             <NavLink exact to="/user/receipt" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon ="fa-solid fa-solid fa-envelope-open-text">สถานะการชำระค่างวดและใบเสร็จ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon ="fa-solid fa-solid fa-envelope-open-text">ข้อมูลการชำระค่างวด</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/user/repair" activeClassName="activeClicked">

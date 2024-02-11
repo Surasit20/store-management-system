@@ -120,6 +120,17 @@ function RepairUser() {
 
   return (
     <div>
+            <h1 className="my-4">ข้อมูลส่งซ่อม</h1>
+
+<form className="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -137,13 +148,13 @@ function RepairUser() {
                 .filter((row) => {
                   return (
                     search.trim() === "" ||
-                    row.USER_FULLNAME.toLowerCase().includes(
-                      search.toLowerCase()
+                    user.USER_FULLNAME.toLowerCase().includes(
+                      search
                     ) ||
                     row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
                       search.toLowerCase()
                     ) ||
-                    row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
+                    row.REPAILDATA_WISE.toLowerCase().includes(
                       search.toLowerCase()
                     )
                   );
