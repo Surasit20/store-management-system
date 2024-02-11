@@ -181,12 +181,6 @@ export default function MotorcycleInfoAdmin() {
                 <TableHead>
                   <TableRow class="table-row">
                     <TableCell
-                      class="t-code"
-                      style={{ padding: "10px", color: "#1ba7e1" }}
-                    >
-                      เลขประจำตัวบัตรประชาชน
-                    </TableCell>
-                    <TableCell
                       class="t-name"
                       style={{ padding: "10px", color: "#1ba7e1" }}
                     >
@@ -272,16 +266,6 @@ export default function MotorcycleInfoAdmin() {
                               justifyContent: "space-between",
                             }}
                           >
-                            <TableCell
-                              class="t-code"
-                              style={{
-                                verticalAlign: "middle",
-                                padding: "10px",
-                                color: "#858585",
-                              }}
-                            >
-                              {row.USER_CODE_NUMBER}
-                            </TableCell>
                             <TableCell
                               class="t-name"
                               style={{

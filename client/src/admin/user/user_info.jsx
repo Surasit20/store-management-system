@@ -104,11 +104,14 @@ export default function UserInfoAdmin() {
     }
   };
   return (
-    <diV class="con">
-       <div className="header">
+    <div>
+      <div className="header-with-button with-underline">
+      <div className="header">
         <h1 class ="text-color">
         <strong>ข้อมูลสมาชิก</strong>
         </h1>
+      </div>
+     
       </div>
       <form class="search-form">
         <input
@@ -256,6 +259,6 @@ export default function UserInfoAdmin() {
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
       </Dialog>
-    </diV>
+    </div>
   );
 }

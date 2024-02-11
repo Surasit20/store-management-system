@@ -29,6 +29,8 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FaSpinner } from "react-icons/fa";
+import { Grid, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function RepairInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -38,10 +40,14 @@ export default function RepairInfoAdmin() {
   const [Status, setStatus] = useState("");
   const [MotorcycleId, setMotorcycleId] = useState("");
   const [open, setOpen] = useState(false);
+  const [openAddRepair, setOpenAddRepair] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [gotoAddAddRepair, setGotoAddRepair] = useState(false);
   const [repairId, setRepairId] = useState(null);
+  const [MotorcycleNumber, setMotorcycleRigterNumber] = useState();
+  const [motorcycles, setMotorcycles] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +92,7 @@ export default function RepairInfoAdmin() {
             };
           }
         );
+        setMotorcycles(motorcycles);
 
         setItems(repaildataesWithBothData);
         setLoading(false);
@@ -191,6 +198,13 @@ export default function RepairInfoAdmin() {
     }
   };
 
+  const handleOpenAddRepair = () => {
+    setOpenAddRepair(true);
+  };
+  const handleCloseAddRepair = () => {
+    setOpenAddRepair(false);
+  };
+
   const handleDropDownChange = async (event, context) => {
     console.log(context);
     context.REPAILDATA_SATUS = parseInt(event.target.value);
@@ -214,6 +228,52 @@ export default function RepairInfoAdmin() {
       setItems(arr3);
     }
   };
+
+  const handleSave = async () => {
+    if (MotorcycleNumber !== null) {
+      const selectedMotorcycle = motorcycles.find(
+        (motorcycle) =>
+          motorcycle.MOTORCYCLE_REGISTRATION_NUMBER === MotorcycleNumber
+      );
+  
+      if (selectedMotorcycle) {
+        // ตรวจสอบว่ารถมีเจ้าของหรือไม่
+        if (selectedMotorcycle.USER_ID) {
+          var myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+  
+          var raw = JSON.stringify({
+            MOTORCYCLE_ID: selectedMotorcycle.MOTORCYCLE_ID,
+            REPAILDATA_WISE: Wise,
+            REPAILDATA_SATUS: Status,
+          });
+  
+          var requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow",
+          };
+  
+          fetch("http://localhost:3001/api/v1/repaildataes", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+              console.log(result);
+              console.log("motorcycles:", motorcycles);
+            })
+            .catch((error) => console.log("error", error));
+          navigate("/admin/repair/repair-info");
+        } else {
+          // แสดง dialog เเจ้งเตือนว่ารถไม่มีเจ้าของ
+          alert("รถคันนี้ไม่มีเจ้าของรถ");
+        }
+      } else {
+        console.error("ไม่มี", MotorcycleNumber);
+      }
+    } else {
+      console.error("บันทึกไม่ได้");
+    }
+  };
   return (
     <div>
       <div className="header-with-button with-underline">
@@ -230,9 +290,7 @@ export default function RepairInfoAdmin() {
             width: "150px",
             height: "50px",
           }}
-          onClick={() => {
-            setGotoAddRepair(true);
-          }}
+          onClick={() => handleOpenAddRepair()}
         >
           <FontAwesomeIcon
             icon={faPlusCircle}
@@ -409,15 +467,6 @@ export default function RepairInfoAdmin() {
                             </Box>
                           )}
                         </TableCell>
-                        {/* <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-danger"
-                          onClick={() => RepairGetById(row.REPAILDATA_ID)}
-                        >
-                          รายละเอียด
-                        </Button>
-                      </TableCell> */}
                         <TableCell
                           class="t-delete"
                           style={{
@@ -470,6 +519,70 @@ export default function RepairInfoAdmin() {
           <Button onClick={handleClose}>ยกเลิก</Button>
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>
+      </Dialog>
+
+      <Dialog open={openAddRepair} onClose={handleCloseAddRepair}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (MotorcycleNumber !== null) {
+              handleSave({
+                MOTORCYCLE_ID: MotorcycleId,
+                REPAILDATA_WISE: Wise,
+                REPAILDATA_SATUS: Status,
+              });
+            } else {
+              console.error("MotorcycleNumber is null, cannot save.");
+            }
+          }}
+        >
+          <DialogTitle>กรอกข้อมูลส่งซ่อม</DialogTitle>
+          <DialogContent>
+              <p style={{ color: "#858585" }}> เลขทะเบียน</p>
+              <TextField
+                id="Wise"
+                variant="outlined"
+                fullWidth
+                required
+                onChange={(e) => setMotorcycleRigterNumber(e.target.value)}
+                sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
+              ></TextField>
+              <p style={{ color: "#858585" }}>อาการ</p>
+              <TextField
+                id="Wise"
+                variant="outlined"
+                fullWidth
+                required
+                onChange={(e) => setWise(e.target.value)}
+                sx={{width:'400px', height: "10px", paddingBottom: "80px" }}
+              ></TextField>
+            <Box sx={{ minWidth: 120 }}>
+            <FormControl     sx={{ width:'400px',height: "10px", paddingBottom: "80px" }}>
+            <p style={{ color: "#858585" }}>เลือกสถานะ</p>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    onChange={(e) => setStatus(e.target.value)}
+
+  >
+    <MenuItem value={0}>อยู่ระหว่างการดำเนินงาน</MenuItem>
+    <MenuItem value={1}>เรียบร้อย</MenuItem>
+  </Select>
+</FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+          <Button onClick={handleCloseAddRepair}>ยกเลิก</Button>
+            <button
+              type="submit"
+              variant="contained"
+              class="btn btn-primary mb-3"
+            >
+              บันทึก
+            </button>
+            
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

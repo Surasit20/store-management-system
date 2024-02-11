@@ -90,6 +90,22 @@ export default function OverdueAdmin() {
           }
         );
         setItems(repaildataesWithBothData);
+         // Group เลขทะเบียนรถจักรยานยนต์
+         const groupedMotorcycles = repaildataesWithBothData.reduce((acc, item) => {
+          const key = item.MOTORCYCLE_REGISTRATION_NUMBER;
+          if (!acc[key]) {
+            acc[key] = {
+              ...item,
+              USER_FULLNAME: [item.USER_FULLNAME],
+            };
+          } else {
+            acc[key].USER_FULLNAME.push(item.USER_FULLNAME);
+          }
+          return acc;
+        }, {});
+
+        const groupedItems = Object.values(groupedMotorcycles);
+        setItems(groupedItems);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -309,36 +325,6 @@ export default function OverdueAdmin() {
             </TableContainer>
           </div>
         </div>
-        {/* <div class="header-t">
-          <div>
-            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow class="table-row">
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เลขประจำตัวบัตรประชาชน
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ชื่อ - นามสกุล
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เลขทะเบียน
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เบอร์โทร
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ยอดค้างชำระ
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ลบข้อมูล
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-            </TableContainer>
-          </div>
-        </div> */}
         {loading ? (
         <div className="spinner-container">
           <FaSpinner
@@ -434,59 +420,45 @@ export default function OverdueAdmin() {
   function OverdueAdminDialog({ open, onClose, item }) {
     return (
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>รายละเอียดค่างวด</DialogTitle>
-        <DialogContent>
-          <TableCell>งวดที่ </TableCell>
-          <TableCell>ค่างวด </TableCell>
-          <TableCell>สถานะ </TableCell>
-
-          <TableBody>
-            {item.map((row, index) => (
-              <TableRow key={row.name}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                <TableCell>
-                  {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
-                    <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
-                  ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
-                    <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
-                  ) : (
-                    <p className="text-success">ชำระเงินแล้ว</p>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-
-          {/* {Array.isArray(item) && item.length > 0 ? (
-            <>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>งวดที่</TableCell>
-                    <TableCell>ค่างวด</TableCell>
-                    <TableCell>สถานะ</TableCell>
+      <DialogTitle>รายละเอียดค่างวด</DialogTitle>
+      <DialogContent>
+        {Array.isArray(item) && item.length > 0 ? (
+          <>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>งวดที่</TableCell>
+                  <TableCell>ค่างวด</TableCell>
+                  <TableCell>สถานะ</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {item.map((row, index) => (
+                  <TableRow key={index + 1}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                    <TableCell>
+                      {row.MONTH_INSTALLMENTS_STATUS === 0 ? (
+                        <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
+                      ) : row.MONTH_INSTALLMENTS_STATUS === 1 ? (
+                        <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
+                      ) : (
+                        <p className="text-success">ชำระเงินแล้ว</p>
+                      )}
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {item.map((row) => (
-                    <TableRow key={row.MONTH_INSTALLMENTS_ID}>
-                      <TableCell>{row.MONTH_INSTALLMENTS_ID}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_STATUS}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </>
-          ) : (
-            <p>ไม่มีข้อมูลค่างวด</p>
-          )} */}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>ปิด</Button>
-        </DialogActions>
-      </Dialog>
+                ))}
+              </TableBody>
+            </Table>
+          </>
+        ) : (
+          <p>ไม่มีข้อมูลค่างวด</p>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>ปิด</Button>
+      </DialogActions>
+    </Dialog>
     );
   }
 }

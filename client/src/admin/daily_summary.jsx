@@ -30,16 +30,11 @@ function DailySummaryAdmin() {
   const [summary, setSummary] = useState(0);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [value, setValue] = React.useState(new Date("2014-08-18T21:11:54"));
-  const [valueDate, setValueDate] = React.useState(new Date());
-  const [valueDate1, setDate1] = React.useState(dayjs());
+  const [valueDate, setValueDate] = useState(dayjs());
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
 
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
   useEffect(async () => {
     let data1 = await axios.get(
       `http://localhost:3001/api/v1/month-installments`
@@ -183,6 +178,20 @@ function DailySummaryAdmin() {
             <strong>ยอดประจำวัน</strong>
           </h1>
         </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+  <DemoContainer components={["DatePicker"]}>
+    <DatePicker
+      label="วันที่"
+      value={valueDate} 
+      onChange={(newValue) => {
+        setValueDate(newValue);
+        setDateTime(newValue);
+      }}
+      format="DD/MM/YYYY" 
+      style={{ border: "10px solid #ccc", borderRadius: "10px", padding: "5px" }}
+    />
+  </DemoContainer>
+</LocalizationProvider>
       </div>
 
       <form class="search-form">
@@ -193,21 +202,10 @@ function DailySummaryAdmin() {
           class="search-input"
         />
       </form>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["DatePicker"]}>
-          <DatePicker
-            label="Basic date picker"
-            onChange={(newValue) => {
-              setValueDate(newValue);
-              setDateTime(newValue);
-            }}
-          />
-        </DemoContainer>
-      </LocalizationProvider>
-
-      <p>รวมรายวัน {summary}</p>
-
-      <div className="Contrianer">
+      <p style={{color : '#1BA7E1' , paddingLeft : '10px' ,marginTop : '10px'}}> < strong>สรุปยอดประจำวัน :  {summary} บาท</strong></p>
+        
+       
+      <div className="Contrianer" style={{height : '68vh'}}>
         <div class="header-t">
           <div>
             <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
@@ -244,7 +242,7 @@ function DailySummaryAdmin() {
             </TableContainer>
           </div>
         </div>
-
+        <div className="Contrainer-data">
         {loading ? (
           <div className="spinner-container">
             <FaSpinner
@@ -253,14 +251,34 @@ function DailySummaryAdmin() {
             />
           </div>
         ) : (
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Paper  
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            backgroundColor: "#f8ffff",
+            boxShadow: "none",
+          }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableBody>
                   {items
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .filter((row) => {
-                      return true;
+                      return (
+                        search.trim() === "" ||
+                        row.MONTH_INSTALLMENTS_TIME.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MONTH_INSTALLMENTS_MONEY.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.USER_FULLNAME.toLowerCase().includes(
+                          search.toLowerCase()
+                        )
+                      );
                     })
                     .map((row) => (
                       <TableRow
@@ -269,10 +287,26 @@ function DailySummaryAdmin() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell>{row.MONTH_INSTALLMENTS_TIME}</TableCell>
-                        <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                        <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                        <TableCell>{row.USER_FULLNAME}</TableCell>
+                        <TableCell style={{
+                                verticalAlign: "middle",
+                                padding: "10px",
+                                color: "#858585",
+                              }}>{row.MONTH_INSTALLMENTS_TIME}</TableCell>
+                        <TableCell style={{
+                                verticalAlign: "middle",
+                                padding: "10px",
+                                color: "#858585",
+                              }}>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
+                        <TableCell style={{
+                                verticalAlign: "middle",
+                                padding: "10px",
+                                color: "#858585",
+                              }}>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                        <TableCell style={{
+                                verticalAlign: "middle",
+                                padding: "10px",
+                                color: "#858585",
+                              }}>{row.USER_FULLNAME}</TableCell>
                       </TableRow>
                     ))}
                 </TableBody>
@@ -286,13 +320,16 @@ function DailySummaryAdmin() {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              labelRowsPerPage="จำนวนแถวต่อหน้า:"
+              labelRowsPerPage="จำนวนแถวต่อหน้า :"
               labelDisplayedRows={({ from, to, count }) =>
                 `${from}-${to} จากทั้งหมด ${count}`
               }
             />
           </Paper>
         )}
+
+        </div>
+       
       </div>
     </div>
   );
