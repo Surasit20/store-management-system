@@ -17,11 +17,15 @@ class AuthController extends BaseController {
 			const data = req.body;          
 			const options = { where: { USER_USERNAME: data.USER_EMAIL } };
 			const user = await super.getByCustomOptions(req, 'USER', options);
-
+			const options1 = { where: { USER_USERNAME: data.USER_USERNAME } };
+			const user1 = await super.getByCustomOptions(req, 'USER', options1);
 			if (user) {
 				requestHandler.throwError(400, 'bad request', 'invalid email account,email already existed')();
 			}
-
+			
+			if (user1) {
+				requestHandler.throwError(400, 'bad request', 'invalid user name account,email already existed')();
+			}
 			// async.parallel([
 			// 	function one(callback) {
 			// 		email.sendEmail(

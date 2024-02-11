@@ -108,8 +108,8 @@ function Register() {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "อีเมล์/รหัส ผ่านไม่ถูกต้อง",
-          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+          title: "เกิดข้อผิดพลาด",
+          text: "เบอร์โทรศัพท์หรือชื่อผู้ใช้ซ้ำกับผู้ใช้รายอื่น",
           icon: "error",
           confirmButtonText: "ตกลง",
         });
