@@ -120,7 +120,7 @@ function RepairUser() {
 
   return (
     <div>
-            <h1 className="my-4">ข้อมูลส่งซ่อม</h1>
+            <h1 className="border-header">ข้อมูลส่งซ่อม</h1>
 
 <form className="search-form">
         <input

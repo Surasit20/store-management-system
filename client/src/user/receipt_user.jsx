@@ -28,7 +28,7 @@ function ReceiptUser() {
   };
   return (
     <div>
-      <h1 className="my-4">ข้อมูลการชำระค่างวด</h1>
+      <h1 className="border-header">ข้อมูลการชำระค่างวด</h1>
 
 <form className="search-form">
         <input

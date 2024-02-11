@@ -29,7 +29,7 @@ function HomeUser() {
   };
   return (
     <div>
-<h1 className="my-4">ข้อมูลรถจักรยานยนต์</h1>
+<h1 className="border-header">ข้อมูลรถจักรยานยนต์</h1>
 
 <form className="search-form">
         <input

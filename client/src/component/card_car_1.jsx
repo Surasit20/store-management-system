@@ -149,7 +149,7 @@ function CardCar1(props) {
 
 
   return (
-    <div className="my-2">
+    <div className="my-1">
       <Grid container>
   <Grid item xs={5}>
 
@@ -204,7 +204,7 @@ function CardCar1(props) {
 
             {props.IS_RECEIPT ? (
               <Typography variant="body2" color="text.secondary">
-                <Button variant="contained" onClick={handleClickOpen}>
+                <Button variant="contained" color="success" onClick={handleClickOpen}>
                   ดูข้อมูลใบเสร็จ
                 </Button>
                 {/* <SimpleDialog
@@ -300,6 +300,7 @@ function CardCar1(props) {
                           <React.Fragment>
                             {/* <ComponentToPrint ref={componentRef} /> */}
                             <button
+                            className="btn btn-outline-success"
                             disabled={row.MONTH_INSTALLMENTS_STATUS != 2}
                               onClick={
                                 () => {

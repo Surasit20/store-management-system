@@ -90,8 +90,8 @@ const SidebarUser = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial' }}>
-      <CDBSidebar textColor="#fff" backgroundColor="#333">
+    <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial',backgroundColor: '#dfedf0'  }}>
+      <CDBSidebar textColor="#99BC85" backgroundColor="#fff">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" style={{ marginLeft: '10px' }}></i>}>
           <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
             ร้านรถจักรยานยนต์มือ 2  
@@ -102,27 +102,27 @@ const SidebarUser = () => {
           <CDBSidebarMenu>
 
             <NavLink exact to="/user/home" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-motorcycle" style={{ color: 'gray' }}>ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
             </NavLink>
             
             <NavLink exact to="/user/pay" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-file-invoice-dollar">ชำระค่างวด</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-file-invoice-dollar" style={{ color: 'gray' }}>ชำระค่างวด</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/user/receipt" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon ="fa-solid fa-solid fa-envelope-open-text">ข้อมูลการชำระค่างวด</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon ="fa-solid fa-solid fa-envelope-open-text" style={{ color: 'gray' }}>ข้อมูลการชำระค่างวด</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/user/repair" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-screwdriver">ข้อมูลส่งซ่อม</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-screwdriver" style={{ color: 'gray' }}>ข้อมูลส่งซ่อม</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink di exact to="#" onClick={openInfoUser}  activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="fa-solid fa-users">ข้อมูลผู้ใช้</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-users" style={{ color: 'gray' }}>ข้อมูลผู้ใช้</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/"  activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="exclamation-circle">ออกจากระบบ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="exclamation-circle" style={{ color: 'gray' }}>ออกจากระบบ</CDBSidebarMenuItem>
             </NavLink>
 
           </CDBSidebarMenu>
@@ -138,7 +138,7 @@ const SidebarUser = () => {
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>
-      <div className="container-fluid bg-warning bg-gradient container-user">
+      <div className="container-fluid container-user" style={{backgroundColor: '#fff'  }}>
          <Outlet />
        </div>
 

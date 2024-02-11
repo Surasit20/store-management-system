@@ -178,7 +178,11 @@ function PayUser() {
   return (
     <div style={{ height: '100vh' }}>
       {step == 0 ? (
-        <div className="container-lg d-flex justify-content-center">
+
+<div>
+<h1 className="border-header">ชำระค่างวด</h1>
+<div className="container-lg d-flex justify-content-center">
+          
           <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
@@ -281,6 +285,8 @@ function PayUser() {
 
           </form>
         </div>
+</div>
+        
       ) : step == 1 ? (
 
         <div className="d-flex justify-content-start mx-5 my-3">
