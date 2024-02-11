@@ -16,16 +16,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useParams , useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckSquare, faTrash 
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faBan  , faSave} from "@fortawesome/free-solid-svg-icons";
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -39,11 +37,11 @@ export default function ChassisAdmin() {
   const [UserName, setUserName] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const [validationError, setValidationError] = useState('');
   const { userFullName } = location.state || {};
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
-  
 
   useEffect(() => {
     Promise.all([MotorcycleGet(), UserGet()])
@@ -118,10 +116,8 @@ export default function ChassisAdmin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
+    myHeaders.append("Content-Type", "application/json");  
     let data1 = await axios.get(`http://localhost:3001/api/v1/users`);
 
     var user = data1.data.filter((f) => f.USER_FULLNAME == UserName);
@@ -180,7 +176,7 @@ export default function ChassisAdmin() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-      navigate("/admin/motorcycle");
+    navigate("/admin/motorcycle");
   };
 
   const handleClickOpen = (MOTORCYCLE_ID) => {
@@ -207,14 +203,14 @@ export default function ChassisAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header" style={{paddingTop : '10px'}}>
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 class="text-color">
-            <strong style={{fontSize : '30px'}}>อนุมัติ</strong>
+            <strong style={{ fontSize: "30px" }}>อนุมัติ</strong>
           </h1>
         </div>
       </div>
 
-      <form class="search-form" style={{marginTop : '10px'}}>
+      <form class="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -328,17 +324,25 @@ export default function ChassisAdmin() {
                             }}
                           >
                             <Button
-                                type="button"
-                                style={{ width: '50px' ,height: '50px' , border : '1px solid #19C788 '}}
-                                onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faCheckSquare}
-                                  style={{color : '#19C788' , width: '30x',
-                                  height: '25px',
-                                  transition: 'background-color 0.3s, border-color 0.3s'}}
-                                />
-                              </Button>
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #19C788 ",
+                              }}
+                              onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faCheckSquare}
+                                style={{
+                                  color: "#19C788",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -363,27 +367,41 @@ export default function ChassisAdmin() {
         </div>
       </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle> กรอกข้อมูลยืนยันการเป็นเจ้าของรถ</DialogTitle>
+        <DialogTitle  
+         style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}> กรอกข้อมูลยืนยันการเป็นเจ้าของรถ</DialogTitle>
         <DialogContent>
-          <p>ชื่อ - นามสกุล ผู้เป็นเจ้าของรถ</p>
+          <p
+            style={{
+              color: "#858585",
+            }}
+          >
+            ชื่อ - นามสกุล ผู้เป็นเจ้าของรถ
+          </p>
           <TextField
             id="UserName"
             variant="outlined"
             fullWidth
             required
             onChange={(e) => setUserName(e.target.value)}
-            sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
-          ></TextField>
-          <p>จำนวนงวด</p>
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+          > </TextField>
+          <p   style={{
+              color: "#858585",
+            }}>จำนวนงวด</p>
           <TextField
             id="installmentNo"
             variant="outlined"
             fullWidth
             required
-            onChange={(e) => setinstallmentNo(e.target.value)}
-            sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
+            onChange={(e) => setinstallmentNo(e.target.value)  }
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
           ></TextField>
-          <p>ราคางวดล้ะ</p>
+          <p   style={{
+              color: "#858585",
+            }}>จำนวนงวดละ (บาท)</p>
           <TextField
             id="installmentMoney"
             variant="outlined"
@@ -393,12 +411,36 @@ export default function ChassisAdmin() {
             InputProps={{
               readOnly: true,
             }}
-            sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit}>แก้ไข</Button>
-          <Button onClick={handleClose}>ยกเลิก</Button>
+          <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleClose}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleSubmit}
+          >
+            <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>บันทึก</span>
+          </button>
         </DialogActions>
       </Dialog>
     </div>

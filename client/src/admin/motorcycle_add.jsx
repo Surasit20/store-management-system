@@ -20,10 +20,62 @@ function AddMotorcycle() {
   const [Balance, setBalance] = useState("");
   const [image, setImage] = useState();
   const navigate = useNavigate();
+  const [validationMessages, setValidationMessages] = useState({
+    RegistrationNumber: '',
+    BucketNumber: '',
+    Brand: '',
+    Model: '',
+    Color: '',
+    Price: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      RegistrationNumber: '',
+      BucketNumber: '',
+      Brand: '',
+      Model: '',
+      Color: '',
+      Price: '',
+    };
+    if (!RegistrationNumber) {
+      isValid = false;
+      messages.RegistrationNumber = 'กรุณาระบุเลขทะเบียน';
+    }
+    if (!BucketNumber) {
+      isValid = false;
+      messages.BucketNumber = 'กรุณาระบุขเลขตัวถัง';
+    }
+    if (!Brand) {
+      isValid = false;
+      messages.Brand = 'กรุณาระบุยี่ห้อ';
+    }
+    if (!Model) {
+      isValid = false;
+      messages.Model = 'กรุณาระบุรุ่น';
+    }
+    if (!Color) {
+      isValid = false;
+      messages.Color = 'กรุณาระบุสี';
+    }
+    if (!Price) {
+      isValid = false;
+      messages.Price = 'กรุณาระบุราคา';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const isValid = validateInput();
+  
+    if (!isValid) {
+      return;
+    }
     if (!image) {
       Swal.fire({
         title: "กรุณาเลือกรูปภาพ",
@@ -128,14 +180,14 @@ function AddMotorcycle() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header"  style={{ paddingTop: "10px" }}>
           <h1 style={{ color: "#2196f3" }}>
             <div
               onClick={() => {
                 setGotoListMotorcycle(true);
               }}
             >
-              <i className="fa fa-arrow-left" aria-hidden="true">
+              <i className="fa fa-arrow-left" aria-hidden="true" style={{ fontSize: "30px" }} >
                 {" "}
                 เพิ่มรถจักรยานยนต์
               </i>
@@ -253,6 +305,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.RegistrationNumber}
+                  helperText={validationMessages.RegistrationNumber}
                 />
               </Col>
               <Col>
@@ -264,6 +318,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBucketNumber(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.BucketNumber}
+                  helperText={validationMessages.BucketNumber}
                 />
               </Col>
             </Row>
@@ -277,6 +333,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBrand(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Brand}
+                  helperText={validationMessages.Brand}
                 />
               </Col>
               <Col>
@@ -288,6 +346,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setModel(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Model}
+                  helperText={validationMessages.Model}
                 />
               </Col>
             </Row>
@@ -301,6 +361,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setColor(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Color}
+                  helperText={validationMessages.Color}
                 />
               </Col>
               <Col>
@@ -312,6 +374,8 @@ function AddMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setPrice(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Price}
+                  helperText={validationMessages.Price}
                 />
               </Col>
             </Row>
@@ -323,7 +387,6 @@ function AddMotorcycle() {
                   type="text"
                   required
                   aria-describedby="basic-addon1"
-                  value={"0"} // กำหนดค่าให้เป็น balance ที่ได้จาก state
                   onChange={(e) => setBalance(e.target.value)}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
                   readOnly

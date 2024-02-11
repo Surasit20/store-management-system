@@ -25,6 +25,54 @@ function UpdateMotorcycle() {
   const [imageOld, setImageOld] = useState();
   const [imageNew, setImageNew] = useState();
   const navigate = useNavigate();
+  const [validationMessages, setValidationMessages] = useState({
+    RegistrationNumber: '',
+    BucketNumber: '',
+    Brand: '',
+    Model: '',
+    Color: '',
+    Price: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      RegistrationNumber: '',
+      BucketNumber: '',
+      Brand: '',
+      Model: '',
+      Color: '',
+      Price: '',
+    };
+    if (!RegistrationNumber) {
+      isValid = false;
+      messages.RegistrationNumber = 'กรุณาระบุเลขทะเบียน';
+    }
+    if (!BucketNumber) {
+      isValid = false;
+      messages.BucketNumber = 'กรุณาระบุขเลขตัวถัง';
+    }
+    if (!Brand) {
+      isValid = false;
+      messages.Brand = 'กรุณาระบุยี่ห้อ';
+    }
+    if (!Model) {
+      isValid = false;
+      messages.Model = 'กรุณาระบุรุ่น';
+    }
+    if (!Color) {
+      isValid = false;
+      messages.Color = 'กรุณาระบุสี';
+    }
+    if (!Price) {
+      isValid = false;
+      messages.Price = 'กรุณาระบุราคา';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
+  };
 
   useEffect(() => {
     var requestOptions = {
@@ -56,43 +104,46 @@ function UpdateMotorcycle() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (imageNew != null || imageNew != undefined) {
+    const isValid = validateInput();
+    if (!isValid) {
+      return;
+    }
+    else if (imageNew != null || imageNew != undefined) {
       Swal.fire({
         title: "กรุณาเลือกรูปภาพ",
         icon: "error",
         confirmButtonText: "ตกลง",
       });
-    
     } else {
-      console.log("case2");
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var raw = JSON.stringify({
-        MOTORCYCLE_BALANCE: Balance,
-        MOTORCYCLE_PRICE: Price,
-        MOTORCYCLE_BRAND: Brand,
-        MOTORCYCLE_MODEL: Model,
-        MOTORCYCLE_COLOR: Color,
-        MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
-        MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
-        MOTORCYCLE_IMAGE: imageOld,
-      });
-
-      var requestOptions = {
-        method: "PUT",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      fetch(
-        `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-        navigate("/admin/motorcycle");
+        console.log("case2");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+          MOTORCYCLE_BALANCE: Balance,
+          MOTORCYCLE_PRICE: Price,
+          MOTORCYCLE_BRAND: Brand,
+          MOTORCYCLE_MODEL: Model,
+          MOTORCYCLE_COLOR: Color,
+          MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
+          MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
+          MOTORCYCLE_IMAGE: imageOld,
+        });
+  
+        var requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+  
+        fetch(
+          `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+          navigate("/admin/motorcycle");    
     }
   };
 
@@ -141,14 +192,14 @@ function UpdateMotorcycle() {
   return (
 <div>
 <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 style={{ color: "#2196f3" }}>
           <div
             onClick={() => {
               setGotoListMotorcycle(true);
             }}
           >
-              <i className="fa fa-arrow-left" aria-hidden="true">
+              <i className="fa fa-arrow-left" aria-hidden="true" style={{ fontSize: "30px" }}>
                 {" "}
                 แก้ไขข้อมูลรถจักรยานยนต์
               </i>
@@ -268,6 +319,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                   value={RegistrationNumber}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.RegistrationNumber}
+                  helperText={validationMessages.RegistrationNumber}
                 />
               </Col>
               <Col>
@@ -280,6 +333,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setBucketNumber(e.target.value)}
                   value={BucketNumber}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.BucketNumber}
+                  helperText={validationMessages.BucketNumber}
                 />
               </Col>
             </Row>
@@ -294,6 +349,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setBrand(e.target.value)}
                   value={Brand}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Brand}
+                  helperText={validationMessages.Brand}
                 />
               </Col>
               <Col>
@@ -306,6 +363,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setModel(e.target.value)}
                   value={Model}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Model}
+                  helperText={validationMessages.Model}
                 />
               </Col>
             </Row>
@@ -320,6 +379,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setColor(e.target.value)}
                   value={Color}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Color}
+                  helperText={validationMessages.Color}
                 />
               </Col>
               <Col>
@@ -332,6 +393,8 @@ function UpdateMotorcycle() {
                   onChange={(e) => setPrice(e.target.value)}
                   value={Price}
                   sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Price}
+                  helperText={validationMessages.Price}
                 />
               </Col>
             </Row>

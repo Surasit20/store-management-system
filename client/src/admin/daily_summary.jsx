@@ -173,12 +173,14 @@ function DailySummaryAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{paddingTop : '10px'}}>
           <h1 class="text-color">
-            <strong>ยอดประจำวัน</strong>
+            <strong style={{fontSize : '30px'}}>ยอดประจำวัน</strong>
           </h1>
         </div>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <p style={{color : '#1BA7E1' , paddingLeft : '10px' ,marginTop : '10px'}}> < strong>สรุปยอดประจำวัน :  {summary} บาท</strong></p>
+        <LocalizationProvider dateAdapter={AdapterDayjs}      
+>
   <DemoContainer components={["DatePicker"]}>
     <DatePicker
       label="วันที่"
@@ -188,13 +190,13 @@ function DailySummaryAdmin() {
         setDateTime(newValue);
       }}
       format="DD/MM/YYYY" 
-      style={{ border: "10px solid #ccc", borderRadius: "10px", padding: "5px" }}
+
     />
   </DemoContainer>
 </LocalizationProvider>
       </div>
 
-      <form class="search-form">
+      <form class="search-form" style={{marginTop : '10px'}}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -202,10 +204,10 @@ function DailySummaryAdmin() {
           class="search-input"
         />
       </form>
-      <p style={{color : '#1BA7E1' , paddingLeft : '10px' ,marginTop : '10px'}}> < strong>สรุปยอดประจำวัน :  {summary} บาท</strong></p>
+   
         
        
-      <div className="Contrianer" style={{height : '68vh'}}>
+      <div className="Contrianer" style={{height : '79vh'}}>
         <div class="header-t">
           <div>
             <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
@@ -287,22 +289,22 @@ function DailySummaryAdmin() {
                           "&:last-child td, &:last-child th": { border: 0 },
                         }}
                       >
-                        <TableCell style={{
+                        <TableCell class="t-rig" style={{
                                 verticalAlign: "middle",
                                 padding: "10px",
                                 color: "#858585",
                               }}>{row.MONTH_INSTALLMENTS_TIME}</TableCell>
-                        <TableCell style={{
+                        <TableCell class="t-rig" style={{
                                 verticalAlign: "middle",
                                 padding: "10px",
                                 color: "#858585",
                               }}>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                        <TableCell style={{
+                        <TableCell class="t-rig" style={{
                                 verticalAlign: "middle",
                                 padding: "10px",
                                 color: "#858585",
                               }}>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                        <TableCell style={{
+                        <TableCell class="t-rig" style={{
                                 verticalAlign: "middle",
                                 padding: "10px",
                                 color: "#858585",
