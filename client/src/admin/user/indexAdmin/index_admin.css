@@ -1,4 +1,4 @@
 
-.activeClicked {
-  background-color: #555; /* สีพื้นหลังของเมนูที่ถูกเลือก */
+.active {
+  background-color: #2196f3 !important; /* สีพื้นหลังของเมนูที่ถูกเลือก */
 }

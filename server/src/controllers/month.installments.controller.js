@@ -32,7 +32,7 @@ class MonthInstallmentsController extends BaseController {
     static async postMonthInstallments(req, res) {
 		try {
 			const optionsMotorcycle = {
-				where: { MOTORCYCLE_BUCKET_NUMBER: req.body.MOTORCY_BUCKETNUMBER },
+				where: { MOTORCYCLE_REGISTRATION_NUMBER: req.body.MOTORCYCLE_REGISTRATION_NUMBER },
 			};
 			const motorycle = await super.getByCustomOptions(req, 'MOTORCYCLE', optionsMotorcycle);
 

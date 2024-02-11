@@ -27,31 +27,44 @@ function PayUser() {
   const [image, setImage] = useState();
   const [docNo, setdocNo] = useState("");
   const [user, setUser] = useState();
-
+  const [money, setMoney] = useState(0);
   const [top100Films, setTop100Films] = useState([]);
+  const [dict, setDict] = useState({});
 
 
-
-  useEffect(() => {
+  useEffect(async () => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
     if (dataUser) {
       setUser(dataUser.data.user);
       setFullName(dataUser.data.user.USER_FULLNAME);
       setTell(dataUser.data.user.USER_TELL);
 
-      axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
-        var data = response.data.filter(
-          (f) => f.USER_ID == dataUser.data.user.USER_ID
-        );
-        var res = []
-        data.forEach(element => {
+      let installments = await axios.get("http://localhost:3001/api/v1/installments");
+      let response = await axios.get("http://localhost:3001/api/v1/motorcycles");
 
-          console.log(element.MOTORCYCLE_BUCKET_NUMBER)
-          res.push(element.MOTORCYCLE_BUCKET_NUMBER)
-          
-        });
-        setTop100Films(res)
+      var data = response.data.filter(
+        (f) => f.USER_ID == dataUser.data.user.USER_ID
+      );
+      var res = []
+      data.forEach(element => {
+
+
+        res.push(element.MOTORCYCLE_REGISTRATION_NUMBER)
+
+        let installment = installments.data.filter(f=>f.MOTORCYCLE_ID == element.MOTORCYCLE_ID)
+        
+        if(installment != null && installment.length >0)
+        {
+          let dictV = {}
+          dictV[element.MOTORCYCLE_REGISTRATION_NUMBER] = installment[0].INSTALLMENTS_MONEY;
+          console.log(element)
+          let dict1 = {...dict,...dictV}
+          setDict(dict1)
+        }
       });
+
+ 
+      setTop100Films(res)
     }
   }, []);
 
@@ -76,10 +89,10 @@ function PayUser() {
     //moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
     // setStep(2);
     // return;
-    if (imageUrl != null ) {
+    if (imageUrl != null) {
       console.log(imageUrl);
       let data = {
-        MOTORCY_BUCKETNUMBER: bucketNumber,
+        MOTORCYCLE_REGISTRATION_NUMBER: bucketNumber,
         INSTALLMENTS_NO: docNo,
         MONTH_INSTALLMENTS_TIME: moment(date.getTime()).format("HH:mm"),
         MONTH_INSTALLMENTS_DATE: moment(new Date(), "yyyy-mm-dd HH:MM:ss"),
@@ -115,7 +128,7 @@ function PayUser() {
     //formData.append("folder", "Cloudinary-React");
     try {
 
-      if(image == null || image == undefined){
+      if (image == null || image == undefined) {
         Swal.fire({
           title: "กรุณาเพิ่มรูปภาพ",
           text: "กรุณาเพิ่มรูปภาพ",
@@ -165,7 +178,11 @@ function PayUser() {
   return (
     <div style={{ height: '100vh' }}>
       {step == 0 ? (
-        <div className="container-sm">
+
+<div>
+<h1 className="border-header">ชำระค่างวด</h1>
+<div className="container-lg d-flex justify-content-center">
+          
           <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
@@ -182,7 +199,7 @@ function PayUser() {
               />
             </div>
 
-            <div className="input-group mb-3">
+            {/* <div className="input-group mb-3">
               <span className="input-group-text" id="basic-addon1">
                 เบอร์โทรศัพท์
               </span>
@@ -195,17 +212,25 @@ function PayUser() {
                 value={tell.toString()}
                 disabled={true}
               />
-            </div>
+            </div> */}
 
             <div className="input-group mb-3 ">
               <span className="input-group-text" id="basic-addon1">
-                เลขตัวถัง
+                เลขทะเบียนรถ
               </span>
               <Autocomplete
-                  value={bucketNumber}
-                  onChange={(event, newValue) => {
-                    setBucketNumber(newValue);
-                  }}
+                value={bucketNumber}
+                onChange={(event, newValue) => {
+                  setMoney(0);
+                  setBucketNumber(newValue);
+                  let value = dict[newValue];
+
+                  if(value != undefined || value != null){
+                    setMoney(value);
+
+                  }
+
+                }}
                 disablePortal
                 id="combo-box-demo"
                 options={top100Films}
@@ -220,57 +245,129 @@ function PayUser() {
                 onChange={(e) => setBucketNumber(e.target.value)}
               /> */}
             </div>
-            <button type="submit" className="btn btn-primary mb-3">
-              ยืนยัน
-            </button>
-          </form>
-        </div>
-      ) : step == 1 ? (
-        <div>
-          <p>เลขใบเสร็จ {docNo}</p>
-          <p>วันที่ {moment(date.getTime()).format("D-MMMM-yyyy")} </p>
-          <p>เวลา {moment(date.getTime()).format("HH:mm")} น.</p>
-          <p>ชื่อ-นามสกุล {fullName}</p>
-          <p>เบอร์โทรศัพท์ {tell}</p>
-          <p>เลขตัวถัง {bucketNumber}</p>
-          <p>หลักฐานการโอนเงิน</p>
 
-          <div className="my-3">
-            <Box
-              component="img"
-              sx={{
-                height: 300,
-                width: 300,
-                borderColor: "primary.main",
-                borderRadius: "20%",
-                border: 4,
-              }}
-              src={image}
-            />
-
-          </div>
-          <div>
-            <Button variant="contained" component="label">
-              เลือกรูปภาพ
+            {
+              money != 0 
+              ? 
+              <div className="input-group mb-3">
+              <span className="input-group-text" id="basic-addon1">
+                จำนวนเงิน
+              </span>
               <input
-                accept="image/*"
-                type="file"
-                hidden
-                onChange={handleChangeImage}
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+                value={money.toString()}
+                disabled={true}
               />
-            </Button>
+            </div>
+              :<div></div>
+            }
+  
+            <p>ช่องทางชำระเงิน: ธนาคารออมสิน เลขบัญชี 02159631457 ชื่อบัญชี นายองอาจ นิ้วเนย</p>
+            <p className="text-danger">                             **บัญชีธนาคารของผู้ดูแลระบบ</p>
 
-            <span className="mx-2">
-            <Button variant="contained" onClick={handleRemoceImage} color="error">ล้างรูป</Button>
-
-            </span>
-          </div>
-            
-            <div className="my-2">
-            <Button variant="contained" color="success" onClick={handleConfirm}>ยืนยัน</Button>
+            <div className="my-4 d-flex justify-content-center">
+              <img src="/images/qrCode.png" style={{ width: "200px" }} className="d-flex justify-content-center"></img>
 
             </div>
+
+            <div className=" d-flex justify-content-center">
+
+              <button type="submit" className="btn btn-success mb-3 btn-lg">
+                ยืนยัน
+              </button>
+            </div>
+            <img>
+            </img>
+
+          </form>
         </div>
+</div>
+        
+      ) : step == 1 ? (
+
+        <div className="d-flex justify-content-start mx-5 my-3">
+
+
+          <div >
+            <h2>ชำระค่างวด</h2>
+            <div>
+              <p>เลขใบเสร็จ {docNo}</p>
+
+            </div>
+
+            <div>
+              <p>วันที่ {moment(date.getTime()).format("D-MMMM-yyyy")} </p>
+
+            </div>
+
+            <div>
+              <p>เวลา {moment(date.getTime()).format("HH:mm")} น.</p>
+
+            </div>
+
+            <div>
+              <p>ชื่อ-นามสกุล {fullName}</p>
+
+            </div>
+
+            <div>
+              <p>เบอร์โทรศัพท์ {tell}</p>
+
+            </div>
+
+
+            <div>
+              <p>ทะเบียนรถ {bucketNumber}</p>
+
+            </div>
+
+            <div>
+              <p>หลักฐานการโอนเงิน</p>
+
+            </div>
+
+            <div className="my-3">
+              <Box
+                component="img"
+                sx={{
+                  height: 200,
+                  width: 200,
+                  borderColor: "primary.main",
+                  borderRadius: "20%",
+                  border: 4,
+                }}
+                src={image}
+              />
+
+            </div>
+            <div>
+              <Button variant="contained" component="label">
+                เลือกรูปภาพ
+                <input
+                  accept="image/*"
+                  type="file"
+                  hidden
+                  onChange={handleChangeImage}
+                />
+              </Button>
+
+              <span className="mx-2">
+              <Button variant="contained" color="success" onClick={handleConfirm}>ยืนยัน</Button>
+
+
+              </span>
+            </div>
+
+            <div className="my-2">
+
+            </div>
+          </div>
+        </div>
+
       ) : (
         <div>
           <div className="bg-secondary">
