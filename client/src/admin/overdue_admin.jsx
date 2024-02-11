@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
+import "./css/motorcycle_info.css";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,13 +20,20 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlusCircle,
+  faPencilSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 export default function OverdueAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [installmentId, setInstallmentId] = useState(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false); 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [status, setStatus] = useState("");
   const [time, setTime] = useState("");
@@ -176,19 +184,18 @@ export default function OverdueAdmin() {
     setOpen(false);
   };
 
-  const handleSendNotification = async() => {
+  const handleSendNotification = async () => {
     Swal.fire({
       title: "สำเร็จ",
       text: "ส่งแจ้งเตือนสำเร็จ",
       icon: "success",
       confirmButtonText: "ตกลง",
-    })
+    });
 
-    let res = await axios.get(`http://localhost:3001/api/v1/service/notification`);
-
-
+    let res = await axios.get(
+      `http://localhost:3001/api/v1/service/notification`
+    );
   };
-
 
   const handleDeleteConfirmation = () => {
     handleClose();
@@ -200,8 +207,8 @@ export default function OverdueAdmin() {
     try {
       const data = await MonthGet(INSTALLMENTS_ID);
       console.log("Data:", data);
-      if(data == null || data.MONTH_INSTALLMENTS == null){
-        data=[]
+      if (data == null || data.MONTH_INSTALLMENTS == null) {
+        data = [];
       }
       console.log("xxxxxx:", data.MONTH_INSTALLMENTS);
       setSelectedItem(data.MONTH_INSTALLMENTS);
@@ -212,7 +219,6 @@ export default function OverdueAdmin() {
   };
   const MonthGet = async (installmentId) => {
     try {
-
       const installmentResponse = await fetch(
         `http://localhost:3001/api/v1/installments/${installmentId}`
       );
@@ -222,12 +228,14 @@ export default function OverdueAdmin() {
       );
       const monthData = await monthResponse.json();
 
-      let monthDataFiler = monthData.filter(f=>f.INSTALLMENTS_ID == installmentId)
+      let monthDataFiler = monthData.filter(
+        (f) => f.INSTALLMENTS_ID == installmentId
+      );
       const result = {
         INSTALLMENTS: installmentData,
         MONTH_INSTALLMENTS: monthDataFiler,
       };
-  
+
       console.log("Data from API:", result);
       return result;
     } catch (error) {
@@ -237,49 +245,111 @@ export default function OverdueAdmin() {
   };
   return (
     <div>
-     <div className="row">
-     <div className="header col">
-        <h1>
-          <strong>ข้อมูลยอดค้างชำระ</strong>
-        </h1>
-
+      <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 class="text-color">
+            <strong>ข้อมูลยอดค้างชำระ</strong>
+          </h1>
+        </div>
+        <button
+          style={{
+            backgroundColor: "#1ba7e1",
+            border: 0,
+            borderRadius: "20px",
+            width: "300px",
+            height: "50px",
+          }}
+          onClick={handleSendNotification}
+        >
+          <FontAwesomeIcon
+            icon={faPlusCircle}
+            className="mr-1"
+            style={{ color: "white" }}
+          />{" "}
+          <span style={{ color: "white" }}>
+            ส่งแจ้งเตือนยอดชำระเงินไปหาอีเมลล์ผู้ใช้งาน
+          </span>
+        </button>
       </div>
 
-      <div className="col header">
-        <button onClick={handleSendNotification} className="btn btn-success">ส่งแจ้งเตือนยอดชำระเงินไปหาอีเมลล์ผู้ใช้งาน</button>
-    </div>
-     </div>
- 
-      <Row>
-        <div class="search">
-          <Col>
-            <Form>
-              <InputGroup>
-                <Form.Control
-                  onChange={handleInputChange}
-                  placeholder="ค้นหา"
-                />
-              </InputGroup>
-            </Form>
-          </Col>
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+
+      <div className="Contrianer">
+      <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                    <TableCell  class="t-name" style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ชื่อ - นามสกุล
+                    </TableCell>
+                    <TableCell  class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell  class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
+                      เบอร์โทร
+                    </TableCell>
+                    <TableCell  class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ยอดค้างชำระ
+                    </TableCell>
+                    <TableCell   class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ลบข้อมูล
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
-      </Row>
-      {loading ? (
-        <p>Loading...</p>
+        {/* <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      เลขประจำตัวบัตรประชาชน
+                    </TableCell>
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ชื่อ - นามสกุล
+                    </TableCell>
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      เบอร์โทร
+                    </TableCell>
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ยอดค้างชำระ
+                    </TableCell>
+                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
+                      ลบข้อมูล
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div> */}
+        {loading ? (
+        <div className="spinner-container">
+          <FaSpinner
+            className="spinner"
+            style={{ fontSize: "90px", color: "#82b1ff" }}
+          />
+        </div>
       ) : (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>เลขประจำตัวบัตรประชาชน</TableCell>
-                  <TableCell>ชื่อ - นามสกุล</TableCell>
-                  <TableCell>เลขทะเบียน</TableCell>
-                  <TableCell>เบอร์โทร</TableCell>
-                  <TableCell>ยอดค้างชำระ</TableCell>
-                  <TableCell>ลบข้อมูล</TableCell>
-                </TableRow>
-              </TableHead>
               <TableBody>
                 {items
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -296,7 +366,6 @@ export default function OverdueAdmin() {
                       key={row.name}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell>{row.USER_CODE_NUMBER}</TableCell>
                       <TableCell>{row.USER_FULLNAME}</TableCell>
                       <TableCell>
                         {row.MOTORCYCLE_REGISTRATION_NUMBER}
@@ -340,6 +409,9 @@ export default function OverdueAdmin() {
           />
         </Paper>
       )}
+      
+      </div>
+    
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
@@ -353,42 +425,38 @@ export default function OverdueAdmin() {
         </DialogActions>
       </Dialog>
       <OverdueAdminDialog
-        open={isDialogOpen} 
-        onClose={() => setIsDialogOpen(false)} 
-        item={selectedItem} 
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        item={selectedItem}
       />
     </div>
   );
   function OverdueAdminDialog({ open, onClose, item }) {
     return (
-      <Dialog open={open} onClose={onClose} >
-
+      <Dialog open={open} onClose={onClose}>
         <DialogTitle>รายละเอียดค่างวด</DialogTitle>
         <DialogContent>
-                <TableCell>งวดที่         </TableCell>
-                  <TableCell>ค่างวด      </TableCell>
-                  <TableCell>สถานะ      </TableCell>
+          <TableCell>งวดที่ </TableCell>
+          <TableCell>ค่างวด </TableCell>
+          <TableCell>สถานะ </TableCell>
 
-        <TableBody>
-                 {item
-                  .map((row,index) => (
-                    <TableRow
-                      key={row.name}
-                    >
-                 <TableCell>{index+1}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                      <TableCell>
-                      {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
-                            <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
-                          ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
-                            <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
-                          ) : (
-                            <p className="text-success">ชำระเงินแล้ว</p>
-                          )}
-                      </TableCell>
-                    </TableRow>
-                  ))} 
-              </TableBody> 
+          <TableBody>
+            {item.map((row, index) => (
+              <TableRow key={row.name}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                <TableCell>
+                  {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
+                    <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
+                  ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
+                    <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
+                  ) : (
+                    <p className="text-success">ชำระเงินแล้ว</p>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
 
           {/* {Array.isArray(item) && item.length > 0 ? (
             <>

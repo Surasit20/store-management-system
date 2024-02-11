@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Form, InputGroup } from "react-bootstrap";
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useLocation } from "react-router-dom";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
@@ -22,9 +22,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import UserDialog from './dialog/UserDialog'
+import UserDialog from "./dialog/UserDialog";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -68,10 +69,14 @@ export default function ChassisAdmin() {
 
   useEffect(() => {
     if (installmentNo !== "") {
-      const selectedMotorcycle = items.find((item) => item.MOTORCYCLE_ID === motorcycleId);
+      const selectedMotorcycle = items.find(
+        (item) => item.MOTORCYCLE_ID === motorcycleId
+      );
 
       if (selectedMotorcycle) {
-        const installmentMoneyValue = parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) / parseFloat(installmentNo);
+        const installmentMoneyValue =
+          parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) /
+          parseFloat(installmentNo);
         setinstallmentMoney(installmentMoneyValue.toFixed(2));
       }
     }
@@ -116,29 +121,27 @@ export default function ChassisAdmin() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    let data1 = await axios.get(`http://localhost:3001/api/v1/users`
-    );
-    
-    var user = data1.data.filter(f=>f.USER_CODE_NUMBER == Usercode)
-    console.log("หดหกด")
-    console.log(user)
-    if(user == null || user == [] || user.length == 0){
+    let data1 = await axios.get(`http://localhost:3001/api/v1/users`);
+
+    var user = data1.data.filter((f) => f.USER_CODE_NUMBER == Usercode);
+    console.log("หดหกด");
+    console.log(user);
+    if (user == null || user == [] || user.length == 0) {
       Swal.fire({
         title: "เกิดข้อผิดพลาด",
         text: "ไม่พบผู้ใช้งาน",
         icon: "error",
         confirmButtonText: "ตกลง",
-        
       });
       setOpen(false);
-      return
+      return;
     }
     var raw = JSON.stringify({
       USER_ID: user[0].USER_ID,
       //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
 
-    console.log(raw)
+    console.log(raw);
     var requestOptions = {
       method: "PUT",
       headers: myHeaders,
@@ -194,105 +197,132 @@ export default function ChassisAdmin() {
   }
 
   ///Open Dialog User
-
-
   const handleUserDialog = () => {
     setOpenUserDialog(true);
   };
-
   const handleCloseUserDialog = () => {
     setOpenUserDialog(false);
   };
-
-
   return (
     <div>
-      <Row>
-        <div class="search">
-          <Col>
-            <Form>
-              <InputGroup>
-                <Form.Control
-                  onChange={handleInputChange}
-                  placeholder="ค้นหา"
-                />
-              </InputGroup>
-            </Form>
-          </Col>
+      <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 class="text-color">
+            <strong>อนุมัติ</strong>
+          </h1>
         </div>
-        <div class="additem">
-        </div>
-      </Row>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>เลขตัวถัง</TableCell>
-                  <TableCell>เลขทะเบียน</TableCell>
-                  <TableCell>ยืนยัน</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    return (
-                      search.trim() === "" ||
-                      row.USER_FULLNAME.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      )
-                    );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.MOTORCYCLE_BUCKET_NUMBER}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                      <TableCell>
-                        {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-warning"
-                          variant="outlined"
-                          onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
-                        >
-                          ยืนยัน
-                        </Button>
+      </div>
 
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="จำนวนแถวต่อหน้า:"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} จากทั้งหมด ${count}`
-            }
-          />
-        </Paper>
-      )}
+      <form class="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+      <div className="Contrianer">
+        <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขตัวถัง
+                    </TableCell>
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      ยืนยัน
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="spinner-container">
+            <FaSpinner
+              className="spinner"
+              style={{ fontSize: "90px", color: "#82b1ff" }}
+            />
+          </div>
+        ) : (
+          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableBody>
+                  {items
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .filter((row) => {
+                      return (
+                        search.trim() === "" ||
+                        row.USER_FULLNAME.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        ) ||
+                        row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
+                          search.toLowerCase()
+                        )
+                      );
+                    })
+                    .map((row) => (
+                      <TableRow
+                        key={row.MOTORCYCLE_BUCKET_NUMBER}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
+                        <TableCell>
+                          {row.MOTORCYCLE_REGISTRATION_NUMBER}
+                        </TableCell>
+                        <TableCell>
+                          <Button
+                            type="button"
+                            class="btn btn-warning"
+                            variant="outlined"
+                            onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
+                          >
+                            ยืนยัน
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={items.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              labelRowsPerPage="จำนวนแถวต่อหน้า:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}-${to} จากทั้งหมด ${count}`
+              }
+            />
+          </Paper>
+        )}
+      </div>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
         <DialogContent>
