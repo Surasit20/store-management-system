@@ -23,10 +23,14 @@ import axios from "axios";
 import { FaSpinner } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlusCircle,
-  faPencilSquare,
+  faBan,
+  faCheck,
   faTrash,
+  faList,
+  faClose,
+  faPaperPlane
 } from "@fortawesome/free-solid-svg-icons";
+import { borderRadius, padding } from "@mui/system";
 export default function OverdueAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -90,6 +94,25 @@ export default function OverdueAdmin() {
           }
         );
         setItems(repaildataesWithBothData);
+        // Group เลขทะเบียนรถจักรยานยนต์
+        const groupedMotorcycles = repaildataesWithBothData.reduce(
+          (acc, item) => {
+            const key = item.MOTORCYCLE_REGISTRATION_NUMBER;
+            if (!acc[key]) {
+              acc[key] = {
+                ...item,
+                USER_FULLNAME: [item.USER_FULLNAME],
+              };
+            } else {
+              acc[key].USER_FULLNAME.push(item.USER_FULLNAME);
+            }
+            return acc;
+          },
+          {}
+        );
+
+        const groupedItems = Object.values(groupedMotorcycles);
+        setItems(groupedItems);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -246,9 +269,9 @@ export default function OverdueAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 class="text-color">
-            <strong>ข้อมูลยอดค้างชำระ</strong>
+            <strong style={{ fontSize: "30px" }}>ข้อมูลยอดค้างชำระ</strong>
           </h1>
         </div>
         <button
@@ -256,23 +279,20 @@ export default function OverdueAdmin() {
             backgroundColor: "#1ba7e1",
             border: 0,
             borderRadius: "20px",
-            width: "300px",
+            width: "70px",
             height: "50px",
           }}
           onClick={handleSendNotification}
         >
           <FontAwesomeIcon
-            icon={faPlusCircle}
+            icon={faPaperPlane}
             className="mr-1"
             style={{ color: "white" }}
           />{" "}
-          <span style={{ color: "white" }}>
-            ส่งแจ้งเตือนยอดชำระเงินไปหาอีเมลล์ผู้ใช้งาน
-          </span>
         </button>
       </div>
 
-      <form class="search-form">
+      <form class="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -282,146 +302,233 @@ export default function OverdueAdmin() {
       </form>
 
       <div className="Contrianer">
-      <div class="header-t">
+        <div class="header-t">
           <div>
             <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow class="table-row">
-                    <TableCell  class="t-name" style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ชื่อ - นามสกุล
-                    </TableCell>
-                    <TableCell  class="t-rig" style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เลขทะเบียน
-                    </TableCell>
-                    <TableCell  class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เบอร์โทร
-                    </TableCell>
-                    <TableCell  class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ยอดค้างชำระ
-                    </TableCell>
-                    <TableCell   class="t-code" style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ลบข้อมูล
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-            </TableContainer>
-          </div>
-        </div>
-        {/* <div class="header-t">
-          <div>
-            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow class="table-row">
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เลขประจำตัวบัตรประชาชน
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ชื่อ - นามสกุล
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เลขทะเบียน
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      เบอร์โทร
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ยอดค้างชำระ
-                    </TableCell>
-                    <TableCell style={{ padding: "10px", color: "#1ba7e1" }}>
-                      ลบข้อมูล
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-            </TableContainer>
-          </div>
-        </div> */}
-        {loading ? (
-        <div className="spinner-container">
-          <FaSpinner
-            className="spinner"
-            style={{ fontSize: "90px", color: "#82b1ff" }}
-          />
-        </div>
-      ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    return (
-                      search.trim() === "" ||
-                      row.USER_FULLNAME.toLowerCase().includes(
-                        search.toLowerCase()
-                      )
-                    );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    <TableCell
+                      class="t-name"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
                     >
-                      <TableCell>{row.USER_FULLNAME}</TableCell>
-                      <TableCell>
-                        {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                      </TableCell>
-                      <TableCell>{row.USER_TELL}</TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-warning"
-                          onClick={() => openDialog(row.INSTALLMENTS_ID)}
+                      ชื่อ - นามสกุล
+                    </TableCell>
+                    <TableCell
+                      class="t-code"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell
+                      class="t-code"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เบอร์โทร
+                    </TableCell>
+                    <TableCell
+                      class="t-code"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      ยอดค้างชำระ
+                    </TableCell>
+                    <TableCell
+                      class="t-code"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      ลบข้อมูล
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+        <div className="Contrainer-data">
+          {loading ? (
+            <div className="spinner-container">
+              <FaSpinner
+                className="spinner"
+                style={{ fontSize: "90px", color: "#82b1ff" }}
+              />
+            </div>
+          ) : (
+            <Paper
+              sx={{
+                width: "100%",
+                overflow: "hidden",
+                backgroundColor: "#f8ffff",
+                boxShadow: "none",
+              }}
+            >
+              <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableBody>
+                    {items
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .filter((row) => {
+                        return (
+                          search.trim() === "" ||
+                          row.USER_FULLNAME.toLowerCase().includes(
+                            search.toLowerCase()
+                          )
+                        );
+                      })
+                      .map((row) => (
+                        <TableRow
+                          key={row.name}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
                         >
-                          รายละเอียด
-                        </Button>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-danger"
-                          onClick={() => handleOpen(row.INSTALLMENTS_ID)}
-                        >
-                          ลบ
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="จำนวนแถวต่อหน้า:"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} จากทั้งหมด ${count}`
-            }
-          />
-        </Paper>
-      )}
-      
+                          <TableCell
+                            class="t-name"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            {row.USER_FULLNAME}
+                          </TableCell>
+                          <TableCell
+                            class="t-code"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            {row.MOTORCYCLE_REGISTRATION_NUMBER}
+                          </TableCell>
+                          <TableCell
+                            class="t-code"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            {row.USER_TELL}
+                          </TableCell>
+                          <TableCell
+                            class="t-code"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #FBB05E ",
+                              }}
+                              onClick={() => openDialog(row.INSTALLMENTS_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faList}
+                                style={{
+                                  color: "#FBB05E",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
+                          </TableCell>
+                          <TableCell
+                            class="t-code"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #de6b4f ",
+                              }}
+                              onClick={() => handleOpen(row.INSTALLMENTS_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                style={{
+                                  color: "#de6b4f",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={items.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="จำนวนแถวต่อหน้า:"
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} จากทั้งหมด ${count}`
+                }
+              />
+            </Paper>
+          )}
+        </div>
       </div>
-    
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            คุณต้องการลบข้อมูลของรถจักรยานยนต์คันนี้ใช่หรือไม่?
+            คุณต้องการลบข้อมูลยอดค้างชำระของสมาชิกท่านนี้ใช่หรือไม่?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>ยกเลิก</Button>
-          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+          <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleClose}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleDeleteConfirmation}
+          >
+            <FontAwesomeIcon icon={faCheck} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยืนยัน</span>
+          </button>
         </DialogActions>
       </Dialog>
       <OverdueAdminDialog
@@ -434,57 +541,80 @@ export default function OverdueAdmin() {
   function OverdueAdminDialog({ open, onClose, item }) {
     return (
       <Dialog open={open} onClose={onClose}>
-        <DialogTitle>รายละเอียดค่างวด</DialogTitle>
+        <DialogTitle style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}>รายละเอียดค่างวด</DialogTitle>
         <DialogContent>
-          <TableCell>งวดที่ </TableCell>
-          <TableCell>ค่างวด </TableCell>
-          <TableCell>สถานะ </TableCell>
-
-          <TableBody>
-            {item.map((row, index) => (
-              <TableRow key={row.name}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                <TableCell>
-                  {row.MONTH_INSTALLMENTS_STATUS == 0 ? (
-                    <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
-                  ) : row.MONTH_INSTALLMENTS_STATUS == 1 ? (
-                    <p className="text-secondary">กำลังตรวจสอบการชำระเงิน</p>
-                  ) : (
-                    <p className="text-success">ชำระเงินแล้ว</p>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-
-          {/* {Array.isArray(item) && item.length > 0 ? (
+          {Array.isArray(item) && item.length > 0 ? (
             <>
               <Table>
                 <TableHead>
-                  <TableRow>
-                    <TableCell>งวดที่</TableCell>
-                    <TableCell>ค่างวด</TableCell>
-                    <TableCell>สถานะ</TableCell>
+                  <TableRow >
+                    <TableCell class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}>งวดที่</TableCell>
+                    <TableCell class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}>ค่างวด</TableCell>
+                    <TableCell class="t-name"
+                      style={{ padding: "10px", color: "#1ba7e1" }}>สถานะ</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {item.map((row) => (
-                    <TableRow key={row.MONTH_INSTALLMENTS_ID}>
-                      <TableCell>{row.MONTH_INSTALLMENTS_ID}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
-                      <TableCell>{row.MONTH_INSTALLMENTS_STATUS}</TableCell>
+                  {item.map((row, index) => (
+                    <TableRow key={index + 1}>
+                      <TableCell class="t-rig"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}>{index + 1}</TableCell>
+                      <TableCell class="t-rig"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}>{row.MONTH_INSTALLMENTS_MONEY}</TableCell>
+                      <TableCell class="t-name"
+                            style={{
+                              verticalAlign: "middle",
+                              paddingTop : '15px',
+                              color: "#858585",
+                            }}>
+                        {row.MONTH_INSTALLMENTS_STATUS === 0 ? (
+                          <p className="text-danger">ไม่ผ่านการชำระเงิน</p>
+                        ) : row.MONTH_INSTALLMENTS_STATUS === 1 ? (
+                          <p className="text-secondary">
+                            กำลังตรวจสอบการชำระเงิน
+                          </p>
+                        ) : (
+                          <p className="text-success">ชำระเงินแล้ว</p>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </>
           ) : (
-            <p>ไม่มีข้อมูลค่างวด</p>
-          )} */}
+            <p  style={{
+              color: "#858585",
+            }}>ไม่มีข้อมูลค่างวด</p>
+          )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>ปิด</Button>
+        <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={onClose}
+          >
+            <FontAwesomeIcon icon={faClose} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ออก</span>
+          </button>
         </DialogActions>
       </Dialog>
     );

@@ -140,9 +140,9 @@ export default function MotorcycleInfoAdmin() {
   return (
     <diV>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 class="text-color">
-            <strong>ข้อมูลรถจักรยานยนต์</strong>
+            <strong style={{ fontSize: "30px" }}>ข้อมูลรถจักรยานยนต์</strong>
           </h1>
         </div>
         <button
@@ -165,7 +165,7 @@ export default function MotorcycleInfoAdmin() {
           <span style={{ color: "white" }}>เพิ่มข้อมูล</span>
         </button>
       </div>
-      <form className="search-form">
+      <form className="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -180,12 +180,6 @@ export default function MotorcycleInfoAdmin() {
               <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                   <TableRow class="table-row">
-                    <TableCell
-                      class="t-code"
-                      style={{ padding: "10px", color: "#1ba7e1" }}
-                    >
-                      เลขประจำตัวบัตรประชาชน
-                    </TableCell>
                     <TableCell
                       class="t-name"
                       style={{ padding: "10px", color: "#1ba7e1" }}
@@ -272,16 +266,6 @@ export default function MotorcycleInfoAdmin() {
                               justifyContent: "space-between",
                             }}
                           >
-                            <TableCell
-                              class="t-code"
-                              style={{
-                                verticalAlign: "middle",
-                                padding: "10px",
-                                color: "#858585",
-                              }}
-                            >
-                              {row.USER_CODE_NUMBER}
-                            </TableCell>
                             <TableCell
                               class="t-name"
                               style={{

@@ -14,6 +14,8 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserUpdateAdmin() {
   const { USER_ID } = useParams();
@@ -95,204 +97,222 @@ export default function UserUpdateAdmin() {
   const [Province, setProvince] = useState("");
   const [PostalCode, setPostalCode] = useState("");
 
-    //กลับหน้าก่อนหน้า
-    const [gotoListUser, setGotoListUser] = useState(false);
-    if (gotoListUser) {
-      return <Navigate to="/admin/user-info" />;
-    }
+  //กลับหน้าก่อนหน้า
+  const [gotoListUser, setGotoListUser] = useState(false);
+  if (gotoListUser) {
+    return <Navigate to="/admin/user-info" />;
+  }
   return (
-    <diV>
-               <div className="header">
-        <h1>
-          <div
-            onClick={() => {
-              setGotoListUser(true);
+    <div>
+      <div className="header-with-button with-underline">
+        <div className="header">
+          <h1 style={{ color: "#2196f3" }}>
+            <div
+              onClick={() => {
+                setGotoListUser(true);
+              }}
+            >
+              <i className="fa fa-arrow-left" aria-hidden="true">
+                {" "}
+                แก้ไขข้อมูลสมาชิก
+              </i>
+            </div>
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "150px",
+              height: "50px",
             }}
           >
-            <i className="fa fa-arrow-left" aria-hidden="true">
-              {" "}
-              แก้ไขข้อมูลสมาชิก
-            </i>
-          </div>
-        </h1>
+            <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>บันทึก</span>
+          </button>
+        </form>
       </div>
-   
-      <form onSubmit={handleSubmit}>
-        <Grid item xs={10} sm={6}>
-          <TextField
-            id="CodeNumber"
-            label="เลขประจำตัวบัตรประชาชน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setCodeNumber(e.target.value)}
-            value={CodeNumber}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="FullName"
-            label="ชื่อ-นามสกุล"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setFullName(e.target.value)}
-            value={FullName}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="BirthDay"
-            label="วัน/เดือน/ปี เกิด"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setBirthday(e.target.value)}
-            value={BirthDay}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Tell"
-            label="เบอร์โทร"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setTell(e.target.value)}
-            value={Tell}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="Occupation"
-            label="อาชีพ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setOccupation(e.target.value)}
-            value={Occupation}
-          ></TextField>
-        </Grid>
+      <div className="Contrainer-form">
+        <p
+          style={{
+            color: "#2196f3",
+            fontSize: "25px",
+            marginLeft: "20px",
+            paddingTop: "10px",
+            fontWeight: "bold",
+          }}
+        >
+          ข้อมูลสมาชิก
+        </p>
         <Row>
           <Col>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="HouseNumber"
-                label="้บ้านเลขที่"
-                variant="outlined"
-                fullWidth
-                required
-                onChange={(e) => setHouseNumber(e.target.value)}
-                value={HouseNumber}
-              ></TextField>
-            </Grid>
+            <p style={{ color: "#858585" }}>เลขประจำตัวบัตรประชาชน</p>
+
+            <TextField
+              id="CodeNumber"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setCodeNumber(e.target.value)}
+              value={CodeNumber}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
           </Col>
           <Col>
-          <Grid item xs={12} sm={6}>
+            <p style={{ color: "#858585" }}>ชื่อ-นามสกุล</p>
+            <TextField
+              id="FullName"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setFullName(e.target.value)}
+              value={FullName}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p style={{ color: "#858585" }}>วัน/เดือน/ปี เกิด</p>
+            <TextField
+              id="BirthDay"
+              label="วัน/เดือน/ปี เกิด"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setBirthday(e.target.value)}
+              value={BirthDay}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>เบอร์โทร</p>
+            <TextField
+              id="Tell"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setTell(e.target.value)}
+              value={Tell}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>อาชีพ</p>
+            <TextField
+              id="Occupation"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setOccupation(e.target.value)}
+              value={Occupation}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <p style={{ color: "#858585" }}>บ้านเลขที่</p>
+            <TextField
+              id="HouseNumber"
+              label="้บ้านเลขที่"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setHouseNumber(e.target.value)}
+              value={HouseNumber}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>หมู่</p>
             <TextField
               id="Group"
-              label="หมู่"
               variant="outlined"
               fullWidth
               required
               onChange={(e) => setGroup(e.target.value)}
               value={Group}
+              sx={{ height: "10px", paddingBottom: "50px" }}
             ></TextField>
-          </Grid>
           </Col>
           <Col>
-          <Grid item xs={12} sm={6}>
-          <TextField
-            id="Alley"
-            label="ซอย"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setAlley(e.target.value)}
-            value={Alley}
-          ></TextField>
-        </Grid>
+            <p style={{ color: "#858585" }}>ซอย</p>
+            <TextField
+              id="Alley"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setAlley(e.target.value)}
+              value={Alley}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
           </Col>
           <Col>
-           <Grid item xs={12} sm={6}>
-          <TextField
-            id="Road"
-            label="ถนน"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setRoad(e.target.value)}
-            value={Road}
-          ></TextField>
-        </Grid>
-        </Col>
+            <p style={{ color: "#858585" }}>ถนน</p>
+            <TextField
+              id="Road"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setRoad(e.target.value)}
+              value={Road}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
         </Row>
-
         <Row>
-            <Col>
-            <Grid item xs={12} sm={6}>
-          <TextField
-            id="SubDistrict"
-            label="ตำบล"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setSubDistrict(e.target.value)}
-            value={SubDistrict}
-          ></TextField>
-        </Grid>
-            </Col>
-            <Col>
-             
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="District"
-            label="อำเภอ"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setDistrict(e.target.value)}
-            value={District}
-          ></TextField>
-        </Grid>
-            </Col>
-            <Col>
-            <Grid item xs={12} sm={6}>
-          <TextField
-            id="Province"
-            label="จังหวัด"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setProvince(e.target.value)}
-            value={Province}
-          ></TextField>
-        </Grid>
-            </Col>
-            <Col>
-             
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="PostalCode"
-            label="รหัสไปรษณีย์"
-            variant="outlined"
-            fullWidth
-            required
-            onChange={(e) => setPostalCode(e.target.value)}
-            value={PostalCode}
-          ></TextField>
-        </Grid>
-            </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>ตำบล</p>
+            <TextField
+              id="SubDistrict"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setSubDistrict(e.target.value)}
+              value={SubDistrict}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>อำเภอ</p>
+            <TextField
+              id="District"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setDistrict(e.target.value)}
+              value={District}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>จังหวัด</p>
+            <TextField
+              id="Province"
+              label="จังหวัด"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setProvince(e.target.value)}
+              value={Province}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
+          <Col>
+            <p style={{ color: "#858585" }}>รหัสไปรษณีย์</p>
+            <TextField
+              id="PostalCode"
+              variant="outlined"
+              fullWidth
+              required
+              onChange={(e) => setPostalCode(e.target.value)}
+              value={PostalCode}
+              sx={{ height: "10px", paddingBottom: "50px" }}
+            ></TextField>
+          </Col>
         </Row>
-
-        
-       
-       
-       
-        <button type="submit" variant="contained" class="btn btn-primary mb-3">
-          บันทึก
-        </button>
-      </form>
-    </diV>
+      </div>
+    </div>
   );
 }
