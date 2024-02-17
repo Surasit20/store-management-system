@@ -9,6 +9,7 @@ import "./css/motorcycle_info.css";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useToasts } from 'react-toast-notifications';
 
 function AddMotorcycle() {
   const [RegistrationNumber, setRegistrationNumber] = useState("");
@@ -20,6 +21,7 @@ function AddMotorcycle() {
   const [Balance, setBalance] = useState("");
   const [image, setImage] = useState();
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const [validationMessages, setValidationMessages] = useState({
     RegistrationNumber: '',
     BucketNumber: '',
@@ -84,7 +86,6 @@ function AddMotorcycle() {
       });
       return;
     }
-
     const allMotorcycles = await fetchAllMotorcycles();
     const registrationExists = allMotorcycles.some(
       (motorcycle) =>
@@ -99,10 +100,23 @@ function AddMotorcycle() {
       });
       return;
     }
+    // addToast('กำลังบันทึกข้อมูล...', {
+    //   appearance: 'info',
+    //   autoDismiss: true,
+    //   autoDismissTimeout: 4000, // 4000 มิลลิวินาที (4 วินาที)
+    //   css: {
+    //     width: '300px',
+    //     height: '40px',
+    //     backgroundColor: 'lightblue', // ปรับสีพื้นหลัง
+    //     color: 'black', // ปรับสีตัวอักษร
+    //     // คุณยังสามารถกำหนดค่า CSS อื่น ๆ ตามต้องการ
+    //   },
+    // });
+
     var resUploadImage = await uploadImage();
     if (!resUploadImage.error) {
       var raw = JSON.stringify({
-        MOTORCYCLE_BALANCE: Balance,
+        MOTORCYCLE_BALANCE: Price,
         MOTORCYCLE_PRICE: Price,
         MOTORCYCLE_BRAND: Brand,
         MOTORCYCLE_MODEL: Model,
@@ -126,6 +140,11 @@ function AddMotorcycle() {
         .then((response) => response.text())
         .then((result) => {
           console.log(result);
+          Swal.fire({
+            title: "บันทึกข้อมูลสำเร็จ",
+            icon: "success",
+            confirmButtonText: "ตกลง",
+          });
           navigate("/admin/chassis");
         })
         .catch((error) => console.log("error", error));
@@ -378,21 +397,6 @@ function AddMotorcycle() {
                   helperText={validationMessages.Price}
                 />
               </Col>
-            </Row>
-            <Row>
-              <Col>
-                <p style={{ color: "#858585" }}>ยอดคงเหลือ</p>
-                <TextField
-                  id="Balance"
-                  type="text"
-                  required
-                  aria-describedby="basic-addon1"
-                  onChange={(e) => setBalance(e.target.value)}
-                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
-                  readOnly
-                />
-              </Col>
-              <Col></Col>
             </Row>
           </div>
         </div>

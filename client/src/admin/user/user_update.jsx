@@ -105,14 +105,14 @@ export default function UserUpdateAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 style={{ color: "#2196f3" }}>
             <div
               onClick={() => {
                 setGotoListUser(true);
               }}
             >
-              <i className="fa fa-arrow-left" aria-hidden="true">
+              <i className="fa fa-arrow-left" aria-hidden="true"  style={{ fontSize: "30px" }}>
                 {" "}
                 แก้ไขข้อมูลสมาชิก
               </i>
@@ -146,20 +146,7 @@ export default function UserUpdateAdmin() {
         >
           ข้อมูลสมาชิก
         </p>
-        <Row>
-          <Col>
-            <p style={{ color: "#858585" }}>เลขประจำตัวบัตรประชาชน</p>
-
-            <TextField
-              id="CodeNumber"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setCodeNumber(e.target.value)}
-              value={CodeNumber}
-              sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField>
-          </Col>
+        <Row>      
           <Col>
             <p style={{ color: "#858585" }}>ชื่อ-นามสกุล</p>
             <TextField
@@ -172,8 +159,6 @@ export default function UserUpdateAdmin() {
               sx={{ height: "10px", paddingBottom: "50px" }}
             ></TextField>
           </Col>
-        </Row>
-        <Row>
           <Col>
             <p style={{ color: "#858585" }}>วัน/เดือน/ปี เกิด</p>
             <TextField
@@ -186,6 +171,8 @@ export default function UserUpdateAdmin() {
               value={BirthDay}
             ></TextField>
           </Col>
+        </Row>
+        <Row>
           <Col>
             <p style={{ color: "#858585" }}>เบอร์โทร</p>
             <TextField

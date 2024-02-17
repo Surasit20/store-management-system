@@ -20,6 +20,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusCircle,
@@ -70,7 +71,13 @@ export default function UserInfoAdmin() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    window.location.reload();
+      Swal.fire({
+        title: "ลบข้อมูลสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        window.location.reload();
+      });
   };
 
   const UserUpdate = (USER_ID) => {
@@ -106,14 +113,14 @@ export default function UserInfoAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-      <div className="header">
+      <div className="header" style={{ paddingTop: "10px" }}>
         <h1 class ="text-color">
-        <strong>ข้อมูลสมาชิก</strong>
+        <strong style={{ fontSize: "30px" }}>ข้อมูลสมาชิก</strong>
         </h1>
       </div>
      
       </div>
-      <form class="search-form">
+      <form class="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -138,15 +145,20 @@ export default function UserInfoAdmin() {
           </TableContainer>
         </div>
       </div>
-
-      {loading ? (
+      <div className="Contrainer-data">  {loading ? (
          <div className="spinner-container" >
          <FaSpinner className="spinner" style={{ fontSize: '90px' , color : '#82b1ff' }}/>
      
        </div>
       ) : (
         
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <Paper 
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+          backgroundColor: "#f8ffff",
+          boxShadow: "none",
+        }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableBody>
@@ -197,16 +209,26 @@ export default function UserInfoAdmin() {
                           color: "#858585",
                         }}
                       >
-                        <Button
-                          type="button"
-                          class="btn btn-outline-warning btn-edit"
-                          onClick={() => UserUpdate(row.USER_ID)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPencilSquare}
-                            class="icon-edit"
-                          />
-                        </Button>
+                               <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #FBB05E ",
+                              }}
+                              onClick={() => UserUpdate(row.USER_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faPencilSquare}
+                                style={{
+                                  color: "#FBB05E",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                       </TableCell>
                       <TableCell
                         class="t-delete"
@@ -216,13 +238,26 @@ export default function UserInfoAdmin() {
                           color: "#858585",
                         }}
                       >
-                        <Button
-                          type="button"
-                          class="btn btn-outline-danger btn-delete"
-                          onClick={() => handleOpen(row.USER_ID)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} class="icon-delete" />
-                        </Button>
+                          <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #de6b4f ",
+                              }}
+                              onClick={() => handleOpen(row.USER_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                style={{
+                                  color: "#de6b4f",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -243,18 +278,24 @@ export default function UserInfoAdmin() {
             }
           />
         </Paper>
-      )}
+      )}</div>
+
+     
 
        </div>
       
        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogTitle  style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
             คุณต้องการลบข้อมูลลูกค้าคนนี้ใช่หรือไม่?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          
           <Button onClick={handleClose}>ยกเลิก</Button>
           <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
         </DialogActions>

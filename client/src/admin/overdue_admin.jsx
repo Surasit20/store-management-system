@@ -181,7 +181,13 @@ export default function OverdueAdmin() {
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        window.location.reload();
+        Swal.fire({
+          title: "ลบข้อมูลสำเร็จ",
+          icon: "success",
+          confirmButtonText: "ตกลง",
+        }).then(() => {
+          window.location.reload();
+        });
       })
       .catch((error) => console.log("error", error));
   };
@@ -496,7 +502,10 @@ export default function OverdueAdmin() {
       </div>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogTitle style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
             คุณต้องการลบข้อมูลยอดค้างชำระของสมาชิกท่านนี้ใช่หรือไม่?

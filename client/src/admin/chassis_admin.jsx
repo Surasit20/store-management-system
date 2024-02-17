@@ -42,6 +42,36 @@ export default function ChassisAdmin() {
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
+  const [validationMessages, setValidationMessages] = useState({
+    UserName: '',
+    installmentNo: '',
+    installmentMoney: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      UserName: '',
+      installmentNo: '',
+      installmentMoney: '',
+    };
+    if (!UserName) {
+      isValid = false;
+      messages.UserName = 'กรุณาระบุชื่อ-นามสกุล สมาชิก';
+    }
+    if (!installmentNo) {
+      isValid = false;
+      messages.installmentNo = 'กรุณาระบุจำนวนงวด';
+    }
+    if (!installmentMoney) {
+      isValid = false;
+      messages.installmentMoney = 'กรุณาระบุจำนวนเงิน';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
+  };
 
   useEffect(() => {
     Promise.all([MotorcycleGet(), UserGet()])
@@ -116,6 +146,10 @@ export default function ChassisAdmin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const isValid = validateInput();
+    if (!isValid) {
+      return;
+    }
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");  
     let data1 = await axios.get(`http://localhost:3001/api/v1/users`);
@@ -125,8 +159,8 @@ export default function ChassisAdmin() {
     console.log(user);
     if (user == null || user == [] || user.length == 0) {
       Swal.fire({
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่พบผู้ใช้งาน",
+        title: "บันทึกไม่สำเร็จ",
+        text: "เนื่องจากไม่พบข้อมูลสมาชิก",
         icon: "error",
         confirmButtonText: "ตกลง",
       });
@@ -387,6 +421,8 @@ export default function ChassisAdmin() {
             required
             onChange={(e) => setUserName(e.target.value)}
             sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.UserName}
+            helperText={validationMessages.UserName}
           > </TextField>
           <p   style={{
               color: "#858585",
@@ -398,6 +434,8 @@ export default function ChassisAdmin() {
             required
             onChange={(e) => setinstallmentNo(e.target.value)  }
             sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.installmentNo}
+            helperText={validationMessages.installmentNo}
           ></TextField>
           <p   style={{
               color: "#858585",
@@ -412,6 +450,8 @@ export default function ChassisAdmin() {
               readOnly: true,
             }}
             sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.installmentMoney}
+            helperText={validationMessages.installmentMoney}
           ></TextField>
         </DialogContent>
         <DialogActions>

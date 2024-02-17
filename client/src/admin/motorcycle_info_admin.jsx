@@ -3,6 +3,7 @@ import { Form, InputGroup } from "react-bootstrap";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
 import Paper from "@mui/material/Paper";
+import Swal from "sweetalert2";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -96,7 +97,14 @@ export default function MotorcycleInfoAdmin() {
       .then((response) => response.text())
       .then((result) => {
         console.log(result);
-        window.location.reload();
+        Swal.fire({
+          title: "ลบข้อมูลสำเร็จ",
+          icon: "success",
+          confirmButtonText: "ตกลง",
+        }).then(() => {
+          window.location.reload();
+        });
+      
       })
       .catch((error) => console.log("error", error));
   };
@@ -304,17 +312,27 @@ export default function MotorcycleInfoAdmin() {
                               }}
                             >
                               <Button
-                                type="button"
-                                class="btn btn-outline-warning btn-edit"
-                                onClick={() =>
-                                  MotorcycleUpdate(row.MOTORCYCLE_ID)
-                                }
-                              >
-                                <FontAwesomeIcon
-                                  icon={faPencilSquare}
-                                  class="icon-edit"
-                                />
-                              </Button>
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #FBB05E ",
+                              }}
+                              onClick={() =>
+                                MotorcycleUpdate(row.MOTORCYCLE_ID)
+                              }
+                            >
+                              <FontAwesomeIcon
+                                icon={faPencilSquare}
+                                style={{
+                                  color: "#FBB05E",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                             </TableCell>
                             <TableCell
                               class="t-delete"
@@ -324,15 +342,25 @@ export default function MotorcycleInfoAdmin() {
                               }}
                             >
                               <Button
-                                type="button"
-                                class="btn btn-outline-danger btn-delete"
-                                onClick={() => handleOpen(row.MOTORCYCLE_ID)}
-                              >
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  class="icon-delete"
-                                />
-                              </Button>
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #de6b4f ",
+                              }}
+                              onClick={() => handleOpen(row.MOTORCYCLE_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                style={{
+                                  color: "#de6b4f",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                             </TableCell>
                           </TableRow>
                         ))}

@@ -22,15 +22,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlusCircle,
-  faPencilSquare,
+  faBan,
   faTrash,
+  faSave
 } from "@fortawesome/free-solid-svg-icons";
 import { FaSpinner } from "react-icons/fa";
 import { Grid, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import DeleteDialog from "../dialog/deleteDialog";
 
 export default function RepairInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -47,7 +50,32 @@ export default function RepairInfoAdmin() {
   const [repairId, setRepairId] = useState(null);
   const [MotorcycleNumber, setMotorcycleRigterNumber] = useState();
   const [motorcycles, setMotorcycles] = useState([]);
+  const [itemIdToDelete, setItemIdToDelete] = useState("");
   const navigate = useNavigate();
+  const [validationMessages, setValidationMessages] = useState({
+    MotorcycleId: '',
+    Status: '',
+    Wise: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      MotorcycleId: '',
+      Wise: '',
+    };
+    if (!MotorcycleId) {
+      isValid = false;
+      messages.MotorcycleId = 'กรุณาระบุเลขทะเบียน';
+    }
+    if (!Wise) {
+      isValid = false;
+      messages.Wise = 'กรุณาระบุสาเหตุที่ส่งซ่อม';
+    }
+    setValidationMessages(messages);
+    return isValid;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -170,7 +198,13 @@ export default function RepairInfoAdmin() {
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    window.location.reload();
+      Swal.fire({
+        title: "ลบข้อมูลสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        window.location.reload();
+      });
   };
 
   const handleChangePage = (event, newPage) => {
@@ -229,7 +263,13 @@ export default function RepairInfoAdmin() {
     }
   };
 
-  const handleSave = async () => {
+  const handleSave = async (event) => {
+    event.preventDefault();
+    const isValid = validateInput();
+    if (!isValid) {
+      return;
+    }
+  
     if (MotorcycleNumber !== null) {
       const selectedMotorcycle = motorcycles.find(
         (motorcycle) =>
@@ -264,8 +304,12 @@ export default function RepairInfoAdmin() {
             .catch((error) => console.log("error", error));
           navigate("/admin/repair/repair-info");
         } else {
-          // แสดง dialog เเจ้งเตือนว่ารถไม่มีเจ้าของ
-          alert("รถคันนี้ไม่มีเจ้าของรถ");
+          Swal.fire({
+            title: "บันทึกไม่สำเร็จ",
+            icon: "เนื่องจากเลขทะเบียนนี้มีเจ้าของเเล้ว",
+            confirmButtonText: "ตกลง",
+          });
+          return;
         }
       } else {
         console.error("ไม่มี", MotorcycleNumber);
@@ -277,9 +321,9 @@ export default function RepairInfoAdmin() {
   return (
     <div>
       <div className="header-with-button with-underline">
-        <div className="header">
+        <div className="header" style={{ paddingTop: "10px" }}>
           <h1 class="text-color">
-            <strong>ข้อมูลการส่งซ่อม</strong>
+            <strong style={{ fontSize: "30px" }}>ข้อมูลการส่งซ่อม</strong>
           </h1>
         </div>
         <button
@@ -301,7 +345,7 @@ export default function RepairInfoAdmin() {
         </button>
       </div>
 
-      <form class="search-form">
+      <form class="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -342,7 +386,7 @@ export default function RepairInfoAdmin() {
                     </TableCell>
                     <TableCell
                       class="t-delete"
-                      style={{ padding: "10px", color: "#1ba7e1" }}
+                      style={{ padding: "10px", color: "#1ba7e1" , verticalAlign: "middle", }}
                     >
                       ลบข้อมูล
                     </TableCell>
@@ -352,7 +396,7 @@ export default function RepairInfoAdmin() {
             </TableContainer>
           </div>
         </div>
-
+        <div className="Contrainer-data">
         {loading ? (
           <div className="spinner-container">
             <FaSpinner
@@ -361,7 +405,12 @@ export default function RepairInfoAdmin() {
             />
           </div>
         ) : (
-          <Paper sx={{ width: "100%", overflow: "hidden" }}>
+          <Paper   sx={{
+            width: "100%",
+            overflow: "hidden",
+            backgroundColor: "#f8ffff",
+            boxShadow: "none",
+          }}>
             <TableContainer sx={{ maxHeight: 440 }}>
               <Table stickyHeader aria-label="sticky table">
                 <TableBody>
@@ -449,7 +498,7 @@ export default function RepairInfoAdmin() {
                             <Box sx={{ Width: 50 }}>
                               <FormControl fullWidth disabled>
                                 <InputLabel id="demo-simple-select-label">
-                                  เลือกสถาณะ
+                                  เลือกสถานะ
                                 </InputLabel>
                                 <Select
                                   labelId="demo-simple-select-label"
@@ -476,15 +525,25 @@ export default function RepairInfoAdmin() {
                           }}
                         >
                           <Button
-                            type="button"
-                            class="btn btn-outline-danger btn-delete"
-                            onClick={() => handleOpen(row.REPAILDATA_ID)}
-                          >
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              class="icon-delete"
-                            />
-                          </Button>
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #de6b4f ",
+                              }}
+                              onClick={() => handleOpen(row.REPAILDATA_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                style={{
+                                  color: "#de6b4f",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -506,19 +565,20 @@ export default function RepairInfoAdmin() {
             />
           </Paper>
         )}
+        </div>
+      
       </div>
 
+     
+
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            คุณต้องการลบข้อมูลส่งซ่อมนี้ใช่หรือไม่?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>ยกเลิก</Button>
-          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
-        </DialogActions>
+        <DeleteDialog
+          open={open}
+          handleClose={handleClose}
+          handleDeleteConfirmation={handleDeleteConfirmation}
+          dialogContentText="คุณต้องการลบข้อมูลส่งซ่อมนี้ใช่หรือไม่?"
+          itemId={itemIdToDelete}
+        />
       </Dialog>
 
       <Dialog open={openAddRepair} onClose={handleCloseAddRepair}>
@@ -540,21 +600,23 @@ export default function RepairInfoAdmin() {
           <DialogContent>
               <p style={{ color: "#858585" }}> เลขทะเบียน</p>
               <TextField
-                id="Wise"
-                variant="outlined"
-                fullWidth
-                required
+                id="MotorcycleId"
+                type="text"
+                  required
                 onChange={(e) => setMotorcycleRigterNumber(e.target.value)}
                 sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
+                error={!!validationMessages.MotorcycleId}
+                helperText={validationMessages.MotorcycleId}
               ></TextField>
-              <p style={{ color: "#858585" }}>อาการ</p>
+              <p style={{ color: "#858585" }}>สาเหตุที่ส่งซ่อม</p>
               <TextField
                 id="Wise"
-                variant="outlined"
-                fullWidth
-                required
+                type="text"
+                  required
                 onChange={(e) => setWise(e.target.value)}
                 sx={{width:'400px', height: "10px", paddingBottom: "80px" }}
+                error={!!validationMessages.Wise}
+                helperText={validationMessages.Wise}
               ></TextField>
             <Box sx={{ minWidth: 120 }}>
             <FormControl     sx={{ width:'400px',height: "10px", paddingBottom: "80px" }}>
@@ -572,15 +634,33 @@ export default function RepairInfoAdmin() {
             </Box>
           </DialogContent>
           <DialogActions>
-          <Button onClick={handleCloseAddRepair}>ยกเลิก</Button>
-            <button
-              type="submit"
-              variant="contained"
-              class="btn btn-primary mb-3"
-            >
-              บันทึก
-            </button>
-            
+
+          <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleCloseAddRepair}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+           type="submit"
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+          >
+            <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยืนยัน</span>
+          </button>
           </DialogActions>
         </form>
       </Dialog>

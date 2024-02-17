@@ -466,7 +466,7 @@ function PaymentCheckAdmin() {
                 value={value}
                 onChange={(newValue) => setValue(newValue)}
                 disabled={true}
-                sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+                sx={{ width: "400px", height: "10px", paddingBottom: "80px" , color: "#B0B0B0"}}
               />
             </DemoContainer>
           </LocalizationProvider>
@@ -479,10 +479,8 @@ function PaymentCheckAdmin() {
             fullWidth
             required
             value={contextData?.USER_FULLNAME ?? ""}
-            InputProps={{
-              readOnly: true,
-            }}
-            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            disabled={true}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" ,color: "#B0B0B0"}}
           ></TextField>
           <p  style={{
               color: "#858585",
@@ -493,10 +491,8 @@ function PaymentCheckAdmin() {
             fullWidth
             required
             value={contextData?.MOTORCYCLE_BUCKET_NUMBER ?? ""}
-            InputProps={{
-              readOnly: true,
-            }}
-            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            disabled={true}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" ,color: "#B0B0B0" }}
           ></TextField>
           <p  style={{
               color: "#858585",
@@ -507,10 +503,8 @@ function PaymentCheckAdmin() {
             fullWidth
             required
             value={contextData?.INSTALLMENTS_MONEY ?? ""}
-            InputProps={{
-              readOnly: true,
-            }}
-            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            disabled={true}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" ,color: "#B0B0B0"}}
           ></TextField>
           <p  style={{
               color: "#858585",
@@ -521,9 +515,7 @@ function PaymentCheckAdmin() {
             fullWidth
             required
             value={contextData?.INSTALLMENTS_MONEY ?? ""}
-            InputProps={{
-              readOnly: true,
-            }}
+            disabled={true}
             sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
           ></TextField>
           {statusAfter == 0 ? (

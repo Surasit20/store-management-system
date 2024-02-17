@@ -12,6 +12,7 @@ import Row from "react-bootstrap/Row";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useToasts } from 'react-toast-notifications';
 
 function UpdateMotorcycle() {
   const { MOTORCYCLE_ID } = useParams();
@@ -25,6 +26,7 @@ function UpdateMotorcycle() {
   const [imageOld, setImageOld] = useState();
   const [imageNew, setImageNew] = useState();
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const [validationMessages, setValidationMessages] = useState({
     RegistrationNumber: '',
     BucketNumber: '',
@@ -115,6 +117,18 @@ function UpdateMotorcycle() {
         confirmButtonText: "ตกลง",
       });
     } else {
+      // addToast('กำลังบันทึกข้อมูล...', {
+      //   appearance: 'info',
+      //   autoDismiss: true,
+      //   autoDismissTimeout: 4000, // 4000 มิลลิวินาที (4 วินาที)
+      //   css: {
+      //     width: '300px',
+      //     height: '40px',
+      //     backgroundColor: 'lightblue', // ปรับสีพื้นหลัง
+      //     color: 'black', // ปรับสีตัวอักษร
+      //     // คุณยังสามารถกำหนดค่า CSS อื่น ๆ ตามต้องการ
+      //   },
+      // });
         console.log("case2");
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -143,6 +157,11 @@ function UpdateMotorcycle() {
           .then((response) => response.text())
           .then((result) => console.log(result))
           .catch((error) => console.log("error", error));
+          Swal.fire({
+            title: "บันทึกข้อมูลสำเร็จ",
+            icon: "success",
+            confirmButtonText: "ตกลง",
+          });
           navigate("/admin/motorcycle");    
     }
   };
@@ -318,7 +337,8 @@ function UpdateMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                   value={RegistrationNumber}
-                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" ,  color: "#B0B0B0",}}
+                  disabled 
                   error={!!validationMessages.RegistrationNumber}
                   helperText={validationMessages.RegistrationNumber}
                 />
@@ -332,7 +352,8 @@ function UpdateMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBucketNumber(e.target.value)}
                   value={BucketNumber}
-                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" , color: "#B0B0B0" }}
+                  disabled 
                   error={!!validationMessages.BucketNumber}
                   helperText={validationMessages.BucketNumber}
                 />
@@ -392,7 +413,8 @@ function UpdateMotorcycle() {
                   aria-describedby="basic-addon1"
                   onChange={(e) => setPrice(e.target.value)}
                   value={Price}
-                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" , color: "#B0B0B0"}}
+                  disabled 
                   error={!!validationMessages.Price}
                   helperText={validationMessages.Price}
                 />
@@ -407,7 +429,8 @@ function UpdateMotorcycle() {
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBalance(e.target.value)}
-                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" ,color: "#B0B0B0" }}
+                  disabled 
                   value={Balance}
                 />
               </Col>
