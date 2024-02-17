@@ -7,6 +7,9 @@ import { Navigate } from "react-router-dom";
 import { Grid, TextField } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import addressJson from './address.json';
+import Autocomplete from '@mui/material/Autocomplete';
+import Swal from "sweetalert2";
 import {
   BrowserRouter,
   Routes,
@@ -80,7 +83,11 @@ export default function UserUpdateAdmin() {
     fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+      Swal.fire({
+        title: "บันทึกข้อมูลสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      });
     navigate("/admin/user/user-info");
   };
   const [CodeNumber, setCodeNumber] = useState("");
@@ -96,12 +103,57 @@ export default function UserUpdateAdmin() {
   const [District, setDistrict] = useState("");
   const [Province, setProvince] = useState("");
   const [PostalCode, setPostalCode] = useState("");
+  const [amphureOb, setAmphureOb] = useState([]);
+  const [tambonOb, setTambonOb] = useState([]);
+  const [codeOb, setCodeOb] = useState([]);
 
   //กลับหน้าก่อนหน้า
   const [gotoListUser, setGotoListUser] = useState(false);
   if (gotoListUser) {
     return <Navigate to="/admin/user-info" />;
   }
+
+  const handleProvider = (event, values) => {
+    if(values == null){
+      setAmphureOb([])
+
+    }else{
+      setProvince(values.name_th)
+      setAmphureOb(values.amphure)
+    }
+  };
+
+  const handleTumbun = (event, values) => {
+    if(values == null){
+      setAmphureOb([])
+
+    }else{
+      setDistrict(values.name_th)
+      setTambonOb(values.tambon)
+    }
+  };
+
+  const handleCode = (event, values) => {
+    console.log(values)
+    if(values == null){
+      setCodeOb([])
+
+    }else{
+      setSubDistrict(values.name_th)
+      setCodeOb([values])
+    }
+  };
+
+  const handleCode2 = (event, values) => {
+    console.log(values)
+    if(values == null){
+      setCodeOb([])
+
+    }else{
+      setPostalCode(values.zip_code)
+      setCodeOb([values])
+    }
+  };
   return (
     <div>
       <div className="header-with-button with-underline">
@@ -249,21 +301,31 @@ export default function UserUpdateAdmin() {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <p style={{ color: "#858585" }}>ตำบล</p>
-            <TextField
-              id="SubDistrict"
+        <Col>
+            <p style={{ color: "#858585" }}>จังหวัด</p>
+            {/* <TextField
+              id="Province"
               variant="outlined"
               fullWidth
               required
-              onChange={(e) => setSubDistrict(e.target.value)}
-              value={SubDistrict}
+              onChange={(e) => setProvince(e.target.value)}
+              value={Province}
               sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField>
+            ></TextField> */}
+             <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={addressJson}
+                sx={{ width: 276}}
+                getOptionLabel={(option) => option.name_th}
+                onChange={ handleProvider}
+                renderInput={(params) => <TextField {...params}    
+                value={Province} 
+                sx={{backgroundColor: '#ffff',}} />} />
           </Col>
           <Col>
             <p style={{ color: "#858585" }}>อำเภอ</p>
-            <TextField
+            {/* <TextField
               id="District"
               variant="outlined"
               fullWidth
@@ -271,24 +333,54 @@ export default function UserUpdateAdmin() {
               onChange={(e) => setDistrict(e.target.value)}
               value={District}
               sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField>
+            ></TextField> */}
+                   <Autocomplete
+                disablePortal
+                id="combo-box-demo1"
+                options={amphureOb}
+                sx={{ width: 276 }}
+                getOptionLabel={(option) => option?.name_th ?? ""}
+               onChange={handleTumbun}
+                renderInput={(params) => <TextField {...params} sx={{backgroundColor: '#ffff',}}/>}
+
+              />
           </Col>
           <Col>
-            <p style={{ color: "#858585" }}>จังหวัด</p>
-            <TextField
-              id="Province"
-              label="จังหวัด"
+            <p style={{ color: "#858585" }}>ตำบล</p>
+            {/* <TextField
+              id="SubDistrict"
               variant="outlined"
               fullWidth
               required
-              onChange={(e) => setProvince(e.target.value)}
-              value={Province}
+              onChange={(e) => setSubDistrict(e.target.value)}
+              value={SubDistrict}
               sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField>
+            ></TextField> */}
+            
+<Autocomplete
+                disablePortal
+                id="combo-box-demo1"
+                options={tambonOb}
+                sx={{ width: 276 }}
+                getOptionLabel={(option) => option?.name_th ?? ""}
+                onChange={handleCode}
+                renderInput={(params) => <TextField {...params}  sx={{backgroundColor: '#ffff',}} />}
+
+              />
           </Col>
           <Col>
             <p style={{ color: "#858585" }}>รหัสไปรษณีย์</p>
-            <TextField
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo1"
+                options={codeOb}
+                sx={{ width: 276 }}
+                getOptionLabel={(option) => option.zip_code}
+                onChange={handleCode2}
+                renderInput={(params) => <TextField {...params}  sx={{backgroundColor: '#ffff',}}/>}
+
+              />
+            {/* <TextField
               id="PostalCode"
               variant="outlined"
               fullWidth
@@ -296,7 +388,7 @@ export default function UserUpdateAdmin() {
               onChange={(e) => setPostalCode(e.target.value)}
               value={PostalCode}
               sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField>
+            ></TextField> */}
           </Col>
         </Row>
       </div>

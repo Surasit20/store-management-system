@@ -49,9 +49,28 @@ function PaymentCheckAdmin() {
   const [contextData, setContextData] = useState();
   const [statusBefore, setStatusBefore] = useState(0);
   const [statusAfter, setStatusAfter] = useState(0);
+  const [Remark, setRemark] = useState("");
   const handleInputChange = (e) => {
     setSearch(e.target.value);
   };
+  const [validationMessages, setValidationMessages] = useState({
+    Remark: '',
+    // Add more fields as needed
+  });
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      Remark: ''
+    };
+    if (!Remark) {
+      isValid = false;
+      messages.Remark = 'กรุณาระบุราคา';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
+  };
+
   const now = new Date();
   const day = now.getDay(); // returns a number representing the day of the week, starting with 0 for Sunday
   const hours = now.getHours();
@@ -164,8 +183,15 @@ function PaymentCheckAdmin() {
       contextData
     );
 
+
     if (res.status == 200) {
-      window.location.reload();
+      Swal.fire({
+        title: "บันทึกข้อมูลสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        window.location.reload();
+      });
     } else {
       Swal.fire({
         title: "เกิดข้อผิดพลาด",
@@ -524,7 +550,7 @@ function PaymentCheckAdmin() {
               color: "#858585",
             }}>หมายเหตุ</p>
                <TextField
-              id="Comment"
+              id="Remark"
               variant="outlined"
               fullWidth
               required
@@ -534,6 +560,8 @@ function PaymentCheckAdmin() {
                 readOnly: statusBefore != 1 ? true : false,
               }}
               sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+              error={!!validationMessages.Remark}
+              helperText={validationMessages.Remark}
             ></TextField>
 
             </div>

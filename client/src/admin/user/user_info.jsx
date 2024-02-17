@@ -23,9 +23,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlusCircle,
+  faBan,
   faPencilSquare,
   faTrash,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { FaSpinner } from 'react-icons/fa';
 
@@ -291,13 +292,36 @@ export default function UserInfoAdmin() {
             }}>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            คุณต้องการลบข้อมูลลูกค้าคนนี้ใช่หรือไม่?
+            คุณต้องการลบข้อมูลสมาชิกท่านนี้ใช่หรือไม่?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          
-          <Button onClick={handleClose}>ยกเลิก</Button>
-          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+        <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleClose}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleDeleteConfirmation}
+          >
+            <FontAwesomeIcon icon={faCheck} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยืนยัน</span>
+          </button>
         </DialogActions>
       </Dialog>
     </div>
