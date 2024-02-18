@@ -301,8 +301,14 @@ export default function RepairInfoAdmin() {
               console.log(result);
               console.log("motorcycles:", motorcycles);
             })
-            .catch((error) => console.log("error", error));
-          navigate("/admin/repair/repair-info");
+            setOpenAddRepair(false);
+            Swal.fire({
+              title: "บันทึกข้อมูลสำเร็จ",
+              icon: "success",
+              confirmButtonText: "ตกลง",
+            }).then(() => {
+              window.location.reload();
+            });
         } else {
           Swal.fire({
             title: "บันทึกไม่สำเร็จ",
@@ -657,6 +663,7 @@ export default function RepairInfoAdmin() {
               width: "100px",
               height: "40px",
             }}
+            onClick={handleSave}
           >
             <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
             <span style={{ color: "white" }}>ยืนยัน</span>

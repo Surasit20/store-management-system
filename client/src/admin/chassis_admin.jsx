@@ -154,7 +154,7 @@ export default function ChassisAdmin() {
     myHeaders.append("Content-Type", "application/json");  
     let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
-    var user = data1.data.filter((f) => f.USER_FULLNAME == UserName);
+    var user = data1.data.filter((f) => f.USER_USERNAME == UserName);
     console.log("หดหกด");
     console.log(user);
     if (user == null || user == [] || user.length == 0) {
