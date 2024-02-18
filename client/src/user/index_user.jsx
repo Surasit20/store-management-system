@@ -100,7 +100,7 @@ const SidebarUser = () => {
     <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial',backgroundColor: '#dfedf0'  }}>
       <CDBSidebar textColor="#99BC85" backgroundColor="#fff">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" style={{ marginLeft: '10px' }}></i>}>
-          <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
+          <a href="#" className="text-decoration-none" style={{ color: 'inherit' }}>
             ร้านรถจักรยานยนต์มือ 2  
           </a>
         </CDBSidebarHeader>
