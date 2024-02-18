@@ -270,7 +270,7 @@ function PayUser() {
             <p className="text-danger">                             **บัญชีธนาคารของผู้ดูแลระบบ</p>
 
             <div className="my-4 d-flex justify-content-center">
-              <img src="/images/qrCode.png" style={{ width: "200px" }} className="d-flex justify-content-center"></img>
+              <img src="/images/qrCode.jpg" style={{ width: "200px" }} className="d-flex justify-content-center"></img>
 
             </div>
 
