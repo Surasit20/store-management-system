@@ -7,7 +7,7 @@ import { Navigate } from "react-router-dom";
 import { Grid, TextField } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import addressJson from './address.json';
+import addressJson from '../../login/address.json';
 import Autocomplete from '@mui/material/Autocomplete';
 import Swal from "sweetalert2";
 import {
@@ -25,6 +25,8 @@ export default function UserUpdateAdmin() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    //console.log(addressJson)
     var requestOptions = {
       method: "GET",
       redirect: "follow",
@@ -47,9 +49,17 @@ export default function UserUpdateAdmin() {
           setDistrict(result["result"]["USER_DISTRICT"]);
           setProvince(result["result"]["USER_PROVINCE"]);
           setPostalCode(result["result"]["USER_POSTAL_CODE"]);
+
+          let _provider = addressJson.find(f=>f.name_th == result["result"]["USER_PROVINCE"])
+          let _aumpur = _provider.amphure.find(f=>f.name_th == result["result"]["USER_DISTRICT"])
+          
+          handleProvider(null,_provider)
+          handleTumbun(null,_aumpur)
         }
       })
       .catch((error) => console.log("error", error));
+
+
   }, [USER_ID]);
 
   const handleSubmit = (event) => {
@@ -110,7 +120,7 @@ export default function UserUpdateAdmin() {
   //กลับหน้าก่อนหน้า
   const [gotoListUser, setGotoListUser] = useState(false);
   if (gotoListUser) {
-    return <Navigate to="/admin/user-info" />;
+    return <Navigate to="/admin/user/user-info" />;
   }
 
   const handleProvider = (event, values) => {
@@ -118,6 +128,7 @@ export default function UserUpdateAdmin() {
       setAmphureOb([])
 
     }else{
+      console.log(values)
       setProvince(values.name_th)
       setAmphureOb(values.amphure)
     }
@@ -303,21 +314,13 @@ export default function UserUpdateAdmin() {
         <Row>
         <Col>
             <p style={{ color: "#858585" }}>จังหวัด</p>
-            {/* <TextField
-              id="Province"
-              variant="outlined"
-              fullWidth
-              required
-              onChange={(e) => setProvince(e.target.value)}
-              value={Province}
-              sx={{ height: "10px", paddingBottom: "50px" }}
-            ></TextField> */}
              <Autocomplete
+                defaultValue={Province}
                 disablePortal
                 id="combo-box-demo"
                 options={addressJson}
                 sx={{ width: 276}}
-                getOptionLabel={(option) => option.name_th}
+                getOptionLabel={(option) => option.name_th ?? Province}
                 onChange={ handleProvider}
                 renderInput={(params) => <TextField {...params}    
                 value={Province} 
@@ -335,12 +338,13 @@ export default function UserUpdateAdmin() {
               sx={{ height: "10px", paddingBottom: "50px" }}
             ></TextField> */}
                    <Autocomplete
+                defaultValue={District}
                 disablePortal
                 id="combo-box-demo1"
                 options={amphureOb}
                 sx={{ width: 276 }}
-                getOptionLabel={(option) => option?.name_th ?? ""}
-               onChange={handleTumbun}
+                getOptionLabel={(option) => option?.name_th ?? District}
+                onChange={handleTumbun}
                 renderInput={(params) => <TextField {...params} sx={{backgroundColor: '#ffff',}}/>}
 
               />
@@ -358,11 +362,12 @@ export default function UserUpdateAdmin() {
             ></TextField> */}
             
 <Autocomplete
+                defaultValue={SubDistrict}
                 disablePortal
                 id="combo-box-demo1"
                 options={tambonOb}
                 sx={{ width: 276 }}
-                getOptionLabel={(option) => option?.name_th ?? ""}
+                getOptionLabel={(option) => option?.name_th ?? SubDistrict}
                 onChange={handleCode}
                 renderInput={(params) => <TextField {...params}  sx={{backgroundColor: '#ffff',}} />}
 
@@ -371,11 +376,12 @@ export default function UserUpdateAdmin() {
           <Col>
             <p style={{ color: "#858585" }}>รหัสไปรษณีย์</p>
             <Autocomplete
+              defaultValue={PostalCode}
                 disablePortal
                 id="combo-box-demo1"
                 options={codeOb}
                 sx={{ width: 276 }}
-                getOptionLabel={(option) => option.zip_code}
+                getOptionLabel={(option) => option.zip_code ?? PostalCode}
                 onChange={handleCode2}
                 renderInput={(params) => <TextField {...params}  sx={{backgroundColor: '#ffff',}}/>}
 
