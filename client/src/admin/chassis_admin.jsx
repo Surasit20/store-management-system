@@ -412,7 +412,7 @@ export default function ChassisAdmin() {
               color: "#858585",
             }}
           >
-            ชื่อ - นามสกุล ผู้เป็นเจ้าของรถ
+            ชื่อผู้ใช้งาน ผู้เป็นเจ้าของรถ
           </p>
           <TextField
             id="UserName"

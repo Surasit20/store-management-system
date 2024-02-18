@@ -53,7 +53,7 @@ export default function RepairInfoAdmin() {
   const [itemIdToDelete, setItemIdToDelete] = useState("");
   const navigate = useNavigate();
   const [validationMessages, setValidationMessages] = useState({
-    MotorcycleId: '',
+    MotorcycleNumber: '',
     Status: '',
     Wise: '',
     // Add more fields as needed
@@ -62,12 +62,12 @@ export default function RepairInfoAdmin() {
   const validateInput = () => {
     let isValid = true;
     const messages = {
-      MotorcycleId: '',
+      MotorcycleNumber: '',
       Wise: '',
     };
-    if (!MotorcycleId) {
+    if (!MotorcycleNumber) {
       isValid = false;
-      messages.MotorcycleId = 'กรุณาระบุเลขทะเบียน';
+      messages.MotorcycleNumber = 'กรุณาระบุเลขทะเบียน';
     }
     if (!Wise) {
       isValid = false;
@@ -606,13 +606,13 @@ export default function RepairInfoAdmin() {
           <DialogContent>
               <p style={{ color: "#858585" }}> เลขทะเบียน</p>
               <TextField
-                id="MotorcycleId"
+                id="MotorcycleNumber"
                 type="text"
                   required
                 onChange={(e) => setMotorcycleRigterNumber(e.target.value)}
                 sx={{ width:'400px', height: "10px", paddingBottom: "80px" }}
-                error={!!validationMessages.MotorcycleId}
-                helperText={validationMessages.MotorcycleId}
+                error={!!validationMessages.MotorcycleNumber}
+                helperText={validationMessages.MotorcycleNumber}
               ></TextField>
               <p style={{ color: "#858585" }}>สาเหตุที่ส่งซ่อม</p>
               <TextField
