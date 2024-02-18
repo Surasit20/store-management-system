@@ -22,3 +22,11 @@
   border-radius: 50%;
   width: 800px;
  }
+
+ .border-header{
+
+  background-color:#DBE7C9;
+  color: #294B29;
+  margin-left: 10px;
+  padding: 20px;
+ }

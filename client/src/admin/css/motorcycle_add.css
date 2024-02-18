@@ -14,19 +14,13 @@
   display: flex;
   justify-content: center; /* จัดเนื้อหาตรงกลางตามแนวนอน */
   align-items: center; /* จัดเนื้อหาตรงกลางตามแนวดิ่ง */
-}
-.container {
-    display: flex;
-    flex-wrap: nowrap; /* ป้องกันการขึ้นบรรทัดใหม่ */
-  }
-  
+}  
   .container > div {
-    flex: 0; /* ทำให้ div ทั้งสองขยายตามขนาดของ content และกระจายอย่างเท่ากันในแนวนอน */
     margin-right: 0px; /* ระยะห่างระหว่าง div */
   }
   .container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* แบ่งเป็น 2 columns ที่มีขนาดเท่ากัน */
+    grid-template-columns: 0.4fr 1fr; /* แบ่งเป็น 2 columns ที่มีขนาดเท่ากัน */
     gap: 0px; /* ระยะห่างระหว่าง div */
    
   }
@@ -66,13 +60,6 @@
     background-color: rgb(249, 22, 22);
     border-radius:20px ;
 }
-.box-img{
-    margin-top: 20px;
-    height: 300px;
-    width: 300px;
-    border: 2px solid black;
-    border-radius: 20px;
-}
 .save-button {
   display: flex;
   justify-content: center; /* จัดให้เนื้อหาอยู่ตรงกลางแนวนอน */
@@ -87,4 +74,26 @@
 
 .GridItemClassName TextField {
   font-size: 14px; /* ปรับขนาด font ของ TextField */
+}
+.Contrainer-form{
+  height: 90vh;
+  margin-top: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  height: 82vh;
+}
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect } from "react";
 import "../admin/css/motorcycle_update.css";
+import "./css/motorcycle_add.css";
 import { useParams , useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "react-router";
@@ -9,6 +10,9 @@ import { Grid, TextField, Button, Box } from "@mui/material";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { useToasts } from 'react-toast-notifications';
 
 function UpdateMotorcycle() {
   const { MOTORCYCLE_ID } = useParams();
@@ -22,6 +26,55 @@ function UpdateMotorcycle() {
   const [imageOld, setImageOld] = useState();
   const [imageNew, setImageNew] = useState();
   const navigate = useNavigate();
+  const { addToast } = useToasts();
+  const [validationMessages, setValidationMessages] = useState({
+    RegistrationNumber: '',
+    BucketNumber: '',
+    Brand: '',
+    Model: '',
+    Color: '',
+    Price: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      RegistrationNumber: '',
+      BucketNumber: '',
+      Brand: '',
+      Model: '',
+      Color: '',
+      Price: '',
+    };
+    if (!RegistrationNumber) {
+      isValid = false;
+      messages.RegistrationNumber = 'กรุณาระบุเลขทะเบียน';
+    }
+    if (!BucketNumber) {
+      isValid = false;
+      messages.BucketNumber = 'กรุณาระบุขเลขตัวถัง';
+    }
+    if (!Brand) {
+      isValid = false;
+      messages.Brand = 'กรุณาระบุยี่ห้อ';
+    }
+    if (!Model) {
+      isValid = false;
+      messages.Model = 'กรุณาระบุรุ่น';
+    }
+    if (!Color) {
+      isValid = false;
+      messages.Color = 'กรุณาระบุสี';
+    }
+    if (!Price) {
+      isValid = false;
+      messages.Price = 'กรุณาระบุราคา';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
+  };
 
   useEffect(() => {
     var requestOptions = {
@@ -30,7 +83,7 @@ function UpdateMotorcycle() {
     };
 
     fetch(
-      "https://back-end-store-management-system.onrender.com/api/v1/motorcycles/" + MOTORCYCLE_ID,
+      "http://localhost:3001/api/v1/motorcycles/" + MOTORCYCLE_ID,
       requestOptions
     )
       .then((response) => response.json())
@@ -53,43 +106,63 @@ function UpdateMotorcycle() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (imageNew != null || imageNew != undefined) {
+    const isValid = validateInput();
+    if (!isValid) {
+      return;
+    }
+    else if (imageNew != null || imageNew != undefined) {
       Swal.fire({
         title: "กรุณาเลือกรูปภาพ",
         icon: "error",
         confirmButtonText: "ตกลง",
       });
-    
     } else {
-      console.log("case2");
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      var raw = JSON.stringify({
-        MOTORCYCLE_BALANCE: Balance,
-        MOTORCYCLE_PRICE: Price,
-        MOTORCYCLE_BRAND: Brand,
-        MOTORCYCLE_MODEL: Model,
-        MOTORCYCLE_COLOR: Color,
-        MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
-        MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
-        MOTORCYCLE_IMAGE: imageOld,
-      });
-
-      var requestOptions = {
-        method: "PUT",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      fetch(
-        `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.log("error", error));
-        navigate("/admin/motorcycle");
+      // addToast('กำลังบันทึกข้อมูล...', {
+      //   appearance: 'info',
+      //   autoDismiss: true,
+      //   autoDismissTimeout: 4000, // 4000 มิลลิวินาที (4 วินาที)
+      //   css: {
+      //     width: '300px',
+      //     height: '40px',
+      //     backgroundColor: 'lightblue', // ปรับสีพื้นหลัง
+      //     color: 'black', // ปรับสีตัวอักษร
+      //     // คุณยังสามารถกำหนดค่า CSS อื่น ๆ ตามต้องการ
+      //   },
+      // });
+        console.log("case2");
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var raw = JSON.stringify({
+          MOTORCYCLE_BALANCE: Balance,
+          MOTORCYCLE_PRICE: Price,
+          MOTORCYCLE_BRAND: Brand,
+          MOTORCYCLE_MODEL: Model,
+          MOTORCYCLE_COLOR: Color,
+          MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
+          MOTORCYCLE_BUCKET_NUMBER: BucketNumber,
+          MOTORCYCLE_IMAGE: imageOld,
+        });
+  
+        var requestOptions = {
+          method: "PUT",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
+  
+        fetch(
+          `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+          Swal.fire({
+            title: "บันทึกข้อมูลสำเร็จ",
+            icon: "success",
+            confirmButtonText: "ตกลง",
+          });
+          navigate("/admin/motorcycle");    
     }
   };
 
@@ -137,137 +210,227 @@ function UpdateMotorcycle() {
 
   return (
 <div>
-      <div className="header">
-        <h1>
+<div className="header-with-button with-underline">
+        <div className="header" style={{ paddingTop: "10px" }}>
+          <h1 style={{ color: "#2196f3" }}>
           <div
             onClick={() => {
               setGotoListMotorcycle(true);
             }}
           >
-            <i className="fa fa-arrow-left" aria-hidden="true">
-              {" "}
-              แก้ไขข้อมูลรถจักรยานยนต์
-            </i>
-          </div>
-        </h1>
+              <i className="fa fa-arrow-left" aria-hidden="true" style={{ fontSize: "30px" }}>
+                {" "}
+                แก้ไขข้อมูลรถจักรยานยนต์
+              </i>
+            </div>
+          </h1>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "150px",
+              height: "50px",
+            }}
+          >
+            <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>บันทึก</span>
+          </button>
+        </form>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="container">
-          <div className="container-img">
-            <div>
-            <div>
-          <Box
-           class="box-img"
-             component="img"
-             src={imageNew ?? imageOld}
-           /> </div>
-            </div>
-            <div>
-              <div>
-                <Button onClick={handleRemoceImage}>ยกเลิกรูปภาพ</Button>
-                <Button variant="contained" component="label">
-                  อัพโหลดรูปภาพ
-                  <input
-                    accept="image/*"
-                    type="file"
-                    hidden
-                    onChange={handleChangeImage}
-                  />
-                </Button>
-              </div>
-            </div>
-          </div>
 
+      <div class="Contrainer-form">
+        <p
+          style={{
+            color: "#2196f3",
+            fontSize: "25px",
+            marginLeft: "20px",
+            paddingTop: "10px",
+            fontWeight: "bold",
+          }}
+        >
+          ข้อมูลจักรยานยนต์
+        </p>
+
+        <div className="container">
           <div>
             <Row>
               <Col>
-                <p>เลขทะเบียน</p>
+                <div>
+                  <Box
+                    style={{
+                      width: "300px",
+                      height: "300px",
+                      marginTop: "10px",
+                    }}
+                    component="img"
+             src={imageNew ?? imageOld}
+                  />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    style={{
+                      backgroundColor: "#ffffff",
+                      border: "1px solid #1ba7e1",
+                      borderRadius: "10px",
+                      width: "120px",
+                      height: "50px",
+                      marginRight: "10px",
+                    }}
+                    onClick={handleRemoceImage}
+                  >
+                    <span style={{ color: "#1ba7e1", marginBottom: "2px" }}>
+                      {" "}
+                      ยกเลิกรูปภาพ
+                    </span>
+                  </Button>
+                  <Button
+                    style={{
+                      backgroundColor: "#ffffff",
+                      border: "1px solid #1ba7e1",
+                      borderRadius: "10px",
+                      width: "120px",
+                      height: "50px",
+                    }}
+                    component="label"
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlusCircle}
+                      className="mr-2"
+                      style={{ color: "#1ba7e1" }}
+                    />{" "}
+                    <span style={{ color: "#1ba7e1", marginBottom: "2px" }}>
+                      เพิ่มรูปภาพ
+                    </span>
+                    <input
+                      accept="image/*"
+                      type="file"
+                      hidden
+                      onChange={handleChangeImage}
+                    />
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
+          <div>
+          <Row>
+              <Col>
+                <p style={{ color: "#858585" }}>เลขทะเบียน</p>
 
-                <input
+                <TextField
                   id="RegistrationNumber"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setRegistrationNumber(e.target.value)}
                   value={RegistrationNumber}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" ,  color: "#B0B0B0",}}
+                  disabled 
+                  error={!!validationMessages.RegistrationNumber}
+                  helperText={validationMessages.RegistrationNumber}
                 />
               </Col>
               <Col>
-                <p>เลขตัวถัง</p>
-                <input
+                <p style={{ color: "#858585" }}>เลขตัวถัง</p>
+                <TextField
                   id="BucketNumber"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBucketNumber(e.target.value)}
                   value={BucketNumber}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" , color: "#B0B0B0" }}
+                  disabled 
+                  error={!!validationMessages.BucketNumber}
+                  helperText={validationMessages.BucketNumber}
                 />
               </Col>
             </Row>
             <Row>
               <Col>
-                <p>ยี่ห้อ</p>
-                <input
+                <p style={{ color: "#858585" }}>ยี่ห้อ</p>
+                <TextField
                   id="Brand"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBrand(e.target.value)}
                   value={Brand}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Brand}
+                  helperText={validationMessages.Brand}
                 />
               </Col>
               <Col>
-                <p>รุ่น</p>
-                <input
+                <p style={{ color: "#858585" }}>รุ่น</p>
+                <TextField
                   id="Model"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setModel(e.target.value)}
                   value={Model}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Model}
+                  helperText={validationMessages.Model}
                 />
               </Col>
             </Row>
             <Row>
               <Col>
-                <p>สี</p>
-                <input
+                <p style={{ color: "#858585" }}>สี</p>
+                <TextField
                   id="Color"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setColor(e.target.value)}
                   value={Color}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" }}
+                  error={!!validationMessages.Color}
+                  helperText={validationMessages.Color}
                 />
               </Col>
               <Col>
-                <p>ราคา</p>
-                <input
+                <p style={{ color: "#858585" }}>ราคา</p>
+                <TextField
                   id="Price"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setPrice(e.target.value)}
                   value={Price}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" , color: "#B0B0B0"}}
+                  disabled 
+                  error={!!validationMessages.Price}
+                  helperText={validationMessages.Price}
                 />
               </Col>
             </Row>
             <Row>
               <Col>
-                <p>ยอดคงเหลือ</p>
-                <input
+                <p style={{ color: "#858585" }}>ยอดคงเหลือ</p>
+                <TextField
                   id="Balance"
                   type="text"
-                  class="form-control"
                   required
                   aria-describedby="basic-addon1"
                   onChange={(e) => setBalance(e.target.value)}
+                  sx={{ width: "400px", height: "10px", paddingBottom: "50px" ,color: "#B0B0B0" }}
+                  disabled 
                   value={Balance}
                 />
               </Col>
@@ -275,16 +438,7 @@ function UpdateMotorcycle() {
             </Row>
           </div>
         </div>
-        <div className="save-button">
-          <button
-            type="submit"
-            variant="contained"
-            className="btn btn-success mb-3"
-          >
-            บันทึก
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
 
 

@@ -5,6 +5,7 @@ import App from './App';
 import Login from './login/login';
 import Register from './login/register';
 import {createBrowserRouter,RouterProvider,} from "react-router-dom";
+import { ToastProvider } from 'react-toast-notifications';
 
 //user
 import  IndexUser from './user/index_user';
@@ -138,6 +139,9 @@ const router = createBrowserRouter([
 const exactValue = true; // กำหนดค่าตัวแปร exactValue ที่เป็น boolean
 
 ReactDOM.render(
-  <RouterProvider router={router}/>, // แปลงค่า boolean เป็น string โดยใช้ exactValue.toString()
+  <ToastProvider>
+  <RouterProvider router={router}/>, 
+</ToastProvider>,
+  
   document.getElementById('root')
 );

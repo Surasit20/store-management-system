@@ -1,5 +1,6 @@
 .container-user{
 height: 100vh;
+overflow-y: scroll;
 }
 
 a {

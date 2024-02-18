@@ -60,7 +60,7 @@ export default React.forwardRef(function FullScreenDialog(props, ref) {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: 'relative' }}>
+        <AppBar sx={{ position: 'relative' }} style={{ background: '#99BC85' }}>
           <Toolbar>
             <IconButton
               edge="start"

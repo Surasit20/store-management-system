@@ -48,27 +48,36 @@ const nodemailer = require("nodemailer");
   listInsallments.forEach(item=>
   {
     let temp = []
-    let tempInsallments  = resulInsallments.filter(x => x.INSTALLMENTS_ID === item.INSTALLMENTS_ID);
-    let tempMotorcycle  = resulMotorcycle.filter(x => x.MOTORCYCLE_ID === tempInsallments[0].MOTORCYCLE_ID);
-    let tempResulUser  = resulUser.filter(x => x.USER_ID === tempMotorcycle[0].USER_ID && x.USER_ID !== null);
-    temp = [item,tempResulUser[0]]
-    dataResult.push(temp)
+    let tempInsallments  = resulInsallments?.filter(x => x.INSTALLMENTS_ID === item.INSTALLMENTS_ID);
 
+    if(tempInsallments.length > 0 ){
+      let tempMotorcycle  = resulMotorcycle?.filter(x => x.MOTORCYCLE_ID === tempInsallments[0].MOTORCYCLE_ID);
+
+      if(tempMotorcycle.length > 0){
+        let tempResulUser  = resulUser?.filter(x => x.USER_ID === tempMotorcycle[0].USER_ID && x.USER_ID !== null);
+        temp = [item,tempResulUser[0]??[],tempInsallments[0]??[]]
+        dataResult.push(temp)
+      }
+    }
   })
 
   var _sendEmail = []
+  
+  const arrayUniqueByKey = [...new Map(dataResult.map(item =>
+    [item["USER_EMAIL"], item])).values()];
 
-  dataResult.forEach(async (element) =>  {
+
+    arrayUniqueByKey.forEach(async (element) =>  {
     var item = [];
     console.log(element[1].USER_EMAIL)
     console.log(element[0].MONTH_INSTALLMENTS_DATE)
     item['from'] = 'wesringoki@gmail.com'
     item['to'] = element[1].USER_EMAIL
-    item['subject'] = "แจ้งการชำระค่างวด"
-    item['text'] = "งวดที่" + element[0].MONTH_INSTALLMENTS_DATE
-    item['html'] = `<b>งวดที่  ${element[0].MONTH_INSTALLMENTS_DATE}</b>`
+    item['subject'] = "แจ้งค่างวดชำระ ร้านรถจักรยานยนต์มือ 2"
+    item['text'] = "แจ้งการชำระเงินงวดปัจจุบัน ประจำเดือน " + element[0].MONTH_INSTALLMENTS_DATE + " จำนวนเงิน " +element[2].INSTALLMENTS_MONEY + "บาท" +" กรุณาชำระภายในวันที่ 1 ของเดือน"
+    item['html'] = "แจ้งการชำระเงินงวดปัจจุบัน ประจำเดือน" + element[0].MONTH_INSTALLMENTS_DATE + " จำนวนเงิน" +element[2].INSTALLMENTS_MONEY + " บาท " +" กรุณาชำระภายในวันที่ 1 ของเดือน"
 
-    var _sendEmail = await transporter.sendMail(_sendEmail);
+    var _sendEmail = await transporter.sendMail(item);
   });
     //    var _sendEmail = await transporter.sendMail({
     //   from: 'wesringoki@gmail.com', // sender address
@@ -78,6 +87,7 @@ const nodemailer = require("nodemailer");
     //   html: "<b>Hello world?</b>", // html body
     // });
   
+    return 0;
   }
   catch(error){
     console.log(error)

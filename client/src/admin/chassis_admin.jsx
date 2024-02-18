@@ -1,6 +1,4 @@
 import React, { Component, useEffect, useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
-import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useLocation } from "react-router-dom";
 import "./css/motorcycle_info.css";
 import "./css_admin.css";
@@ -14,33 +12,65 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Navigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import { useParams, useNavigate } from "react-router-dom";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import UserDialog from './dialog/UserDialog'
 import Swal from "sweetalert2";
 import axios from "axios";
+import { FaSpinner } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckSquare, faBan  , faSave} from "@fortawesome/free-solid-svg-icons";
 export default function ChassisAdmin() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [open, setOpen] = React.useState(false);
-  //const [RegistrationNumber, setRegistrationNumber] = useState("");
   const [UserId, setUserId] = useState("");
   const [motorcycleId, setMotorcycleId] = useState("");
   const [installmentNo, setinstallmentNo] = useState("");
   const [installmentMoney, setinstallmentMoney] = useState("");
   const [openUserDialog, setOpenUserDialog] = useState(false);
-  const [Usercode, setUserCode] = useState("");
+  const [UserName, setUserName] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
+  const [validationError, setValidationError] = useState('');
   const { userFullName } = location.state || {};
   const handleInputChange = (e) => {
     setSearch(e.target.value);
+  };
+  const [validationMessages, setValidationMessages] = useState({
+    UserName: '',
+    installmentNo: '',
+    installmentMoney: '',
+    // Add more fields as needed
+  });
+
+  const validateInput = () => {
+    let isValid = true;
+    const messages = {
+      UserName: '',
+      installmentNo: '',
+      installmentMoney: '',
+    };
+    if (!UserName) {
+      isValid = false;
+      messages.UserName = 'กรุณาระบุชื่อ-นามสกุล สมาชิก';
+    }
+    if (!installmentNo) {
+      isValid = false;
+      messages.installmentNo = 'กรุณาระบุจำนวนงวด';
+    }
+    if (!installmentMoney) {
+      isValid = false;
+      messages.installmentMoney = 'กรุณาระบุจำนวนเงิน';
+    }
+  
+    setValidationMessages(messages);
+    return isValid;
   };
 
   useEffect(() => {
@@ -68,17 +98,21 @@ export default function ChassisAdmin() {
 
   useEffect(() => {
     if (installmentNo !== "") {
-      const selectedMotorcycle = items.find((item) => item.MOTORCYCLE_ID === motorcycleId);
+      const selectedMotorcycle = items.find(
+        (item) => item.MOTORCYCLE_ID === motorcycleId
+      );
 
       if (selectedMotorcycle) {
-        const installmentMoneyValue = parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) / parseFloat(installmentNo);
+        const installmentMoneyValue =
+          parseFloat(selectedMotorcycle.MOTORCYCLE_PRICE) /
+          parseFloat(installmentNo);
         setinstallmentMoney(installmentMoneyValue.toFixed(2));
       }
     }
   }, [installmentNo, items, motorcycleId]);
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -86,7 +120,7 @@ export default function ChassisAdmin() {
       });
   };
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -112,33 +146,33 @@ export default function ChassisAdmin() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    const isValid = validateInput();
+    if (!isValid) {
+      return;
+    }
     var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Content-Type", "application/json");  
+    let data1 = await axios.get(`http://localhost:3001/api/v1/users`);
 
-    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`
-    );
-    
-    var user = data1.data.filter(f=>f.USER_CODE_NUMBER == Usercode)
-    console.log("หดหกด")
-    console.log(user)
-    if(user == null || user == [] || user.length == 0){
+    var user = data1.data.filter((f) => f.USER_FULLNAME == UserName);
+    console.log("หดหกด");
+    console.log(user);
+    if (user == null || user == [] || user.length == 0) {
       Swal.fire({
-        title: "เกิดข้อผิดพลาด",
-        text: "ไม่พบผู้ใช้งาน",
+        title: "บันทึกไม่สำเร็จ",
+        text: "เนื่องจากไม่พบข้อมูลสมาชิก",
         icon: "error",
         confirmButtonText: "ตกลง",
-        
       });
       setOpen(false);
-      return
+      return;
     }
     var raw = JSON.stringify({
       USER_ID: user[0].USER_ID,
       //MOTORCYCLE_REGISTRATION_NUMBER: RegistrationNumber,
     });
 
-    console.log(raw)
+    console.log(raw);
     var requestOptions = {
       method: "PUT",
       headers: myHeaders,
@@ -147,7 +181,7 @@ export default function ChassisAdmin() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${motorcycleId}`,
+      `http://localhost:3001/api/v1/motorcycles/${motorcycleId}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -172,11 +206,11 @@ export default function ChassisAdmin() {
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/installments", requestOptions)
+    fetch("http://localhost:3001/api/v1/installments", requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    window.location.reload();
+    navigate("/admin/motorcycle");
   };
 
   const handleClickOpen = (MOTORCYCLE_ID) => {
@@ -194,130 +228,220 @@ export default function ChassisAdmin() {
   }
 
   ///Open Dialog User
-
-
   const handleUserDialog = () => {
     setOpenUserDialog(true);
   };
-
   const handleCloseUserDialog = () => {
     setOpenUserDialog(false);
   };
-
-
   return (
     <div>
-      <Row>
-        <div class="search">
-          <Col>
-            <Form>
-              <InputGroup>
-                <Form.Control
-                  onChange={handleInputChange}
-                  placeholder="ค้นหา"
-                />
-              </InputGroup>
-            </Form>
-          </Col>
+      <div className="header-with-button with-underline">
+        <div className="header" style={{ paddingTop: "10px" }}>
+          <h1 class="text-color">
+            <strong style={{ fontSize: "30px" }}>อนุมัติ</strong>
+          </h1>
         </div>
-        <div class="additem">
-        </div>
-      </Row>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
-          <TableContainer sx={{ maxHeight: 440 }}>
-            <Table stickyHeader aria-label="sticky table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>เลขตัวถัง</TableCell>
-                  <TableCell>เลขทะเบียน</TableCell>
-                  <TableCell>ยืนยัน</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .filter((row) => {
-                    return (
-                      search.trim() === "" ||
-                      row.USER_FULLNAME.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      ) ||
-                      row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
-                        search.toLowerCase()
-                      )
-                    );
-                  })
-                  .map((row) => (
-                    <TableRow
-                      key={row.MOTORCYCLE_BUCKET_NUMBER}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell>{row.MOTORCYCLE_BUCKET_NUMBER}</TableCell>
-                      <TableCell>
-                        {row.MOTORCYCLE_REGISTRATION_NUMBER}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          type="button"
-                          class="btn btn-warning"
-                          variant="outlined"
-                          onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
-                        >
-                          ยืนยัน
-                        </Button>
+      </div>
 
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={items.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="จำนวนแถวต่อหน้า:"
-            labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} จากทั้งหมด ${count}`
-            }
-          />
-        </Paper>
-      )}
+      <form class="search-form" style={{ marginTop: "10px" }}>
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+      <div className="Contrianer">
+        <div class="header-t">
+          <div>
+            <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow class="table-row">
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขตัวถัง
+                    </TableCell>
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      เลขทะเบียน
+                    </TableCell>
+                    <TableCell
+                      class="t-rig"
+                      style={{ padding: "10px", color: "#1ba7e1" }}
+                    >
+                      ยืนยัน
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+        <div className="Contrainer-data">
+          {loading ? (
+            <div className="spinner-container">
+              <FaSpinner
+                className="spinner"
+                style={{ fontSize: "90px", color: "#82b1ff" }}
+              />
+            </div>
+          ) : (
+            <Paper
+              sx={{
+                width: "100%",
+                overflow: "hidden",
+                backgroundColor: "#f8ffff",
+                boxShadow: "none",
+              }}
+            >
+              <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableBody>
+                    {items
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .filter((row) => {
+                        return (
+                          search.trim() === "" ||
+                          row.USER_FULLNAME.toLowerCase().includes(
+                            search.toLowerCase()
+                          ) ||
+                          row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
+                            search.toLowerCase()
+                          ) ||
+                          row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
+                            search.toLowerCase()
+                          )
+                        );
+                      })
+                      .map((row) => (
+                        <TableRow
+                          key={row.MOTORCYCLE_BUCKET_NUMBER}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell
+                            class="t-rig"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            {row.MOTORCYCLE_BUCKET_NUMBER}
+                          </TableCell>
+                          <TableCell
+                            class="t-rig"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            {row.MOTORCYCLE_REGISTRATION_NUMBER}
+                          </TableCell>
+                          <TableCell
+                            class="t-rig"
+                            style={{
+                              verticalAlign: "middle",
+                              padding: "10px",
+                              color: "#858585",
+                            }}
+                          >
+                            <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #19C788 ",
+                              }}
+                              onClick={() => handleClickOpen(row.MOTORCYCLE_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faCheckSquare}
+                                style={{
+                                  color: "#19C788",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[8, 10, 100]}
+                component="div"
+                count={items.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="จำนวนแถวต่อหน้า:"
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} จากทั้งหมด ${count}`
+                }
+              />
+            </Paper>
+          )}
+        </div>
+      </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการเป็นเจ้าของรถ</DialogTitle>
+        <DialogTitle  
+         style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}> กรอกข้อมูลยืนยันการเป็นเจ้าของรถ</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            กรอกข้อมูลผู้ใช้งานเพื่อทำการยืนยันการเป็นเจ้าของ
-          </DialogContentText>
+          <p
+            style={{
+              color: "#858585",
+            }}
+          >
+            ชื่อ - นามสกุล ผู้เป็นเจ้าของรถ
+          </p>
           <TextField
-            id="UserCode"
-            label="เลขประจำตัวบัตรประชาชน"
+            id="UserName"
             variant="outlined"
             fullWidth
             required
-            onChange={(e) => setUserCode(e.target.value)}
-          ></TextField>
+            onChange={(e) => setUserName(e.target.value)}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.UserName}
+            helperText={validationMessages.UserName}
+          > </TextField>
+          <p   style={{
+              color: "#858585",
+            }}>จำนวนงวด</p>
           <TextField
             id="installmentNo"
-            label="จำนวนงวด"
             variant="outlined"
             fullWidth
             required
-            onChange={(e) => setinstallmentNo(e.target.value)}
+            onChange={(e) => setinstallmentNo(e.target.value)  }
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.installmentNo}
+            helperText={validationMessages.installmentNo}
           ></TextField>
+          <p   style={{
+              color: "#858585",
+            }}>จำนวนงวดละ (บาท)</p>
           <TextField
             id="installmentMoney"
-            label="ราคางวดล้ะ"
             variant="outlined"
             fullWidth
             required
@@ -325,11 +449,38 @@ export default function ChassisAdmin() {
             InputProps={{
               readOnly: true,
             }}
+            sx={{ width: "400px", height: "10px", paddingBottom: "80px" }}
+            error={!!validationMessages.installmentMoney}
+            helperText={validationMessages.installmentMoney}
           ></TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSubmit}>แก้ไข</Button>
-          <Button onClick={handleClose}>ยกเลิก</Button>
+          <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleClose}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleSubmit}
+          >
+            <FontAwesomeIcon icon={faSave} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>บันทึก</span>
+          </button>
         </DialogActions>
       </Dialog>
     </div>

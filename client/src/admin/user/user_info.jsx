@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import "../css_admin.css";
 import "./css/user_info.css";
+import "../css/motorcycle_info.css";
 import { Form, InputGroup } from "react-bootstrap";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -19,12 +20,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPlusCircle,
+  faBan,
   faPencilSquare,
   faTrash,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
+import { FaSpinner } from 'react-icons/fa';
 
 export default function UserInfoAdmin() {
   const [search, setSearch] = useState("");
@@ -50,7 +54,7 @@ export default function UserInfoAdmin() {
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/users", requestOptions)
+    fetch("http://localhost:3001/api/v1/users", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setLoading(false);
@@ -64,11 +68,17 @@ export default function UserInfoAdmin() {
       method: "DELETE",
       redirect: "follow",
     };
-    fetch(`https://back-end-store-management-system.onrender.com/api/v1/users/${USER_ID}`, requestOptions)
+    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));
-    window.location.reload();
+      Swal.fire({
+        title: "ลบข้อมูลสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ตกลง",
+      }).then(() => {
+        window.location.reload();
+      });
   };
 
   const UserUpdate = (USER_ID) => {
@@ -102,13 +112,16 @@ export default function UserInfoAdmin() {
     }
   };
   return (
-    <diV class="con">
-       <div className="header">
-        <h1>
-        <strong>ข้อมูลสมาชิก</strong>
+    <div>
+      <div className="header-with-button with-underline">
+      <div className="header" style={{ paddingTop: "10px" }}>
+        <h1 class ="text-color">
+        <strong style={{ fontSize: "30px" }}>ข้อมูลสมาชิก</strong>
         </h1>
       </div>
-      <form class="search-form">
+     
+      </div>
+      <form class="search-form" style={{ marginTop: "10px" }}>
         <input
           type="search"
           onChange={handleInputChange}
@@ -116,30 +129,37 @@ export default function UserInfoAdmin() {
           class="search-input"
         />
       </form>
-      <div class="header-t-user">
+       <div className="Contrianer">
+       <div class="header-t">
         <div>
           <TableContainer sx={{ maxHeight: 440, borderRadius: 2 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow class="table-row">
-                  <TableCell class="t-code" style={{ padding: "10px" }}>
-                    เลขประจำตัวบัตรประชาชน
-                  </TableCell>
-                  <TableCell class="t-name">ชื่อ-นามสกุล</TableCell>
-                  <TableCell class="t-bukget">เบอร์โทร</TableCell>
-                  <TableCell class="t-edit">แก้ไขข้อมูล</TableCell>
-                  <TableCell class="t-delete">ลบข้อมูล</TableCell>
+                  <TableCell class="t-name" style={{ padding: "10px", color: "#1ba7e1" }}>ชื่อ-นามสกุล</TableCell>
+                  <TableCell class="t-bukget" style={{ padding: "10px", color: "#1ba7e1" }}>เบอร์โทร</TableCell>
+                  <TableCell class="t-edit" style={{ padding: "10px", color: "#1ba7e1" }}>แก้ไขข้อมูล</TableCell>
+                  <TableCell class="t-delete" style={{ padding: "10px", color: "#1ba7e1" }}>ลบข้อมูล</TableCell>
                 </TableRow>
               </TableHead>
             </Table>
           </TableContainer>
         </div>
       </div>
-
-      {loading ? (
-        <p>Loading...</p>
+      <div className="Contrainer-data">  {loading ? (
+         <div className="spinner-container" >
+         <FaSpinner className="spinner" style={{ fontSize: '90px' , color : '#82b1ff' }}/>
+     
+       </div>
       ) : (
-        <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        
+        <Paper 
+        sx={{
+          width: "100%",
+          overflow: "hidden",
+          backgroundColor: "#f8ffff",
+          boxShadow: "none",
+        }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableBody>
@@ -163,49 +183,82 @@ export default function UserInfoAdmin() {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell
-                        class="t-code"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
-                      >
-                        {row.USER_CODE_NUMBER}
-                      </TableCell>
-                      <TableCell
                         class="t-name"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         {row.USER_FULLNAME}
                       </TableCell>
                       <TableCell
                         class="t-bukget"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
                         {row.USER_TELL}
                       </TableCell>
                       <TableCell
                         class="t-edit"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
-                        <Button
-                          type="button"
-                          class="btn btn-outline-warning btn-edit"
-                          onClick={() => UserUpdate(row.USER_ID)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPencilSquare}
-                            class="icon-edit"
-                          />
-                        </Button>
+                               <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #FBB05E ",
+                              }}
+                              onClick={() => UserUpdate(row.USER_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faPencilSquare}
+                                style={{
+                                  color: "#FBB05E",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                       </TableCell>
                       <TableCell
                         class="t-delete"
-                        style={{ verticalAlign: "middle", padding: "10px" }}
+                        style={{
+                          verticalAlign: "middle",
+                          padding: "10px",
+                          color: "#858585",
+                        }}
                       >
-                        <Button
-                          type="button"
-                          class="btn btn-outline-danger btn-delete"
-                          onClick={() => handleOpen(row.USER_ID)}
-                        >
-                          <FontAwesomeIcon icon={faTrash} class="icon-delete" />
-                        </Button>
+                          <Button
+                              type="button"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                border: "1px solid #de6b4f ",
+                              }}
+                              onClick={() => handleOpen(row.USER_ID)}
+                            >
+                              <FontAwesomeIcon
+                                icon={faTrash}
+                                style={{
+                                  color: "#de6b4f",
+                                  width: "30x",
+                                  height: "25px",
+                                  transition:
+                                    "background-color 0.3s, border-color 0.3s",
+                                }}
+                              />
+                            </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -226,19 +279,51 @@ export default function UserInfoAdmin() {
             }
           />
         </Paper>
-      )}
+      )}</div>
+
+     
+
+       </div>
+      
        <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ยืนยันการลบข้อมูล</DialogTitle>
+        <DialogTitle  style={{
+              color: "#1ba7e1",
+              fontWeight: "bold",
+            }}>ยืนยันการลบข้อมูล</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            คุณต้องการลบข้อมูลลูกค้าคนนี้ใช่หรือไม่?
+            คุณต้องการลบข้อมูลสมาชิกท่านนี้ใช่หรือไม่?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>ยกเลิก</Button>
-          <Button onClick={handleDeleteConfirmation}>ยืนยัน</Button>
+        <button
+            style={{
+              backgroundColor: "#de6b4f",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleClose}
+          >
+            <FontAwesomeIcon icon={faBan} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยกเลิก</span>
+          </button>
+          <button
+            style={{
+              backgroundColor: "#19C788",
+              border: 0,
+              borderRadius: "20px",
+              width: "100px",
+              height: "40px",
+            }}
+            onClick={handleDeleteConfirmation}
+          >
+            <FontAwesomeIcon icon={faCheck} style={{ color: "white" }} />{" "}
+            <span style={{ color: "white" }}>ยืนยัน</span>
+          </button>
         </DialogActions>
       </Dialog>
-    </diV>
+    </div>
   );
 }

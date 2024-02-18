@@ -29,8 +29,8 @@ function RepairUser() {
 
   useEffect(async () => {
     const dataUser = JSON.parse(localStorage.getItem("user"));
-    let data1 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/repaildataes`);
-    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+    let data1 = await axios.get(`http://localhost:3001/api/v1/repaildataes`);
+    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
     if (dataUser) {
       setUser(dataUser.data.user);
     }
@@ -58,7 +58,7 @@ function RepairUser() {
   }, []);
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .catch((error) => {
         console.error("Error fetching motorcycles:", error);
@@ -67,7 +67,7 @@ function RepairUser() {
   };
 
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
@@ -88,7 +88,7 @@ function RepairUser() {
     };
 
     fetch(
-      `https://back-end-store-management-system.onrender.com/api/v1/motorcycles/${MOTORCYCLE_ID}`,
+      `http://localhost:3001/api/v1/motorcycles/${MOTORCYCLE_ID}`,
       requestOptions
     )
       .then((response) => response.text())
@@ -120,6 +120,17 @@ function RepairUser() {
 
   return (
     <div>
+            <h1 className="border-header">ข้อมูลส่งซ่อม</h1>
+
+<form className="search-form">
+        <input
+          type="search"
+          onChange={handleInputChange}
+          placeholder="ค้นหา"
+          class="search-input"
+        />
+      </form>
+
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -137,13 +148,13 @@ function RepairUser() {
                 .filter((row) => {
                   return (
                     search.trim() === "" ||
-                    row.USER_FULLNAME.toLowerCase().includes(
-                      search.toLowerCase()
+                    user.USER_FULLNAME.toLowerCase().includes(
+                      search
                     ) ||
                     row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
                       search.toLowerCase()
                     ) ||
-                    row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
+                    row.REPAILDATA_WISE.toLowerCase().includes(
                       search.toLowerCase()
                     )
                   );

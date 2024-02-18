@@ -31,7 +31,7 @@ export default function RepairGetByIdAdmin() {;
       redirect: "follow",
     };
 
-    fetch("https://back-end-store-management-system.onrender.com/api/v1/repaildataes/" + REPAILDATA_ID, requestOptions)
+    fetch("http://localhost:3001/api/v1/repaildataes/" + REPAILDATA_ID, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result["status"] == "ok") {
@@ -44,7 +44,7 @@ export default function RepairGetByIdAdmin() {;
   }, [REPAILDATA_ID]);
 
   const MotorcycleGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles")
+    return fetch("http://localhost:3001/api/v1/motorcycles")
       .then((res) => res.json())
       .then((result) => {
         const motorcycles = result;
@@ -65,7 +65,7 @@ export default function RepairGetByIdAdmin() {;
       });
   };
   const UserGet = () => {
-    return fetch("https://back-end-store-management-system.onrender.com/api/v1/users")
+    return fetch("http://localhost:3001/api/v1/users")
       .then((res) => res.json())
       .then((result) => {
         return result.map((user) => ({
