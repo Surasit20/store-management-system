@@ -30,3 +30,13 @@
   margin-left: 10px;
   padding: 20px;
  }
+
+ .menu-active{
+  color: #99BC85;
+ }
+
+ .boder-input{
+  border-style: solid;
+  border-width: 2px;
+  border-color: #99BC85;
+ }

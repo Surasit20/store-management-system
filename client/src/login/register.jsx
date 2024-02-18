@@ -161,13 +161,13 @@ function Register() {
   return (
     <div className="App">
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
+        {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-height">
           <div className="container-fluid">
             <div className="navbar-collapse justify-content-center"></div>
           </div>
-        </nav>
+        </nav> */}
 
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-light" style={{backgroundColor:"#ADFF2F"}}>
           <div className="container-fluid justify-content-center">
             <a className="navbar-brand justify-content-center" href="#">
               สมัครสมาชิก
@@ -175,7 +175,7 @@ function Register() {
           </div>
         </nav>
       </div>
-      <div className="container-fluid bg-warning bg-gradient container-user">
+      <div className="container-fluid container-user" style={{backgroundColor:"#ffff"}}>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <span className="input-group-text form-label my-2" id="addon-wrapping" for="validationNamae">
@@ -184,7 +184,7 @@ function Register() {
             <input
               type="text"
               className="form-control my-2"
-              placeholder="กรอก ชื่อ-นามสกุล"
+              // placeholder="กรอก ชื่อ-นามสกุล"
               aria-label="ชื่อ-นามสกุล"
               aria-describedby="addon-wrapping"
               id="validationNamae"
@@ -198,6 +198,7 @@ function Register() {
               วัน/เดือน ปีเกิด
             </span>
             <DatePicker
+              className="boder-input"
               selected={Brirtday}
               onChange={(date) => setBrirtday(date)}
             />
@@ -247,8 +248,8 @@ function Register() {
               onChange={(e) => setOccupation(e.target.value)}
             />
           </div>
-          <div className="row">
-            <div className="input-group flex-nowrap col">
+          <div className="row" style={{padding:"0",margin:"0"}}>
+            <div className="input-group flex-nowrap col " style={{padding:"0",margin:"0"}}>
               <span className="input-group-text" id="addon-wrapping">
                 ที่อยู่ บ้านเลขที่
               </span>
@@ -311,7 +312,7 @@ function Register() {
 
           </div>
 
-          <div className="row d-flex flex-row-reverse">
+          <div className="row d-flex flex-row-reverse" >
             <div className="input-group flex-nowrap col">
               {/* <span className="input-group-text" id="addon-wrapping">
                 รหัสไปรษณีย์
@@ -391,7 +392,7 @@ function Register() {
 
             </div>
 
-            <div className="input-group flex-nowrap col">
+            <div className="input-group flex-nowrap col" style={{padding:"0",margin:"0"}}>
               {/* <span className="input-group-text" id="addon-wrapping">
                 จังหวัด
               </span>
@@ -481,13 +482,17 @@ function Register() {
             />
           </div>
 
+
+
+          <div class="d-grid gap-2">
           <button
             type="submit"
             variant="contained"
-            class="btn btn-primary mb-3"
+            class="btn mb-3 mt-3 btn-success btn-lg"
           >
             บันทึก
           </button>
+</div>
         </form>
       </div>
     </div>
