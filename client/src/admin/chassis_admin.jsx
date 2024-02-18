@@ -154,7 +154,7 @@ export default function ChassisAdmin() {
     myHeaders.append("Content-Type", "application/json");  
     let data1 = await axios.get(`http://localhost:3001/api/v1/users`);
 
-    var user = data1.data.filter((f) => f.USER_FULLNAME == UserName);
+    var user = data1.data.filter((f) => f.USER_USERNAME == UserName);
     console.log("หดหกด");
     console.log(user);
     if (user == null || user == [] || user.length == 0) {
@@ -412,7 +412,7 @@ export default function ChassisAdmin() {
               color: "#858585",
             }}
           >
-            ชื่อ - นามสกุล ผู้เป็นเจ้าของรถ
+            ชื่อผู้ใช้งาน ผู้เป็นเจ้าของรถ
           </p>
           <TextField
             id="UserName"

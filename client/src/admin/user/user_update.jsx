@@ -226,7 +226,6 @@ export default function UserUpdateAdmin() {
             <p style={{ color: "#858585" }}>วัน/เดือน/ปี เกิด</p>
             <TextField
               id="BirthDay"
-              label="วัน/เดือน/ปี เกิด"
               variant="outlined"
               fullWidth
               required
@@ -265,7 +264,6 @@ export default function UserUpdateAdmin() {
             <p style={{ color: "#858585" }}>บ้านเลขที่</p>
             <TextField
               id="HouseNumber"
-              label="้บ้านเลขที่"
               variant="outlined"
               fullWidth
               required
