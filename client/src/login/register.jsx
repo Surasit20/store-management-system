@@ -175,6 +175,11 @@ function Register() {
           </div>
         </nav>
       </div>
+      <div className="my-1">
+     <a href="/login" ><button type="button" class="btn btn-success ">ย้อนกลับ</button></a> 
+
+      </div>
+
       <div className="container-fluid container-user" style={{backgroundColor:"#ffff"}}>
         <form onSubmit={handleSubmit}>
           <div className="input-group">
