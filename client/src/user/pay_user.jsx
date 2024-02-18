@@ -39,8 +39,8 @@ function PayUser() {
       setFullName(dataUser.data.user.USER_FULLNAME);
       setTell(dataUser.data.user.USER_TELL);
 
-      let installments = await axios.get("http://localhost:3001/api/v1/installments");
-      let response = await axios.get("http://localhost:3001/api/v1/motorcycles");
+      let installments = await axios.get("https://back-end-store-management-system.onrender.com/api/v1/installments");
+      let response = await axios.get("https://back-end-store-management-system.onrender.com/api/v1/motorcycles");
 
       var data = response.data.filter(
         (f) => f.USER_ID == dataUser.data.user.USER_ID
@@ -100,7 +100,7 @@ function PayUser() {
         INSTALLMENTS_STATUS: 0,
       };
       axios
-        .post("http://localhost:3001/api/v1/month-installments", data)
+        .post("https://back-end-store-management-system.onrender.com/api/v1/month-installments", data)
         .then((response) => {
           console.log(response);
           if (response.status == 200) {

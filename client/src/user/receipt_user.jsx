@@ -14,7 +14,7 @@ function ReceiptUser() {
       setUser(dataUser.data.user);
     }
     console.log(dataUser.data.user);
-    axios.get("http://localhost:3001/api/v1/motorcycles").then((response) => {
+    axios.get("https://back-end-store-management-system.onrender.com/api/v1/motorcycles").then((response) => {
       var data = response.data.filter(
         (f) => f.USER_ID == dataUser.data.user.USER_ID
       );

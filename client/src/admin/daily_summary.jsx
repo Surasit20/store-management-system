@@ -37,10 +37,10 @@ function DailySummaryAdmin() {
 
   useEffect(async () => {
     let data1 = await axios.get(
-      `http://localhost:3001/api/v1/month-installments`
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`http://localhost:3001/api/v1/users`);
-    let data3 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
+    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
     console.log(data1.data);
     // ของวันที่ปัจจุบัน
     const today = new Date();
@@ -80,10 +80,10 @@ function DailySummaryAdmin() {
   const setDateTime = async (dateNow) => {
     setLoading(true);
     let data1 = await axios.get(
-      `http://localhost:3001/api/v1/month-installments`
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`http://localhost:3001/api/v1/users`);
-    let data3 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
+    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
     //console.log(data1.data )
     // ของวันที่ปัจจุบัน
     const today = new Date();
@@ -134,7 +134,7 @@ function DailySummaryAdmin() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:3001/api/v1/month-installments", requestOptions)
+    fetch("https://back-end-store-management-system.onrender.com/api/v1/month-installments", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         setItems(result);
@@ -148,7 +148,7 @@ function DailySummaryAdmin() {
       redirect: "follow",
     };
 
-    fetch(`http://localhost:3001/api/v1/users/${USER_ID}`, requestOptions)
+    fetch(`https://back-end-store-management-system.onrender.com/api/v1/users/${USER_ID}`, requestOptions)
       .then((response) => response.text())
       .then((result) => console.log(result))
       .catch((error) => console.log("error", error));

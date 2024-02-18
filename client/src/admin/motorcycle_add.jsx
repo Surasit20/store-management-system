@@ -136,7 +136,7 @@ function AddMotorcycle() {
         redirect: "follow",
       };
 
-      fetch("http://localhost:3001/api/v1/motorcycles/", requestOptions)
+      fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles/", requestOptions)
         .then((response) => response.text())
         .then((result) => {
           console.log(result);
@@ -152,7 +152,7 @@ function AddMotorcycle() {
   };
 
   const fetchAllMotorcycles = async () => {
-    const response = await fetch("http://localhost:3001/api/v1/motorcycles/");
+    const response = await fetch("https://back-end-store-management-system.onrender.com/api/v1/motorcycles/");
     const data = await response.json();
     return data;
   };

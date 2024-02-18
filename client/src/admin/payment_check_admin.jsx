@@ -106,12 +106,12 @@ function PaymentCheckAdmin() {
   };
   useEffect(async () => {
     let data1 = await axios.get(
-      `http://localhost:3001/api/v1/month-installments`
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments`
     );
-    let data2 = await axios.get(`http://localhost:3001/api/v1/motorcycles`);
-    let data3 = await axios.get(`http://localhost:3001/api/v1/users`);
+    let data2 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/motorcycles`);
+    let data3 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/users`);
 
-    let data4 = await axios.get(`http://localhost:3001/api/v1/installments`);
+    let data4 = await axios.get(`https://back-end-store-management-system.onrender.com/api/v1/installments`);
     let test = [];
     console.log(data4.data);
     if (data1.data != null && data1.data != []) {
@@ -178,7 +178,7 @@ function PaymentCheckAdmin() {
     contextData.MONTH_INSTALLMENTS_STATUS = statusAfter;
     setStatusBefore(contextData.MONTH_INSTALLMENTS_STATUS);
     let res = await axios.put(
-      `http://localhost:3001/api/v1/month-installments/` +
+      `https://back-end-store-management-system.onrender.com/api/v1/month-installments/` +
         contextData.MONTH_INSTALLMENTS_ID,
       contextData
     );
