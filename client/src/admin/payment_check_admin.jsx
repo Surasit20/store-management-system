@@ -232,7 +232,7 @@ function PaymentCheckAdmin() {
                       class="t-rig"
                       style={{ padding: "10px", color: "#1ba7e1" }}
                     >
-                      เลขตัวถัง
+                      เลขทะเบียนรถ
                     </TableCell>
                     <TableCell
                       class="t-rig"
@@ -296,9 +296,6 @@ function PaymentCheckAdmin() {
                           row.USER_FULLNAME.toLowerCase().includes(
                             search.toLowerCase()
                           ) ||
-                          row.MOTORCYCLE_BUCKET_NUMBER.toLowerCase().includes(
-                            search.toLowerCase()
-                          ) ||
                           row.MOTORCYCLE_REGISTRATION_NUMBER.toLowerCase().includes(
                             search.toLowerCase()
                           )
@@ -319,7 +316,7 @@ function PaymentCheckAdmin() {
                               color: "#858585",
                             }}
                           >
-                            {row.MOTORCYCLE_BUCKET_NUMBER}
+                            {row.MOTORCYCLE_REGISTRATION_NUMBER}
                           </TableCell>
                           <TableCell
                             class="t-rig"
