@@ -92,7 +92,7 @@ const Sidebar = () => {
               padding: '20px 5px',
             }}
           >
-            สำหรับแอดมิน
+            สำหรับผู้ดูแล
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>

@@ -78,36 +78,36 @@ export default React.forwardRef(function FullScreenDialog(props, ref) {
         </AppBar>
   <Grid container spacing={2}>
 
-  <Grid item xs={8}>
-    <Item>ชื่อ-นามสกุล: {props.USER_FULLNAME}</Item>
+  <Grid item xs={6}>
+    <Item className='mt-4 mx-4'> <img src="/images/person.png" style={{width:"20px"}} className='mb-1'></img>  ชื่อ-นามสกุล: {props.USER_FULLNAME}</Item>
   </Grid>
-  <Grid item xs={4}>
-    <Item>วัน/เดือน/ปี เกิด: {props.USER_BIRTHDAY}</Item>
+  <Grid item xs={6}>
+    <Item className=' mt-4 mx-4'> <img src="/images/cake.png" style={{width:"20px"}} className='mb-2'></img> วัน/เดือน/ปี เกิด: {props.USER_BIRTHDAY}</Item>
   </Grid>
 
-
-  <Grid item xs={12}>
-    <Item>เลขประจำตัวบัตรประชาชน: {props.USER_CODE_NUMBER}</Item>
-  </Grid>
 
   <Grid item xs={12}>
-    <Item>เบอร์โทรศัพท์: {props.USER_TELL}</Item>
+    <Item className='mx-4'> <img src="/images/id-card.png" style={{width:"20px"}} className=''></img> เลขประจำตัวบัตรประชาชน: {props.USER_CODE_NUMBER}</Item>
   </Grid>
 
   <Grid item xs={12}>
-    <Item>อาชีพ: {props.USER_OCCUPATION}</Item>
+    <Item className='mx-4'> <img src="/images/phone.png" style={{width:"20px"}} className=''></img>  เบอร์โทรศัพท์: {props.USER_TELL}</Item>
   </Grid>
 
   <Grid item xs={12}>
-    <Item>ที่อยู่: บ้านเลขที่: {props.USER_HOUSE_NUMBER} หมู่: {props.USER_GROUP} ซอย: {props.USER_ALLEY} ตำบล: {props.USER_SUB_DISTRICT} อำเภอ: {props.USER_DISTRICT} จัวหวัด: {props.USER_PROVINCE} รหัสไปรษณีย์: {props.USER_POSTAL_CODE}</Item>
+    <Item className='mx-4'><img src="/images/work.png" style={{width:"20px"}} className=''></img>  อาชีพ: {props.USER_OCCUPATION}</Item>
   </Grid>
 
   <Grid item xs={12}>
-    <Item>อีเมล์: {props.USER_EMAIL}</Item>
+    <Item className='mx-4'> <img src="/images/adress.png" style={{width:"20px"}} className='mb-1'></img> ที่อยู่: บ้านเลขที่: {props.USER_HOUSE_NUMBER} หมู่: {props.USER_GROUP} ซอย: {props.USER_ALLEY} ตำบล: {props.USER_SUB_DISTRICT} อำเภอ: {props.USER_DISTRICT} จัวหวัด: {props.USER_PROVINCE} รหัสไปรษณีย์: {props.USER_POSTAL_CODE}</Item>
   </Grid>
 
   <Grid item xs={12}>
-    <Item>ชื่อผู้ใช้: {props.USER_USERNAME}</Item>
+    <Item className='mx-4'>  <img src="/images/email.png" style={{width:"20px"}} className='mb-1'></img>  อีเมล์: {props.USER_EMAIL}</Item>
+  </Grid>
+
+  <Grid item xs={12}>
+    <Item className='mx-4'> <img src="/images/username.png" style={{width:"20px"}} className='mb-1'></img> ชื่อผู้ใช้: {props.USER_USERNAME}</Item>
   </Grid>
 
 </Grid>
