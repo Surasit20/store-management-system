@@ -120,24 +120,27 @@ function PaymentCheckAdmin() {
           (f) => f.INSTALLMENTS_ID == element.INSTALLMENTS_ID
         );
   
+
         let motorcycle = data2.data.find(
-          (f) => f.MOTORCYCLE_ID == installments.MOTORCYCLE_ID
+          (f) => f.MOTORCYCLE_ID == installments?.MOTORCYCLE_ID
         );
 
-
-        let user = data3.data.find(
-          (f) => f.USER_ID == motorcycle.USER_ID
-        );
-
-        if (installments != null) {
-          let returnedTarget = Object.assign(
-            element,
-            installments,
-            motorcycle,
-            user
+        if(motorcycle != null){
+          let user = data3.data.find(
+            (f) => f.USER_ID == motorcycle.USER_ID
           );
-          test.push(returnedTarget);
+
+          if (installments != null) {
+            let returnedTarget = Object.assign(
+              element,
+              installments,
+              motorcycle,
+              user
+            );
+            test.push(returnedTarget);
+          }
         }
+
       });
     }
 
