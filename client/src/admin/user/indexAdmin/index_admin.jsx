@@ -52,35 +52,35 @@ const Sidebar = () => {
           <CDBSidebarMenu>
 
             <NavLink exact to="/admin/motorcycle" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/motorcycle")}>
-              <CDBSidebarMenuItem  className={`${currentPage["/admin/motorcycle"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem  className={`${currentPage["/admin/motorcycle"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/user/user-info" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/user/user-info")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/user/user-info"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-users" >ข้อมูลสมาชิก</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/user/user-info"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-users" >ข้อมูลสมาชิก</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/repair/repair-info" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/repair/repair-info")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/repair/repair-info"] == true ? "activeClicked":"text-secondary"}`}  icon ="fa-solid fa-screwdriver" >ข้อมูลการส่งซ่อม</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/repair/repair-info"] == true ? "activeClicked":"text-dark"}`}  icon ="fa-solid fa-screwdriver" >ข้อมูลการส่งซ่อม</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/overdue" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/overdue")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/overdue"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-file-invoice-dollar" >ข้อมูลยอดค้างชำระ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/overdue"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-file-invoice-dollar" >ข้อมูลยอดค้างชำระ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/payment-check" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/payment-check")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/payment-check"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-envelope-open-text" >ตรวจสอบการชำระ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/payment-check"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-envelope-open-text" >ตรวจสอบการชำระ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/chassis" activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/chassis")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/chassis"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-user-check" >อนุมัติ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/chassis"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-user-check" >อนุมัติ</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/admin/daily-summary"  activeClassName="activeClicked" onClick={()=>OnChangePage("/admin/daily-summary")}>
-              <CDBSidebarMenuItem className={`${currentPage["/admin/daily-summary"] == true ? "activeClicked":"text-secondary"}`}  icon="fa-solid fa-calendar-day" >ยอดประจำวัน</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/admin/daily-summary"] == true ? "activeClicked":"text-dark"}`}  icon="fa-solid fa-calendar-day" >ยอดประจำวัน</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/"  activeClassName="activeClicked" onClick={()=>OnChangePage("/")}>
-              <CDBSidebarMenuItem className={`${currentPage["/"] == true ? "activeClicked":"text-secondary"}`}  icon="exclamation-circle" >ออกจากระบบ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/"] == true ? "activeClicked":"text-dark"}`}  icon="exclamation-circle" >ออกจากระบบ</CDBSidebarMenuItem>
             </NavLink>
 
           </CDBSidebarMenu>

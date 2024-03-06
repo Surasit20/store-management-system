@@ -32,11 +32,24 @@
  }
 
  .menu-active{
-  color: #99BC85;
+  color: #294B29;
  }
 
  .boder-input{
   border-style: solid;
   border-width: 2px;
   border-color: #99BC85;
+ }
+
+ td{
+  color: #000000 !important;
+ } 
+
+ .MuiGrid-root,
+ .MuiGrid-container{
+  color: #000000 !important;
+ }
+
+ .MuiTypography-root, .MuiTypography-body2{
+  color: #000000 !important;
  }
