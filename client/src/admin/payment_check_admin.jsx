@@ -382,14 +382,14 @@ function PaymentCheckAdmin() {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={row.MONTH_INSTALLMENTS_STATUS}
-                                    label="เลือกสถาณะ"
+                                    label="เลือกสถานะ"
                                     onChange={(e) =>
                                       handleDropDownChange(e, row)
                                     }
                                   >
-                                    <MenuItem value={1}>รออนุมัติ</MenuItem>
-                                    <MenuItem value={2}>ผ่าน</MenuItem>
-                                    <MenuItem value={0}>ไม่ผ่าน</MenuItem>
+                                    <MenuItem className="text-dark" value={1}>รออนุมัติ</MenuItem>
+                                    <MenuItem className="text-dark" value={2}>ผ่าน</MenuItem>
+                                    <MenuItem className="text-dark" value={0}>ไม่ผ่าน</MenuItem>
                                   </Select>
                                 </FormControl>
                               </Box>

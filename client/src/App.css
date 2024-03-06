@@ -53,3 +53,33 @@
  .MuiTypography-root, .MuiTypography-body2{
   color: #000000 !important;
  }
+
+ .MuiSelect-select,.MuiSelect-outlined, .Mui-disabled ,.MuiInputBase-input {
+  color: #000000 !important;
+ }
+.MuiOutlinedInput-input, 
+.Mui-disabled,
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  color: #000000 !important;
+}
+ .MuiSelect-select > p{
+  color: #000000 !important;
+ }
+
+ .row,.col{
+  color: #000000 !important;
+ }
+
+ p{
+  color: #000000 !important;
+ }
+ .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled{
+  -webkit-text-fill-color: #000000 !important;
+ }
+
+ .MuiPaper-root,.MuiPaper-elevation,.MuiPaper-rounded,.css-h5ydbl-MuiPaper-root{
+  color: #000000 !important;
+ }
+ .search-input,input{
+  color: #000000 !important;
+ }
