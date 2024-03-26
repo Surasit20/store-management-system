@@ -69,6 +69,12 @@ function PayUser() {
   }, []);
 
   const handleSubmit = (event) => {
+    Swal.fire({
+      title: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+      icon: "error",
+      confirmButtonText: "ตกลง",
+    });
     setStep(1);
     uuidv4();
   };
