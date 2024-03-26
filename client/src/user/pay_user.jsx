@@ -69,12 +69,6 @@ function PayUser() {
   }, []);
 
   const handleSubmit = (event) => {
-    Swal.fire({
-      title: "กรุณากรอกข้อมูลให้ครบถ้วน",
-      text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-      icon: "error",
-      confirmButtonText: "ตกลง",
-    });
     setStep(1);
     uuidv4();
   };
@@ -136,8 +130,8 @@ function PayUser() {
 
       if (image == null || image == undefined) {
         Swal.fire({
-          title: "กรุณากรอกข้อมูลให้ครบถ้วน",
-          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+          title: "กรุณาเพิ่มรูปภาพ",
+          text: "กรุณาเพิ่มรูปภาพ",
           icon: "error",
           confirmButtonText: "ตกลง",
         });
