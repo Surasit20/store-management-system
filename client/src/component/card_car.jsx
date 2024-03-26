@@ -171,7 +171,7 @@ function CardCar(props) {
             </Typography>
 
             <Typography variant="body2" color="text.secondary">
-              รุ่น: {props.MOTORCYCLE_BRAND}
+              รุ่น: {props.MOTORCYCLE_MODEL}
             </Typography>
 
             <Typography variant="body2" color="text.secondary">

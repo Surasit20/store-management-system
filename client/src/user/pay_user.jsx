@@ -369,8 +369,8 @@ function PayUser() {
         </div>
 
       ) : (
-        <div>
-          <div className="bg-secondary">
+        <div className="my-5" style={{backgroundColor:"#ACE1AF"}}>
+          <div className="border border-success">
             <div className="row d-flex">
               <p className="col d-flex justify-content-between">
                 เลขที่ใบเสร็จ: {docNo}
@@ -383,20 +383,25 @@ function PayUser() {
               </p>
             </div>
 
-            <div className="row">
-              <p>ชื่อ-นามสกุล {fullName}</p>
-            </div>
+                <div className="row">
+                  <div className="col">
+                    <p>ชื่อ-นามสกุล {fullName}</p>
+                  </div>
 
-            <div className="row">
-              <p>เบอร์โทรศัพท์ {tell}</p>
-            </div>
+                  <div className="col">
+                    <p>เบอร์โทรศัพท์ {tell}</p>
 
-            <div className="row">
-              <p>เลขตัวถัง {bucketNumber}</p>
-            </div>
+                  </div>
+
+
+                  <div className="col">
+                    <p>เลขตัวถัง {bucketNumber}</p>
+                  </div>
+                </div>
+
           </div>
-          <p className="text-success">
-            ........ทำการชำระค่างวดสำเสร็จรอการตรวจสอบจากพนักงาน..........
+          <p className="text-success text-center">
+            ..........ทำการชำระค่างวดสำเสร็จรอการตรวจสอบจากพนักงาน............
           </p>
         </div>
       )}

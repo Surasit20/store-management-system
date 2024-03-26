@@ -100,7 +100,7 @@ const SidebarUser = () => {
     <div style={{ display: 'flex', height: '100vh', overflow: 'scroll initial',backgroundColor: '#dfedf0'  }}>
       <CDBSidebar textColor="#99BC85" backgroundColor="#fff">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" style={{ marginLeft: '10px' }}></i>}>
-          <a href="#" className="text-decoration-none" style={{ color: 'inherit' }}>
+          <a href="#" className="text-decoration-none" style={{ color: '#294B29' }}>
             ร้านรถจักรยานยนต์มือ 2  
           </a>
         </CDBSidebarHeader>
@@ -109,27 +109,27 @@ const SidebarUser = () => {
           <CDBSidebarMenu>
 
             <NavLink exact to="/user/home" activeClassName="menu-active" onClick={()=>OnChangePage("/user/home")}>
-              <CDBSidebarMenuItem className={`${currentPage["/user/home"] == true ? "menu-active":"text-secondary"}`} icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/user/home"] == true ? "menu-active":"text-dark"}`} icon="fa-solid fa-motorcycle">ข้อมูลรถจักรยานยนต์</CDBSidebarMenuItem>
             </NavLink>
             
             <NavLink exact to="/user/pay" activeClassName="menu-active" onClick={()=>OnChangePage("/user/pay")}>
-              <CDBSidebarMenuItem className={`${currentPage["/user/pay"] == true ? "menu-active":"text-secondary"}`} icon="fa-solid fa-file-invoice-dollar" >ชำระค่างวด</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/user/pay"] == true ? "menu-active":"text-dark"}`} icon="fa-solid fa-file-invoice-dollar" >ชำระค่างวด</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/user/receipt" activeClassName="menu-active" onClick={()=>OnChangePage("/user/receipt")}>
-              <CDBSidebarMenuItem className={`${currentPage["/user/receipt"] == true ? "menu-active":"text-secondary"}`} icon ="fa-solid fa-solid fa-envelope-open-text" >ข้อมูลการชำระค่างวด</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/user/receipt"] == true ? "menu-active":"text-dark"}`} icon ="fa-solid fa-solid fa-envelope-open-text" >ข้อมูลการชำระค่างวด</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/user/repair" activeClassName="menu-active" onClick={()=>OnChangePage("/user/repair")}>
-              <CDBSidebarMenuItem className={`${currentPage["/user/repair"] == true ? "menu-active":"text-secondary"}`} icon="fa-solid fa-screwdriver" >ข้อมูลส่งซ่อม</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/user/repair"] == true ? "menu-active":"text-dark"}`} icon="fa-solid fa-screwdriver" >ข้อมูลส่งซ่อม</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink  exact to="#" onClick={openInfoUser}  activeClassName="menu-active" >
-              <CDBSidebarMenuItem icon="fa-solid fa-users" className={`${currentPage["/"] == true ? "menu-active":"text-secondary"}`} >ข้อมูลผู้ใช้</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="fa-solid fa-users" className={`${currentPage["/"] == true ? "menu-active":"text-dark"}`} >ข้อมูลผู้ใช้</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/"  activeClassName="menu-active" onClick={()=>OnChangePage("/")}>
-              <CDBSidebarMenuItem className={`${currentPage["/"] == true ? "menu-active":"text-secondary"}`} icon="exclamation-circle" >ออกจากระบบ</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem className={`${currentPage["/"] == true ? "menu-active":"text-dark"}`} icon="exclamation-circle" >ออกจากระบบ</CDBSidebarMenuItem>
             </NavLink>
 
           </CDBSidebarMenu>

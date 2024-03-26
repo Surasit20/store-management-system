@@ -1,9 +1,9 @@
 {
     "development": {
       "database": "storemanagementsystem",
-      "username": "qkbupt7z056ohzc8o01k",
+      "username": "qqzkl70o1lr5pd24rel5",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
+      "password": "pscale_pw_jQewd94UImk5EfUjxcCcz6jiIjcaEa2AdtKoZeMDXTJ",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -15,9 +15,9 @@
     },
     "test": {
       "database": "storemanagementsystem",
-      "username": "qkbupt7z056ohzc8o01k",
+      "username": "qqzkl70o1lr5pd24rel5",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
+      "password": "pscale_pw_jQewd94UImk5EfUjxcCcz6jiIjcaEa2AdtKoZeMDXTJ",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {
@@ -29,9 +29,9 @@
     },
     "production": {
       "database": "storemanagementsystem",
-      "username": "qkbupt7z056ohzc8o01k",
+      "username": "qqzkl70o1lr5pd24rel5",
       "host": "aws.connect.psdb.cloud",
-      "password": "pscale_pw_kz8iS7CSAQs9LfAk7TeF0kfcCt4ycASBn7jU1Oo7PIB",
+      "password": "pscale_pw_jQewd94UImk5EfUjxcCcz6jiIjcaEa2AdtKoZeMDXTJ",
     "port": 3306,
     "dialect": "mysql",
     "dialectOptions": {

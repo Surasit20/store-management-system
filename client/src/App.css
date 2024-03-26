@@ -32,11 +32,54 @@
  }
 
  .menu-active{
-  color: #99BC85;
+  color: #294B29;
  }
 
  .boder-input{
   border-style: solid;
   border-width: 2px;
   border-color: #99BC85;
+ }
+
+ td{
+  color: #000000 !important;
+ } 
+
+ .MuiGrid-root,
+ .MuiGrid-container{
+  color: #000000 !important;
+ }
+
+ .MuiTypography-root, .MuiTypography-body2{
+  color: #000000 !important;
+ }
+
+ .MuiSelect-select,.MuiSelect-outlined, .Mui-disabled ,.MuiInputBase-input {
+  color: #000000 !important;
+ }
+.MuiOutlinedInput-input, 
+.Mui-disabled,
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  color: #000000 !important;
+}
+ .MuiSelect-select > p{
+  color: #000000 !important;
+ }
+
+ .row,.col{
+  color: #000000 !important;
+ }
+
+ p{
+  color: #000000 !important;
+ }
+ .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled{
+  -webkit-text-fill-color: #000000 !important;
+ }
+
+ .MuiPaper-root,.MuiPaper-elevation,.MuiPaper-rounded,.css-h5ydbl-MuiPaper-root{
+  color: #000000 !important;
+ }
+ .search-input,input{
+  color: #000000 !important;
  }

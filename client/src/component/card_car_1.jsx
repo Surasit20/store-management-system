@@ -50,7 +50,8 @@ import {
 } from "react-component-export-image";
 
 const ComponentToPrint = React.forwardRef((props, ref) => (
-  <div ref={ref} style={{ height: "300px" }}>
+  <div ref={ref} style={{ height: "300px"}}>
+           <p className="text-center h3 my-1">ร้านรถจักรยานยนต์มือ 2</p>
     <div className="row">
       <div className="col">
         <p>เลขที่ {props.data.MONTH_INSTALLMENTS_ID}</p>
@@ -356,7 +357,7 @@ function CardCar1(props) {
                   user={user}
                   id={props.MOTORCYCLE_BUCKET_NUMBER}
                 />
-                <button onClick={() => exportComponentAsJPEG(componentRef)}>
+                <button className="btn btn-success mx-3" onClick={() => exportComponentAsJPEG(componentRef)}>
                 ดาวน์โหลดใบเสร็จ
                 </button>
               </React.Fragment>
