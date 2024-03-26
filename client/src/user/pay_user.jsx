@@ -136,8 +136,8 @@ function PayUser() {
 
       if (image == null || image == undefined) {
         Swal.fire({
-          title: "กรุณาเพิ่มรูปภาพ",
-          text: "กรุณาเพิ่มรูปภาพ",
+          title: "กรุณากรอกข้อมูลให้ครบถ้วน",
+          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
           icon: "error",
           confirmButtonText: "ตกลง",
         });
