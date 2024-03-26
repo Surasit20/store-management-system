@@ -52,8 +52,8 @@ function Login() {
           navigate("/user/home");
         } else {
           Swal.fire({
-            title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
-            text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+            title: "ชื่อผู้ใช้หรือรหัส ผ่านไม่ถูกต้อง",
+            text: "โปรดกรอกชื่อผู้ใช้หรือรหัสผ่านใหม่",
             icon: "error",
             confirmButtonText: "ตกลง",
           });
@@ -62,8 +62,8 @@ function Login() {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
-          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+          title: "ชื่อผู้ใช้หรือรหัส ผ่านไม่ถูกต้อง",
+          text: "โปรดกรอกชื่อผู้ใช้หรือรหัสผ่านใหม่",
           icon: "error",
           confirmButtonText: "ตกลง",
         });
@@ -89,8 +89,8 @@ function Login() {
           setGotoIndexAdmin(true);
         } else {
           Swal.fire({
-            title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
-            text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+            title: "ชื่อผู้ใช้หรือรหัส ผ่านไม่ถูกต้อง",
+            text: "โปรดกรอกชื่อผู้ใช้หรือรหัสผ่านใหม่",
             icon: "error",
             confirmButtonText: "ตกลง",
           });
@@ -99,8 +99,8 @@ function Login() {
       .catch((err) => {
         console.log(err);
         Swal.fire({
-          title: "อีเมล์หรือรหัส ผ่านไม่ถูกต้อง",
-          text: "โปรดกรอกอีเมล์หรือรหัสผ่านใหม่",
+          title: "ชื่อผู้ใช้หรือรหัส ผ่านไม่ถูกต้อง",
+          text: "โปรดกรอกชื่อผู้ใช้หรือรหัสผ่านใหม่",
           icon: "error",
           confirmButtonText: "ตกลง",
         });
